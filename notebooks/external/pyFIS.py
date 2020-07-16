@@ -124,8 +124,7 @@ class pyFIS:
                     # Go to next page
                     offset += self.count
                 else:
-                    # Arrived on the final page
-                    result = gpd.GeoDataFrame(result)
+                    # Arrived on the final page                        
                     break
             else:
                 # Single page. Looping not required
@@ -136,11 +135,13 @@ class pyFIS:
                 else:
                     # Result is the dict itself
                     result = response_dict
-                break
+                
+                return result
 
         # Process the requested data
-
-        if 'Geometry' in result:
+        if len(result) and isinstance(result[-1], dict) and 'Geometry' in result[-1]:
+            result = gpd.GeoDataFrame(result)
+        
             # Convert data to real geometry data and transform to given coordinate system
             result.rename(axis=1, mapper={'Geometry': 'geometry'}, inplace=True)
             
@@ -222,8 +223,9 @@ class pyFIS:
             else:
                 left_on = ['Id']
                 right_on = ['ParentId']
-
-        df_merge = df_l.merge(df_r, left_on=left_on, right_on=right_on, suffixes=('', f'_{right_geotype}'))
+        
+        # Left join
+        df_merge = df_l.merge(df_r, left_on=left_on, right_on=right_on, how='left', suffixes=('', f'_{right_geotype}'))
         return df_merge
 
     def export(self, filepath, filetype=None, force=True, geotypes=None):
