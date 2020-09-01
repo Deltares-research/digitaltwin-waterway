@@ -1,3 +1,6 @@
+# Don't upload results
+notebooks/result
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
