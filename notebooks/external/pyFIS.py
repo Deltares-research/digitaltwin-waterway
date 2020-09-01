@@ -14,7 +14,9 @@ from shapely.ops import nearest_points
 import geopandas as gpd
 from pathlib import Path
 import pandas as pd
-import sqlite3
+# import sqlite3
+from tqdm import tqdm
+from typing import Sequence
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -40,14 +42,14 @@ class pyFIS:
         """Returns list of all geotypes"""
         return self._parse_request('geotype')
 
-    def list_relations(self, geotype):
+    def list_relations(self, geotype: str):
         """
         Returns list of all relations for given geotype
         Note: Not all relations are explicitly specified
         """
         return self._parse_request([geotype, 'relations'])
 
-    def list_objects(self, geotype):
+    def list_objects(self, geotype: str):
         """
         Returns dataframe of all objects for given geotype
         """
@@ -70,7 +72,7 @@ class pyFIS:
         for geotype in self.list_geotypes():
             self.list_objects(geotype)
 
-    def get_object(self, geotype, objectid):
+    def get_object(self, geotype: str, objectid: int):
         """
         Load all data of one object
 
@@ -81,9 +83,9 @@ class pyFIS:
         objectid = str(objectid)
         return self._parse_request([self.geogeneration, geotype, objectid])
 
-    def get_object_subobjects(self, geotype, objectid, geotype2):
+    def get_object_subobjects(self, geotype: str, objectid: int, geotype2: str):
         """
-        Load all data of one object
+        Get subobject ids for objectid
 
         >> get_object_subobjects('bridge', 1217, 'opening')
         return: [openingid#1, openingid#2, ...]
@@ -91,6 +93,26 @@ class pyFIS:
         """
         objectid = str(objectid)
         return self._parse_request([self.geogeneration, geotype, objectid, geotype2])
+
+    def get_object_subobjects_list(self, geotype1: str, list_of_ids: Sequence[int], geotype2: str):
+        """
+        When the received that contains no data on how to join different datasets, this functions
+        can be ran to request the linked columns from the FIS-server.
+
+        Very slow!
+
+        geotype1: 'section'
+        list_of_ids = [1,2,3]
+        geotype2: 'maximumdimensions'
+        """
+        geotype2_ids = []
+        for ii in tqdm(list_of_ids):
+            subobjects = self.get_object_subobjects(geotype1, ii, geotype2)
+            if len(subobjects) > 0:
+                geotype2_ids.append(subobjects[0])
+            else:
+                geotype2_ids.append(None)
+        return geotype2_ids
 
     def _parse_request(self, components):
         """
@@ -124,8 +146,7 @@ class pyFIS:
                     # Go to next page
                     offset += self.count
                 else:
-                    # Arrived on the final page
-                    result = gpd.GeoDataFrame(result)
+                    # Arrived on the final page                        
                     break
             else:
                 # Single page. Looping not required
@@ -136,11 +157,13 @@ class pyFIS:
                 else:
                     # Result is the dict itself
                     result = response_dict
-                break
+                
+                return result
 
         # Process the requested data
-
-        if 'Geometry' in result:
+        if len(result) and isinstance(result[-1], dict) and 'Geometry' in result[-1]:
+            result = gpd.GeoDataFrame(result)
+        
             # Convert data to real geometry data and transform to given coordinate system
             result.rename(axis=1, mapper={'Geometry': 'geometry'}, inplace=True)
             
@@ -159,13 +182,13 @@ class pyFIS:
                 logger.warning('Could not convert geometry according to WKT format')
         return result
 
-    def find_object_by_value(self, geotype, fieldvalue, fieldname='Name'):
+    def find_object_by_value(self, geotype: str, fieldvalue, fieldname='Name'):
         list_objects = self.list_objects(geotype)
 
         result = list_objects[list_objects[fieldname] == fieldvalue]
         return result
 
-    def find_object_by_polygon(self, geotype, polygon):
+    def find_object_by_polygon(self, geotype: str, polygon: [Sequence[tuple], Polygon, MultiPolygon]):
         """
         Find all objects within given polygon
         Polygon may be of type tuple or shapely Polygon
@@ -185,7 +208,7 @@ class pyFIS:
         df = df[df.geometry.within(polygon)]
         return df
 
-    def find_closest_object(self, geotype, point):
+    def find_closest_object(self, geotype: str, point: [Point, tuple]):
         """
         Find object closest to given point
         Point may be of type tuple or shapely Point
@@ -202,7 +225,7 @@ class pyFIS:
         p, _ = nearest_points(df.unary_union, point)
         return df[df['geometry'] == p]
 
-    def merge_geotypes(self, left_geotype, right_geotype, left_on=None,
+    def merge_geotypes(self, left_geotype: str, right_geotype: str, left_on=None,
                        right_on=None):
         """
         Load two geotypes and apply inner join.
@@ -222,11 +245,12 @@ class pyFIS:
             else:
                 left_on = ['Id']
                 right_on = ['ParentId']
-
-        df_merge = df_l.merge(df_r, left_on=left_on, right_on=right_on, suffixes=('', f'_{right_geotype}'))
+        
+        # Left join
+        df_merge = df_l.merge(df_r, left_on=left_on, right_on=right_on, how='left', suffixes=('', f'_{right_geotype}'))
         return df_merge
 
-    def export(self, filepath, filetype=None, force=True, geotypes=None):
+    def export(self, filepath: [Path, str], filetype=None, force=True, geotypes=None):
         """
 
         Export entire server to excel or sqlite database
