@@ -3,13 +3,28 @@ import sys
 import click
 
 
-@click.command()
+@click.group()
 def main(args=None):
     """Console script for dtv_backend."""
-    click.echo("Replace this message by putting your code into "
-               "dtv_backend.cli.main")
-    click.echo("See click documentation at https://click.palletsprojects.com/")
+    click.echo("Starting dtv_backend")
+    # pre load the network
     return 0
+
+@main.command()
+@click.argument('input', type=click.File('r'))
+def simulate(input):
+    """run a simulation"""
+    click.echo("Running a simulation")
+    # read input file
+    # load network
+    # create vessels
+    # create sites
+    # creat scenarios
+    # run
+    # postprocess
+    # cleanup
+    pass
+
 
 
 if __name__ == "__main__":
