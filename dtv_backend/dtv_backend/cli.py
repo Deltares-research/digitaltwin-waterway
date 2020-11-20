@@ -4,18 +4,29 @@ import json
 
 import click
 
+# dependencies
+
+
+
+
+import dtv_backend.dtv_backend as backend
 
 @click.group()
 def main(args=None):
     """Console script for dtv_backend."""
     click.echo("Starting dtv_backend")
+    # set up an environment
+    env = backend.provide_environment()
     # pre load the network
+    backend.load_DTV_network_to_env(env)
+    
     return 0
 
 @main.command()
 @click.argument('input', type=click.File('r'))
 def simulate(input):
     """run a simulation"""
+    
     # click.echo("Running a simulation")
     # config = json.load(input)
 
@@ -35,7 +46,10 @@ def simulate(input):
     # site["environment"]["discharge"]["lobith"] = 3.0
     # simulation = load_simulation(config)
     # convert vessel config into types
+    
     # load network
+    
+    
     # convert config["sites"] into openCLSim site
     # create activities from sites and loads
 

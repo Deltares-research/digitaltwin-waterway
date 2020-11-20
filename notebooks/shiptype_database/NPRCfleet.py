@@ -39,13 +39,14 @@ TransportResource = type(
     {},
 )
 
-
+# for now let the speed be 10km/h (stroomopwaarts)
 def compute_v_provider(v_empty, v_full):
     return lambda x: 10
 
 
 #%% Generate the NPRC fleet
 def provideNPRCfleet(env):
+:       # TODO: input dict with {<vessel_name>:<number>}
     """
     Function that generates the NPRC fleet as dictionary from a database and 
     adds it to the desired simpy environment
