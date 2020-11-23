@@ -1,33 +1,57 @@
 <template>
-  <v-card class="py-3">
-    <h2> Fleet </h2>
-    <v-card
-      class="ma-3"
-      outlined
-      v-for="(ship, index) in ships" :key="index">
-      <v-card-title>
-        {{ ship['Description (Dutch)'] }}
-      </v-card-title>
-      <!-- TODO: add color, icon/image -->
-      <v-card-subtitle>
-        Vessel type: {{ ship['Vessel type'] }}, CEMT: {{ ship['CEMT-class'] }}, RWS: {{ ship['RWS-class'] }}
-        Length: {{ ship['Length [m]'] }}m, Beam: {{ ship['Beam [m]']}}m
-      </v-card-subtitle>
-      <v-progress-linear
-        :color="ship.color"
-        :value="ship.progress"
-        height="25"
-        stream
-      ></v-progress-linear>
-    </v-card>
+<div>
+  <h2> Fleet selection</h2>
+  <v-card
+    class="ma-3"
+    outlined
+    v-for="(ship, index) in ships" :key="index">
+    <v-card-title>
+      <v-checkbox
+        v-model="checkbox"
+      ></v-checkbox> {{ ship['Description (Dutch)'] }}
+    </v-card-title>
+    <!-- TODO: add color, icon/image -->
+    <v-card-text>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">
+                Property
+              </th>
+              <th class="text-left">
+                Value
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in tableProperties"
+              :key="item"
+            >
+              <td>{{ item }}</td>
+              <td>{{ ship[item] }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card-text>
   </v-card>
+</div>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      ships: []
+      ships: [],
+      tableProperties: [
+        'Vessel type',
+        'CEMT-class',
+        'RWS-class',
+        'Length [m]',
+        'Beam [m]'
+      ]
     }
   },
   mounted () {
