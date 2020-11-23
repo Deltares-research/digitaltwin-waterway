@@ -1,4 +1,2611 @@
 {
+  "origin": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": "0",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "1",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "2",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "3",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "4",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "5",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "6",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "7",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "8",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "9",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "10",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "11",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "12",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "13",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "14",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "15",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "16",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "17",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "18",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "19",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "20",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "21",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "22",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "23",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "24",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "25",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "26",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "27",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "28",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "29",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "30",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "31",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "32",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "33",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "34",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "35",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "36",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "37",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "38",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "39",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "40",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "41",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "42",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "43",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "44",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "45",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "46",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "47",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      }
+    ]
+  },
+  "destination": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": "0",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "1",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "2",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "3",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "4",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "5",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "6",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "7",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "8",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "9",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "10",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "11",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "12",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "13",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "14",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "15",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "16",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "17",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "18",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "19",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "20",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "21",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "22",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "23",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "24",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "25",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "26",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "27",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "28",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "29",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "30",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "31",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "32",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "33",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "34",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "35",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "36",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "37",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "38",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "39",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "40",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "41",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "42",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "43",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "44",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "45",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "46",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "47",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      }
+    ]
+  },
+  "equipment": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": "0",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "1",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "2",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "3",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:00",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "4",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "5",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "6",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-22T23:00:03",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "7",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "8",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "9",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:09",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "10",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "11",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "12",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-23T14:11:12",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "13",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "14",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "15",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:18",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "16",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "17",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "18",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T05:22:21",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "19",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "20",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "21",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:27",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "22",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "23",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "24",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-24T20:33:30",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "25",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "26",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "27",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:37",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "28",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "29",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "30",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-25T11:44:40",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "31",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "32",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "33",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:46",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "34",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "35",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 3000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "36",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T02:55:49",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "37",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "38",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "39",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:55",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "40",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "41",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "42",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "START",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-26T18:06:56",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.08441957198572,
+            51.9376698026918
+          ]
+        }
+      },
+      {
+        "id": "43",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+          "ActivityState": "STOP",
+          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "44",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "45",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "START",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:02",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "46",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      },
+      {
+        "id": "47",
+        "type": "Feature",
+        "properties": {
+          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+          "ActivityState": "STOP",
+          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+          "Timestamp": "2020-11-27T09:18:03",
+          "Value": 1000
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.584361254015838,
+            47.57540886152157
+          ]
+        }
+      }
+    ]
+  },
   "path": {
     "type": "FeatureCollection",
     "features": [
@@ -12826,18 +15433,2625 @@
       }
     ]
   },
-  "log": {
+  "logs": {
+    "origin": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "id": "0",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "1",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "2",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "3",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "4",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "5",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "6",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "7",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "8",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "9",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "10",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "11",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "12",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "13",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "14",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "15",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "16",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "17",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "18",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "19",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "20",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "21",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "22",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "23",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "24",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "25",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "26",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "27",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "28",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "29",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "30",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "31",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "32",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "33",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "34",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "35",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "36",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "37",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "38",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "39",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "40",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "41",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "42",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "43",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "44",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "45",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "46",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "47",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        }
+      ]
+    },
+    "destination": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "id": "0",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "1",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "2",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "3",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "4",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "5",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "6",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "7",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "8",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "9",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "10",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "11",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "12",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "13",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "14",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "15",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "16",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "17",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "18",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "19",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "20",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "21",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "22",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "23",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "24",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "25",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "26",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "27",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "28",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "29",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "30",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "31",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "32",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "33",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "34",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "35",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "36",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "37",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "38",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "39",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "40",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "41",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "42",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "43",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "44",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "45",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "46",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "47",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        }
+      ]
+    },
+    "equipment": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "id": "0",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "1",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "2",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "3",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:00",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "4",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "5",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "6",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-22T23:00:03",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "7",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "8",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "9",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:09",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "10",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "11",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "12",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-23T14:11:12",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "13",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "14",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "15",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:18",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "16",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "17",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "18",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T05:22:21",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "19",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "20",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "21",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:27",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "22",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "23",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "24",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-24T20:33:30",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "25",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "26",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "27",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:37",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "28",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "29",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "30",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-25T11:44:40",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "31",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "32",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "33",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:46",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "34",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "35",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 3000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "36",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T02:55:49",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "37",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 0
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "38",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "39",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:55",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "40",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "41",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "42",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "START",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-26T18:06:56",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.08441957198572,
+              51.9376698026918
+            ]
+          }
+        },
+        {
+          "id": "43",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
+            "ActivityState": "STOP",
+            "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "44",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "45",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "START",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:02",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "46",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        },
+        {
+          "id": "47",
+          "type": "Feature",
+          "properties": {
+            "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
+            "ActivityState": "STOP",
+            "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
+            "Timestamp": "2020-11-27T09:18:03",
+            "Value": 1000
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.584361254015838,
+              47.57540886152157
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "sites": {
     "type": "FeatureCollection",
     "features": [
       {
         "id": "0",
         "type": "Feature",
         "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-22T23:00:00",
-          "Value": 0
+          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+          "id": "6dbbbdf4-4589-11e9-a501-b469212bff5b",
+          "name": "Origin"
         },
         "geometry": {
           "type": "Point",
@@ -12851,839 +18065,9 @@
         "id": "1",
         "type": "Feature",
         "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-22T23:00:00",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "2",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-22T23:00:00",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "3",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-22T23:00:00",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "4",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-22T23:00:03",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "5",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-22T23:00:03",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "6",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-22T23:00:03",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "7",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-23T14:11:09",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "8",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-23T14:11:09",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "9",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-23T14:11:09",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "10",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-23T14:11:12",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "11",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-23T14:11:12",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "12",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-23T14:11:12",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "13",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-24T05:22:18",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "14",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-24T05:22:18",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "15",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-24T05:22:18",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "16",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-24T05:22:21",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "17",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-24T05:22:21",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "18",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-24T05:22:21",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "19",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-24T20:33:27",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "20",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-24T20:33:27",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "21",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-24T20:33:27",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "22",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-24T20:33:30",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "23",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-24T20:33:30",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "24",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-24T20:33:30",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "25",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-25T11:44:37",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "26",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-25T11:44:37",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "27",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-25T11:44:37",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "28",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-25T11:44:40",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "29",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-25T11:44:40",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "30",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-25T11:44:40",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "31",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-26T02:55:46",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "32",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-26T02:55:46",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "33",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-26T02:55:46",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "34",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-26T02:55:49",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "35",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-26T02:55:49",
-          "Value": 3000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "36",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-26T02:55:49",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "37",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "52229472-5e27-452d-9b5b-62db8a7e8f83",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing empty of NPRC_110 to Origin",
-          "Timestamp": "2020-11-26T18:06:55",
-          "Value": 0
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "38",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-26T18:06:55",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "39",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-26T18:06:55",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "40",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-26T18:06:56",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "41",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run loading transfer default from Origin to NPRC_110 with NPRC_110",
-          "Timestamp": "2020-11-26T18:06:56",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "42",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "START",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-26T18:06:56",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            4.08441957198572,
-            51.9376698026918
-          ]
-        }
-      },
-      {
-        "id": "43",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "c7265451-70de-439a-bb62-7bf06c3d615b",
-          "ActivityState": "STOP",
-          "Message": "move activity single_run sailing filled of NPRC_110 to Destination",
-          "Timestamp": "2020-11-27T09:18:02",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "44",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-27T09:18:02",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "45",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "START",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-27T09:18:02",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "46",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-27T09:18:03",
-          "Value": 1000
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            7.584361254015838,
-            47.57540886152157
-          ]
-        }
-      },
-      {
-        "id": "47",
-        "type": "Feature",
-        "properties": {
-          "ActivityID": "19a5400f-84a4-4c18-a1e3-3035bf535f2f",
-          "ActivityState": "STOP",
-          "Message": "Shift amount activity single_run unloading transfer default from NPRC_110 to Destination with NPRC_110",
-          "Timestamp": "2020-11-27T09:18:03",
-          "Value": 1000
+          "ActivityID": null,
+          "id": "6dbbbdf5-4589-11e9-82b2-b469212bff5b",
+          "name": "Destination"
         },
         "geometry": {
           "type": "Point",
