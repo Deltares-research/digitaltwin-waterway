@@ -1,14 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar class="app-header" app color="primary" dark>
+      <v-toolbar-title> Digital Twin - waterways </v-toolbar-title>
+    </v-app-bar>
+    <v-main>
+      <v-row class="main-row" no-gutters>
+        <v-col class="pa-3" cols="12" md="4">
+          <sites-component />
+        </v-col>
+        <v-col class="pa-3" cols="12" md="4">
+          <fleet-component />
+        </v-col>
+        <v-col class="pa-0" cols="12" md="4">
+          <map-component />
+        </v-col>
+      </v-row>
+    </v-main>
+  </v-app>
 </template>
 
+<script>
+import MapComponent from './components/MapComponent'
+import FleetComponent from './components/FleetComponent'
+import SitesComponent from './components/SitesComponent'
+
+export default {
+  name: 'App',
+  components: {
+    MapComponent,
+    FleetComponent,
+    SitesComponent
+  }
+}
+</script>
+
 <style>
+html {
+  overflow-y: hidden;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -17,16 +47,8 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+.main-row {
+  height: 100%;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
