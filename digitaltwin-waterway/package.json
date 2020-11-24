@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mapbox/maki": "^6.2.0",
+    "@mdi/font": "^5.8.55",
     "core-js": "^3.6.5",
     "mapbox-gl": "^1.13.0",
     "sass": "^1.29.0",
