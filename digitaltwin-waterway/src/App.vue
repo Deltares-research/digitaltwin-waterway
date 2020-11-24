@@ -5,13 +5,10 @@
     </v-app-bar>
     <v-main>
       <v-row class="main-row" no-gutters>
-        <v-col class="pa-3" cols="12" md="4">
-          <sites-component />
+        <v-col class="pa-3 main-row" cols="12" md="6">
+          <stepper-component />
         </v-col>
-        <v-col class="pa-3" cols="12" md="4">
-          <fleet-component />
-        </v-col>
-        <v-col class="pa-0" cols="12" md="4">
+        <v-col class="pa-0" cols="12" md="6">
           <map-component />
         </v-col>
       </v-row>
@@ -21,15 +18,13 @@
 
 <script>
 import MapComponent from './components/MapComponent'
-import FleetComponent from './components/FleetComponent'
-import SitesComponent from './components/SitesComponent'
+import StepperComponent from './components/StepperComponent'
 
 export default {
   name: 'App',
   components: {
     MapComponent,
-    FleetComponent,
-    SitesComponent
+    StepperComponent
   }
 }
 </script>
@@ -41,6 +36,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+
+.v-main {
+  height: 100vh;
 }
 
 .main-row {
