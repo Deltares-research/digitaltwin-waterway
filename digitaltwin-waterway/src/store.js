@@ -5,7 +5,13 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    results: {}
   },
-  mutations: {
+  actions: {
+    async getResults () {
+      const resp = await fetch('data/sample-result.json')
+      const results = await resp.json()
+      this.results = results
+    }
   }
 })
