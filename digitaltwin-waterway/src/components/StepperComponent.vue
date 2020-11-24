@@ -14,24 +14,7 @@
     </v-stepper-step>
 
     <v-stepper-content step="1">
-      <v-card
-        class="mb-12"
-        height="200px"
-      >
-        Location A to B
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="stepper = 2"
-      >
-        Continue
-      </v-btn>
-      <v-btn
-        text
-        @click="stepper = 1"
-      >
-        Back
-      </v-btn>
+      <sites-component></sites-component>
     </v-stepper-content>
 
     <v-stepper-step
@@ -92,6 +75,7 @@
 
 <script>
 import FleetComponent from './FleetComponent'
+import SitesComponent from './SitesComponent'
 
 export default {
   data () {
@@ -100,7 +84,8 @@ export default {
     }
   },
   components: {
-    FleetComponent
+    FleetComponent,
+    SitesComponent
   }
 }
 </script>

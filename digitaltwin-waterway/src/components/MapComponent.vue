@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   mounted () {
     this.map = this.$refs.map.map
@@ -25,6 +27,9 @@ export default {
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
       draw: {}
     }
+  },
+  computed: {
+    ...mapState(['sites'])
   }
 }
 </script>

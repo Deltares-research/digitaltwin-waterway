@@ -1,0 +1,37 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "id": "0",
+            "type": "Feature",
+            "properties": {
+                "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
+                "id": "6dbbbdf4-4589-11e9-a501-b469212bff5b",
+                "name": "Origin"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    4.08441957198572,
+                    51.9376698026918
+                ]
+            }
+        },
+        {
+            "id": "1",
+            "type": "Feature",
+            "properties": {
+                "ActivityID": null,
+                "id": "6dbbbdf5-4589-11e9-82b2-b469212bff5b",
+                "name": "Destination"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.584361254015838,
+                    47.57540886152157
+                ]
+            }
+        }
+    ]
+}

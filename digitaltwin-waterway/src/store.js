@@ -3,15 +3,30 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    results: {}
+    results: {},
+    sites: []
   },
   actions: {
-    async getResults () {
+    async fetchResults () {
       const resp = await fetch('data/sample-result.json')
       const results = await resp.json()
-      this.results = results
+      this.commit('results', results)
+    },
+    async fetchSites () {
+      const resp = await fetch('data/sites.json')
+      const sites = await resp.json()
+      this.commit('setSites', sites)
     }
+  },
+  mutations: {
+    setResults (state, results) {
+      state.results = results
+    },
+    setSites (state, sites) {
+      state.sites = sites
+    }
+
   }
 })

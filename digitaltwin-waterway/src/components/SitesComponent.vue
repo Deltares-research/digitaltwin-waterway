@@ -1,10 +1,16 @@
 <template>
-<v-card>
-  <h2> Sites </h2>
-</v-card>
+  <div>
+    <h2> Sites </h2>
+    <v-card v-for="site in sites.features" :key="site.id">
+      <v-card-title>{{ site.properties.name }}</v-card-title>
+      {{ site }}
+    </v-card>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   data () {
     return {
@@ -15,10 +21,11 @@ export default {
   mounted () {
     this.fetchSites()
   },
+  computed: {
+    ...mapState(['sites'])
+  },
   methods: {
-    fetchSites () {
-
-    }
+    ...mapActions(['fetchSites'])
   }
 }
 
