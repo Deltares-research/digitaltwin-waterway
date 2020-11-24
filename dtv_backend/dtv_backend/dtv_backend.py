@@ -8,7 +8,6 @@ import tempfile
 import urllib
 import networkx as nx
 import shapely.geometry
-import numpy as np
 import click
 
 # our software
@@ -88,7 +87,6 @@ def load_DTV_network_to_env(env):
     # making geometry really a geometry type
     for n in G.nodes:
         G.nodes[n]['geometry'] = shapely.geometry.Point(G.nodes[n]['X'], G.nodes[n]['Y'])
-
     # add graph to environment
     env.network = G.copy()
 
@@ -100,21 +98,6 @@ def find_closest_node(G, point):
     """
     Find the node on graph G that is closest to the given
     shapely.geometry.Point point
-
-    Parameters
-    ----------
-    G : networkx.Graph
-        The graph in which the closest node is to be found.
-    point : shapely.geometry.Point
-        The point for which the closest node is to be found.
-
-    Returns
-    -------
-    name_node : TYPE
-        DESCRIPTION.
-    distance_node : TYPE
-        DESCRIPTION.
-
     """
     distance = np.full((len(G.nodes)), fill_value=np.nan)
     for ii, n in enumerate(G.nodes):
