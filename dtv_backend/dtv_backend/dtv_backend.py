@@ -87,24 +87,14 @@ def load_DTV_network_to_env(env):
     # making geometry really a geometry type
     for n in G.nodes:
         G.nodes[n]['geometry'] = shapely.geometry.Point(G.nodes[n]['X'], G.nodes[n]['Y'])
-    # add graph to environment
-    env.network = G.copy()
+        
+    # add graph to environment (note that it is added as attribute FG as to ensure with the defailt in openTNSim)
+    env.FG = G.copy()
 
     # provide info
     click.echo("Network succesfully added to simulation")
 
 
-def find_closest_node(G, point):
-    """
-    Find the node on graph G that is closest to the given
-    shapely.geometry.Point point
-    """
-    distance = np.full((len(G.nodes)), fill_value=np.nan)
-    for ii, n in enumerate(G.nodes):
-        distance[ii] = point.distance(G.nodes[n]['geometry'])
-    name_node = list(G.nodes)[np.argmin(distance)]
-    distance_node = np.min(distance)
-    return name_node, distance_node
 
 
 
