@@ -17,6 +17,13 @@ export default new Vuex.Store({
     async fetchSites () {
       const resp = await fetch('data/sites.json')
       const sites = await resp.json()
+      console.log('sites', sites)
+      sites.features = sites.features.map(
+        feature => {
+          feature.properties.cargo = 0
+          return feature
+        }
+      )
       this.commit('setSites', sites)
     }
   },
