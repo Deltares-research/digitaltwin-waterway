@@ -106,17 +106,22 @@ class MoveActivity(GenericActivity):
         (origin_node, dist) = GraphUtils.find_closest_node(graph, self.mover.geometry)
         (destination_node, dist) = GraphUtils.find_closest_node(graph, self.destination.geometry)
         
-        # Then set the route from origin to destination node
-        self.mover.route = self.mover.get_route(origin=origin_node, 
-                                      destination=destination_node, 
-                                      graph=env.FG, 
-                                      minWidth=self.mover.width, 
-                                      minHeight=self.mover.current_height, 
-                                      minDepth=self.mover.current_draught)
-        
-        # TODO: fix that this is problematic if the path is only length 1 (i.e. if the vessel is already at its destination)
-        # which is not covered by openTNSim as it seems
-        yield from self.mover.move()
+        # Make sure it has a path to sail
+        if origin_node == destination_node:
+            # We are already at our destination
+            pass
+        else:
+            # If not, set the route from origin to destination node
+            self.mover.route = self.mover.get_route(origin=origin_node, 
+                                          destination=destination_node, 
+                                          graph=env.FG, 
+                                          minWidth=self.mover.width, 
+                                          minHeight=self.mover.current_height, 
+                                          minDepth=self.mover.current_draught)
+            
+            # TODO: fix that this is problematic if the path is only length 1 (i.e. if the vessel is already at its destination)
+            # which is not covered by openTNSim as it seems
+            yield from self.mover.move()
         
         # yield from self.mover.move(
         #     destination=self.destination,
