@@ -58,6 +58,10 @@ def provideVessel(env,
                     draught_full = 6):
     """
     Provides a standardized transport processing resource
+    
+    ENTER RATES ((UN)LOADING, SPEED) AS UNITS/HOUR (e.g. km/h)
+    (simpy requires units/seconds which is corrected for to get 'real' times)
+    
     """
     # define the vessel data
     vessel_data = {
@@ -65,8 +69,8 @@ def provideVessel(env,
             "name": name,
             "id": id,
             "geometry": geometry,
-            "loading_rate": loading_rate,
-            "unloading_rate": unloading_rate,
+            "loading_rate": loading_rate/3600,
+            "unloading_rate": unloading_rate/3600,
             "capacity": capacity,
             "allowable_draught": allowable_draught,
             "compute_v": compute_v,
