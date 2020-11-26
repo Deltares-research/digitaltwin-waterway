@@ -39,9 +39,10 @@ export default {
       handler () {
         if (this.features.length > 0) {
           const options = { units: 'kilometers' }
-          const points = this.features.map(feat => {
+          let points = this.results.path.features.map(feat => {
             return _.get(feat, 'geometry.coordinates')
           })
+          points = points.flat()
           this.trajectory = turf.lineString(points)
           this.trajectoryLength = turf.length(this.trajectory, options)
           this.addTrajectory()
@@ -83,7 +84,7 @@ export default {
         type: 'line',
         source: {
           type: 'geojson',
-          data: this.trajectory
+          data: this.results.path
         },
         paint: {
           'line-color': 'red'

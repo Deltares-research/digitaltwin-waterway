@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
 
 console.log('maki', harborIcon)
