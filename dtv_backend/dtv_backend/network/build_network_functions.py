@@ -1,10 +1,11 @@
 import logging
-from tqdm.autonotebook import tqdm
 from typing import Sequence
 
 from shapely.geometry import Point, MultiPoint, LineString
 import numpy as np
 import geopandas as gpd
+
+from tqdm.auto import tqdm
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -59,9 +60,9 @@ def cut(line: LineString, chainage: float) -> Sequence[LineString]:
     # if 0 or longer than line, return line
     if chainage <= 0.0 or chainage >= line.length:
         return [LineString(line)]
-    
-    # Loop through all vertices of the line. If a vertex is exactly the given chainage, than 
-    # split at this vertex (include vertex in both new lines). For the first vertex which 
+
+    # Loop through all vertices of the line. If a vertex is exactly the given chainage, than
+    # split at this vertex (include vertex in both new lines). For the first vertex which
     # chainage is larger than the searches radius, we know that we just passed it. We split the
     # line here and add a new point to both lines on exactly this chainage
     coords = list(line.coords)
