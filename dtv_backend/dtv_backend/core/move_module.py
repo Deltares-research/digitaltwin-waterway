@@ -357,15 +357,19 @@ class ContainerDependentMovable(Movable, CLcore.HasContainer):
     Used for objects that move with a speed dependent on the container level
     compute_v: a function, given the fraction the container is filled (in [0,1]), returns the current speed"""
 
-    def __init__(self, compute_v, allowable_capacity=None, *args, **kwargs):
+    def __init__(self, compute_v, allowable_draught=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         """Initialization"""
         self.compute_v = compute_v
         self.wgs84 = pyproj.Geod(ellps="WGS84")
-        if allowable_capacity is None:
-            self.container.allowable_capacity = self.container.get_capacity()
+        if allowable_draught is None:
+            self.allowable_draught = self.draught_full
         else:
-            self.container.allowable_capacity = allowable_capacity
+            self.allowable_draught = allowable_draught
+        
+        # based on the allowable draught derive the allowable capacity
+        self.container.allowable_capacity = self.container.get_capacity() * (self.allowable_draught - self.draught_empty) / (self.draught_full - self.draught_empty)
+        
     
     @property
     def is_loaded(self):
