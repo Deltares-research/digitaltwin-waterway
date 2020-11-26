@@ -1,10 +1,11 @@
 <template>
 <v-container>
   <h2> Fleet selection</h2>
+
   <v-row dense>
     <v-col
       cols="12"
-      sm="6" md="4" xs="12"
+      sm="6" xs="12"
       v-for="(ship, index) in ships" :key="index">
 
       <v-card
@@ -13,10 +14,17 @@
         hover
         >
         <v-card-title>
-          <v-checkbox></v-checkbox> {{ ship['Description (Dutch)'] }}
+          {{ ship['Description (Dutch)'] }}
         </v-card-title>
         <!-- TODO: add color, icon/image -->
         <v-card-text>
+          <v-slider
+            :min="0"
+            :max="20"
+            label="# ships"
+            thumb-label
+            v-model="ship.count"
+          ></v-slider>
           <v-simple-table dense>
             <template v-slot:default>
               <thead>
@@ -70,7 +78,10 @@ export default {
     async fetchShips () {
       const resp = await fetch('data/DTV_shiptypes_database.json')
       const ships = await resp.json()
-      console.log('ships', ships)
+      /* add ship count  */
+      ships.forEach((ship) => {
+        ship.count = 0
+      })
       return ships
     }
   }

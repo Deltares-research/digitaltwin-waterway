@@ -52,11 +52,7 @@
     </v-stepper-step>
 
     <v-stepper-content step="3">
-      <v-card
-        color="grey lighten-1"
-        class="mb-12"
-        height="200px"
-      ></v-card>
+      <climate-component />
       <v-btn
         color="primary"
         @click="stepper = 4"
@@ -70,12 +66,25 @@
         Back
       </v-btn>
     </v-stepper-content>
+    <v-stepper-step
+      :complete="stepper > 4"
+      step="4"
+      @click="stepper = 4"
+    >
+      Results
+      <small>charts and visualisations</small>
+    </v-stepper-step>
+    <v-stepper-content step="4">
+      <result-component></result-component>
+    </v-stepper-content>
   </v-stepper>
 </template>
 
 <script>
 import FleetComponent from './FleetComponent'
 import SitesComponent from './SitesComponent'
+import ClimateComponent from './ClimateComponent'
+import ResultComponent from './ResultComponent'
 
 export default {
   data () {
@@ -85,7 +94,11 @@ export default {
   },
   components: {
     FleetComponent,
-    SitesComponent
+    SitesComponent,
+    ClimateComponent,
+    ResultComponent
+  },
+  methods: {
   }
 }
 </script>
