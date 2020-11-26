@@ -10,7 +10,7 @@ from openclsim.model.shift_amount_activity import ShiftAmountActivity
 from openclsim.model.while_activity import WhileActivity
 
 # import the graph interaction from opentnsim_based_functionalities
-import dtv_backend.activities.move_activity as MoveActivity
+from dtv_backend.activities.move_activity import MoveActivity
 
 #%% Functionality to create a single run process but with the moving functionalities of openTNsim
 # note that this is in basis a copy from openCLSim
@@ -42,7 +42,7 @@ def single_run_process(
                 ]
             }
         ]
-
+     
     single_run = [
         MoveActivity(
             env=env,
@@ -60,6 +60,7 @@ def single_run_process(
             postpone_start=True,
             phase="loading",
             name=f"{name} loading",
+            amount=mover.container.allowable_capacity,
             processor=loader,
             origin=origin,
             destination=mover,

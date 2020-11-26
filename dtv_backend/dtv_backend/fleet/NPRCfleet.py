@@ -9,8 +9,8 @@ import os
 import uuid 
 import pandas as pd
 
-import openclsim.core as core
-from vesselProperties import createVesselProperties
+from dtv_backend.core import vessels as backendVessels
+#from vesselProperties import createVesselProperties
 
 #%% Define required info from databases
 required_fleet_info = ['Ship Name', 
@@ -28,21 +28,26 @@ required_shiptypes_info = {
                     'vessel_type': 'Vessel type'
                     }
 
-#%% Create the generic class for an object that can move and transport 
-TransportResource = type(
-    "TransportResource",
-    (
-        core.Identifiable,  # Give it a name
-        core.Log,  # Allow logging of all discrete events
-        core.ContainerDependentMovable,  # A moving container, so capacity and location
-    ),
-    {},
-)
 
-# for now let the speed be 10km/h (stroomopwaarts)
-def compute_v_provider(v_empty, v_full):
-    return lambda x: 10
+#%% kan weg
 
+backendVessels.provideVessel(env,
+                    geometry,
+                    name = 'standard M8 vessel',
+                    id = str(uuid.uuid1()),
+                    loading_rate = 1,
+                    unloading_rate = 1,
+                    capacity = 3000,
+                    compute_v = default_compute_v_provider(),
+                    route = None,
+                    vessel_type = 'M8',
+                    installed_power = 1000,
+                    width = 10, 
+                    length = 110, 
+                    height_empty = 8, 
+                    height_full = 4, 
+                    draught_empty = 2, 
+                    draught_full = 6)
 
 #%% Generate the NPRC fleet
 def provideNPRCfleet(env):
@@ -98,8 +103,8 @@ def provideNPRCfleet(env):
 
 #%% import the NPRC fleet information
 def loadFleetDatabase():
-    assert os.path.isfile('fleet_NPRC.xlsx'), "'fleet_NPRC.xlsx' fleet database not found!"
-    fleet_database = pd.read_excel('fleet_NPRC.xlsx')
+    assert os.path.isfile(r'../data/fleet_NPRC.xlsx'), "'fleet_NPRC.xlsx' fleet database not found!"
+    fleet_database = pd.read_excel(r'data/fleet_NPRC.xlsx')
     
     contains_all, missing = containsRequiredColumns(fleet_database, required_fleet_info)
     assert contains_all, f"'fleet_NPRC.xlsx' misses the following columns: {missing}"
@@ -108,11 +113,11 @@ def loadFleetDatabase():
 
 #%% import the general shiptype database containing the CEMT info
 def loadShiptypeDatabase(): 
-    assert os.path.isfile('DTV_shiptypes_database.xlsx'), "'DTV_shiptypes_database.xlsx' fleet database not found!"
-    shiptype_database = pd.read_excel('DTV_shiptypes_database.xlsx')
+    assert os.path.isfile(r'data/DTV_shiptypes_database.xlsx'), "'DTV_shiptypes_database.xlsx' fleet database not found!"
+    shiptype_database = pd.read_excel(r'data/DTV_shiptypes_database.xlsx')
     
     contains_all, missing = containsRequiredColumns(shiptype_database, required_shiptypes_info.values())
-    assert contains_all, f"'DTV_shiptypes_database.xlsx' misses the following columns: {missing}"
+    assert contains_all, f"DTV_shiptypes_database.xlsx' misses the following columns: {missing}"
     
     return shiptype_database
     

@@ -18,6 +18,9 @@ import dtv_backend.network.network_utilities as GraphUtils
 #%%
 class MoveActivity(GenericActivity):
     """
+    # TODO: adjust this docstring
+    # TODO: possibly rename to 'MoveOnGraphActivity()'
+    
     MoveActivity Class forms a specific class for a single move activity within a simulation.
 
     It deals with a single origin container, destination container and a single combination of equipment
@@ -51,7 +54,7 @@ class MoveActivity(GenericActivity):
         self.register_process(main_proc=self.move_process, show=self.print)
         
     # TODO: replace the move provess below by openTNSim functionalies
-    def move_process(self, activity_log, env):
+    def move_process(self, activity_log, env, graph=None):
         """
         Return a generator which can be added as a process to a simpy.Environment.
 
@@ -95,18 +98,30 @@ class MoveActivity(GenericActivity):
         
         # I think here we need to use the functionalities from openTNSim
         # Make sure that we select a path between two nodes
-        origin_node = GraphUtils.find_closest_node(env.network, self.mover.geometry)
-        destination_node = GraphUtils.find_closest_node(env.network, self.destination.geometry)
+        if graph is None:
+            graph = env.FG
         
-        # Then set the route from origin to destination node
-        self.mover.route = self.mover.get_route(origin=origin_node, 
-                                      destination=destination_node, 
-                                      graph=env.FG, 
-                                      minWidth=self.mover.width, 
-                                      minHeight=self.mover.current_height, 
-                                      minDepth=self.mover.current_draught)
+        # find closest nodes to the origin and destination, note that the function returns 
+        # the node's name and distance from the point to the node
+        (origin_node, dist) = GraphUtils.find_closest_node(graph, self.mover.geometry)
+        (destination_node, dist) = GraphUtils.find_closest_node(graph, self.destination.geometry)
         
-        yield from self.mover.move()
+        # Make sure it has a path to sail
+        if origin_node == destination_node:
+            # We are already at our destination
+            pass
+        else:
+            # If not, set the route from origin to destination node
+            self.mover.route = self.mover.get_route(origin=origin_node, 
+                                          destination=destination_node, 
+                                          graph=env.FG, 
+                                          minWidth=self.mover.width, 
+                                          minHeight=self.mover.current_height, 
+                                          minDepth=self.mover.current_draught)
+            
+            # TODO: fix that this is problematic if the path is only length 1 (i.e. if the vessel is already at its destination)
+            # which is not covered by openTNSim as it seems
+            yield from self.mover.move()
         
         # yield from self.mover.move(
         #     destination=self.destination,

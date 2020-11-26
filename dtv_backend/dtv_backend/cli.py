@@ -5,8 +5,8 @@ import json
 import click
 
 # dependencies
-
-
+from dtv_backend.core import sites as backendSites
+from dtv_backend.processes.single_run_process_fleet import single_run_process_fleet
 
 
 import dtv_backend.dtv_backend as backend
@@ -29,7 +29,7 @@ def simulate(input):
     
     # click.echo("Running a simulation")
     # config = json.load(input)
-
+    
     # config["vessels"]
     # config["sites"]
     # config["activites"]
@@ -70,6 +70,36 @@ def simulate(input):
     # generate visualisations -> qgis, kml, movies
     #
     # cleanup
+    
+    # read config
+    config = json.load(input)
+    
+    # define origin
+    # TODO: specify the correct inputs from the config
+    origin = backendSites.provideSite(env = main.env, 
+                           point = config.origin.point, 
+                           name = config.origin.name,
+                           level = config.origin.level,
+                           loading_rate = config.origin.loading_rate,
+                           unloading_rate = config.origin.unloading_rate)
+    
+    # define destination
+    # TODO: specify the correct inputs from the config
+    destination = backendSites.provideSite(env = main.env, 
+                           point = config.destination.point, 
+                           name = config.destination.name,
+                           level = config.destination.level,
+                           loading_rate = config.destination.loading_rate,
+                           unloading_rate = config.destination.unloading_rate)
+    
+    # add the vessels to the simulation as a fleet
+    # TODO: specify the correct inputs from the config within this function
+    fleet = backend.add_fleet_to_simulation(main.env, origin, config)
+    
+    # perform transport task
+    single_run_process_fleet(fleet, main.env, origin, destination, loader=origin, unloader=destination)
+    
+    
     pass
 
 
