@@ -41,23 +41,23 @@ class Locatable:
 
 
 #%% make a mix-in of the openCLSim and openTNSim HasContainer
-class HasContainer(CLcore.HasContainer):
-    """
-    New HasContainer class based on the CLcore HasContainer, but added the TNSim functionalities
-    """
-    def __init__(self, compute_v, capacity, level=0, total_requested=0, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        """Initialization"""
-        self.compute_v = compute_v
-        self.wgs84 = pyproj.Geod(ellps="WGS84")
+# class HasContainer(CLcore.HasContainer):
+#     """
+#     New HasContainer class based on the CLcore HasContainer, but added the TNSim functionalities
+#     """
+#     def __init__(self, compute_v, capacity, level=0, total_requested=0, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         """Initialization"""
+#         self.compute_v = compute_v
+#         self.wgs84 = pyproj.Geod(ellps="WGS84")
         
-    @property
-    def is_loaded(self):
-        return True if self.container.level > 0 else False
+#     @property
+#     def is_loaded(self):
+#         return True if self.container.get_level() > 0 else False
     
-    @property
-    def filling_degree(self):
-        return self.container.level / self.container.capacity
+#     @property
+#     def filling_degree(self):
+#         return self.container.get_level() / self.container.get_capacity()
 
 
 #%% logging of vessel movements
@@ -357,15 +357,19 @@ class ContainerDependentMovable(Movable, CLcore.HasContainer):
     Used for objects that move with a speed dependent on the container level
     compute_v: a function, given the fraction the container is filled (in [0,1]), returns the current speed"""
 
-    def __init__(self, compute_v, *args, **kwargs):
+    def __init__(self, compute_v, allowable_capacity=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         """Initialization"""
         self.compute_v = compute_v
         self.wgs84 = pyproj.Geod(ellps="WGS84")
+        if allowable_capacity is None:
+            self.container.allowable_capacity = self.container.get_capacity()
+        else:
+            self.container.allowable_capacity = allowable_capacity
     
     @property
     def is_loaded(self):
-        return True if self.container.level > 0 else False
+        return True if self.container.get_level() > 0 else False
     
     @property
     def filling_degree(self):

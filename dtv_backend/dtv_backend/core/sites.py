@@ -32,7 +32,7 @@ Site = type(
 
 
 #%% Function to provide a general site
-def provideSite(env, point, name, capacity=np.inf, level=1000, loading_rate=1, unloading_rate=1):
+def provideSite(env, point, name, capacity, level, loading_rate=1, unloading_rate=1):
     """
     Returns a Site that can be used in simulation based on a given shapely.geometry.Point
 

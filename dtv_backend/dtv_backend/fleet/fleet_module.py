@@ -17,9 +17,9 @@ from dtv_backend.fleet import Dancerfleet
 #%%
 def loadDTVFleet(env):
     # load NPRC fleet
-    bulk_fleet = NPRCfleet.provideNPRCfleet(env)
+    #bulk_fleet = NPRCfleet.provideNPRCfleet(env)
     # load Dancer fleet
-    container_fleet = Dancerfleet.provideDancerfleet(env)
+    #container_fleet = Dancerfleet.provideDancerfleet(env)
     
     # to be separately returned
     # container fleet
@@ -28,4 +28,8 @@ def loadDTVFleet(env):
 
 #%%
 def provideFleet(end, vessel_dict):
-    return
+    # is supposed to return a list of vessels making up the fleet
+    # vessel_dict says {'vessel name':'amount'}
+    # create each vessel from the database
+    fleet = []
+    return fleet

@@ -42,7 +42,7 @@ def single_run_process(
                 ]
             }
         ]
-
+     
     single_run = [
         MoveActivity(
             env=env,
@@ -60,6 +60,7 @@ def single_run_process(
             postpone_start=True,
             phase="loading",
             name=f"{name} loading",
+            amount=mover.container.allowable_capacity,
             processor=loader,
             origin=origin,
             destination=mover,
