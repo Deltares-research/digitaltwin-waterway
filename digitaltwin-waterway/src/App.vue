@@ -19,12 +19,20 @@
 <script>
 import MapComponent from './components/MapComponent'
 import StepperComponent from './components/StepperComponent'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     MapComponent,
     StepperComponent
+  },
+  created () {
+    this.fetchResults()
+    this.fetchSites()
+  },
+  methods: {
+    ...mapActions(['fetchResults', 'fetchSites'])
   }
 }
 </script>

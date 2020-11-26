@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -28,14 +28,8 @@ export default {
       draw: {}
     }
   },
-  mounted () {
-    this.fetchSites()
-  },
   computed: {
     ...mapState(['sites'])
-  },
-  methods: {
-    ...mapActions(['fetchSites'])
   }
 }
 

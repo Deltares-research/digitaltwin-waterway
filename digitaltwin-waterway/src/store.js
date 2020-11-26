@@ -12,7 +12,7 @@ export default new Vuex.Store({
     async fetchResults () {
       const resp = await fetch('data/sample-result.json')
       const results = await resp.json()
-      this.commit('results', results)
+      this.commit('setResults', results)
     },
     async fetchSites () {
       const resp = await fetch('data/sites.json')
