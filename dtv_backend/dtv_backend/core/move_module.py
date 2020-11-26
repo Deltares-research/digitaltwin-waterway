@@ -139,7 +139,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
                 shapely.geometry.asShape(dest).y,
             )[2]
 
-            yield self.env.timeout(self.distance / self.current_speed)
+            yield self.env.timeout((self.distance / self.current_speed) / 3600)
             self.log_entry("Sailing to start", self.env.now, self.distance, dest)
 
         # Move over the path and log every step
@@ -193,7 +193,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
         orig = self.env.FG.nodes[origin]["geometry"]
         dest = self.env.FG.nodes[destination]["geometry"]
         
-        # changes this one to capital {L}ength to get the 'real' distances from the graph
+        # for DTV changed to capital {L}ength to get the 'real' distances from the graph
         if 'Length' in edge:
             distance = edge['Length']
         else:
@@ -218,7 +218,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
             orig,
             self.ActivityID,
         )
-        yield self.env.timeout(distance / self.current_speed)
+        yield self.env.timeout((distance / self.current_speed) / 3600)
         self.log_entry(
             "Sailing from node {} to node {} stop".format(origin, destination),
             self.env.now,
