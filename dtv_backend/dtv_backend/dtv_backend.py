@@ -15,6 +15,8 @@ import opentnsim.core as TNcore
 import openclsim.model as CLmodel
 import openclsim.core as CLcore
 
+from dtv_backend.core import vessels as backendVessels
+
 
 #%% Provide environment
 def provide_environment(simulation_start=None):
@@ -87,25 +89,65 @@ def load_DTV_network_to_env(env):
     # making geometry really a geometry type
     for n in G.nodes:
         G.nodes[n]['geometry'] = shapely.geometry.Point(G.nodes[n]['X'], G.nodes[n]['Y'])
-    # add graph to environment
-    env.network = G.copy()
+        
+    # add graph to environment (note that it is added as attribute FG as to ensure with the defailt in openTNSim)
+    env.FG = G.copy()
 
     # provide info
     click.echo("Network succesfully added to simulation")
 
 
-def find_closest_node(G, point):
+#%% 
+def add_fleet_to_simulation(env, origin, config):
     """
-    Find the node on graph G that is closest to the given
-    shapely.geometry.Point point
-    """
-    distance = np.full((len(G.nodes)), fill_value=np.nan)
-    for ii, n in enumerate(G.nodes):
-        distance[ii] = point.distance(G.nodes[n]['geometry'])
-    name_node = list(G.nodes)[np.argmin(distance)]
-    distance_node = np.min(distance)
-    return name_node, distance_node
+    Adds the fleet to the environment based on the input
 
+    Parameters
+    ----------
+    env : simpy environment
+        .
+    origin : a DTV site
+        the starting point of the fleet.
+    input : TYPE
+        the input file.
+
+    Returns
+    -------
+    fleet : list of vessels
+        .
+
+    """
+    # TODO: decode the input to extract the vessels
+    # define empty fleet
+    fleet = []
+    
+    # loop actoss the info in the input to add the individual vessels to the fleet
+    for vessel_info in config.vessels:
+        # TODO: extract all the relevant info of these vessels from the input and add do dict
+        data_vessel = {
+                        "env": env,
+                        "name": vessel_info.name,
+                        "geometry": origin.geometry,
+                        "loading_rate": 1,
+                        "unloading_rate": 1,
+                        "capacity": vessel_info.capacity,
+                        "route": None,
+                        'vessel_type': vessel_info.type,
+                        'installed_power': 1000,
+                        'width': vessel_info.width, 
+                        'length': vessel_info.length, 
+                        'height_empty': vessel_info.height_empty, 
+                        'height_full': vessel_info.height_full, 
+                        'draught_empty': vessel_info.draught_empty, 
+                        'draught_full': vessel_info.draught_full
+                    }
+        
+        fleet.append(backendVessels.provideVessel(**data_vessel))
+    
+    return fleet
+
+
+#%%
 
 
 

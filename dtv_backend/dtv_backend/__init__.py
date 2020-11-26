@@ -9,3 +9,4 @@ from dtv_backend import dtv_backend
 from dtv_backend import activities
 from dtv_backend import processes
 from dtv_backend import fleet
+from dtv_backend import core
