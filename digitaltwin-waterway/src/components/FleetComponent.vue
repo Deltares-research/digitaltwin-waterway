@@ -15,6 +15,10 @@
         >
         <v-card-title>
           {{ ship['Description (Dutch)'] }}
+          <v-spacer />
+          <v-avatar size="50px">
+            <img :src="ship.image">
+          </v-avatar>
         </v-card-title>
         <!-- TODO: add color, icon/image -->
         <v-card-text>
