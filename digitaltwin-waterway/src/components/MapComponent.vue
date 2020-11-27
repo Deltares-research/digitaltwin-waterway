@@ -8,6 +8,8 @@
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
   >
+    <v-mapbox-ships-layer v-if="this.features.length > 0" />
+    <v-mapbox-site-layer v-if="this.sites.features" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
       position="bottom-right"
@@ -17,25 +19,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import mapboxgl from 'mapbox-gl'
+import VMapboxSiteLayer from './Mapbox/VMapboxSiteLayer'
+import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
 import _ from 'lodash'
-import * as turf from '@turf/turf'
-import Vue from 'vue'
-import ShipIcon from '@/components/ShipIcon.vue'
-
-const ShipIconClass = Vue.extend(ShipIcon)
 
 export default {
-  mounted () {
-    this.map = this.$refs.map.map
-    this.createMarker()
-    this.map.on('load', () => {
-      console.log('map loaded')
-      this.addSites()
-      this.addTrajectory()
-      // Start the animation.
-      requestAnimationFrame(this.animateMarker)
-    })
+  components: {
+    VMapboxSiteLayer,
+    VMapboxShipsLayer
   },
   computed: {
     ...mapState(['results', 'sites']),
@@ -43,96 +34,10 @@ export default {
       return _.get(this.results, 'equipment.features', [])
     }
   },
-  watch: {
-    features: {
-      handler () {
-        console.log(this.features, this.features.length > 0)
-        if (this.features.length > 0) {
-          const options = { units: 'kilometers' }
-          let points = this.results.path.features.map(feat => {
-            return _.get(feat, 'geometry.coordinates')
-          })
-          points = points.flat()
-          this.trajectory = turf.lineString(points)
-          this.trajectoryLength = turf.length(this.trajectory, options)
-        }
-      },
-      deep: true
-    }
-  },
   data () {
     return {
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
-      draw: {},
-      map: null,
-      markers: {},
-      count: 0,
-      trajectory: null,
-      trajectoryLength: 0
-    }
-  },
-  methods: {
-    createMarker () {
-      const featId = 'ship1'
-      const el = document.createElement('div')
-      const child = document.createElement('div')
-      el.appendChild(child)
-
-      const mapboxMarker = new mapboxgl.Marker(el)
-
-      const marker = new ShipIconClass({
-        propsData: {
-          mapboxMarker
-        }
-      }).$mount(child)
-      const node = marker.$createElement('div', [featId])
-      marker.$slots.default = [node]
-      marker.$mount(child)
-      this.markers.[featId] = marker
-    },
-    addSites () {
-      this.map.addLayer({
-        id: 'sites',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: this.sites
-        },
-        paint: {
-          'circle-color': 'red'
-        }
-      })
-    },
-    addTrajectory () {
-      this.map.addLayer({
-        id: 'trajectory',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: this.results.path
-        },
-        paint: {
-          'line-color': 'red'
-        }
-      })
-    },
-    animateMarker (timestamp) {
-      // var radius = 20
-
-      const options = { units: 'kilometers' }
-      const location = turf.along(this.trajectory, this.count, options)
-      const coordinates = _.get(location, 'geometry.coordinates')
-      const marker = _.get(this.markers, 'ship1.mapboxMarker')
-      marker.setLngLat(coordinates)
-      marker.addTo(this.map)
-
-      this.count += 1
-      if (this.count > this.trajectoryLength) {
-        this.count = 0
-      }
-
-      // Request the next frame of the animation.
-      requestAnimationFrame(this.animateMarker)
+      map: null
     }
   }
 }

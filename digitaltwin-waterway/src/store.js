@@ -6,7 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     results: {},
-    sites: []
+    sites: [],
+    shipState: 0,
+    play: false
   },
   actions: {
     async fetchResults () {
@@ -33,7 +35,12 @@ export default new Vuex.Store({
     },
     setSites (state, sites) {
       state.sites = sites
+    },
+    setPlay (state, play) {
+      state.play = play
+    },
+    setShipState (state, shipState) {
+      state.shipState = shipState
     }
-
   }
 })

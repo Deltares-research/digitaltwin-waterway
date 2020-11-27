@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-card>
-    <v-card-title>
+    <v-card-title class="mb-3">
       Climate
     </v-card-title>
     <v-card-text>

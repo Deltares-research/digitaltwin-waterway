@@ -14,7 +14,19 @@
     </v-stepper-step>
 
     <v-stepper-content step="1">
-      <sites-component></sites-component>
+      <sites-component class="mb-3"></sites-component>
+      <v-btn
+        color="primary"
+        @click="stepper = 2"
+      >
+        Continue
+      </v-btn>
+      <v-btn
+        text
+        @click="stepper = 1"
+      >
+        Back
+      </v-btn>
     </v-stepper-content>
 
     <v-stepper-step
@@ -26,20 +38,22 @@
       <small>Selection of ships within a fleet</small>
     </v-stepper-step>
 
-    <v-stepper-content step="2" class="fleets">
-      <fleet-component />
-      <v-btn
-        color="primary"
-        @click="stepper = 3"
-      >
-        Continue
-      </v-btn>
-      <v-btn
-        text
-        @click="stepper = 2"
-      >
-        Back
-      </v-btn>
+    <v-stepper-content step="2" class="stepper-fleet">
+      <fleet-component class="mb-3 d-flex-grow fleets"/>
+      <v-row>
+        <v-btn
+          color="primary"
+          @click="stepper = 3"
+        >
+          Continue
+        </v-btn>
+        <v-btn
+          text
+          @click="stepper = 2"
+        >
+          Back
+        </v-btn>
+        </v-row>
     </v-stepper-content>
 
     <v-stepper-step
@@ -52,10 +66,10 @@
     </v-stepper-step>
 
     <v-stepper-content step="3">
-      <climate-component />
+      <climate-component class="mb-3"/>
       <v-btn
         color="primary"
-        @click="stepper = 4"
+        @click="startSailing"
       >
         Start sailing
       </v-btn>
@@ -75,7 +89,7 @@
       <small>charts and visualisations</small>
     </v-stepper-step>
     <v-stepper-content step="4">
-      <result-component></result-component>
+      <result-component class="fleets"></result-component>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -85,6 +99,7 @@ import FleetComponent from './FleetComponent'
 import SitesComponent from './SitesComponent'
 import ClimateComponent from './ClimateComponent'
 import ResultComponent from './ResultComponent'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -99,6 +114,11 @@ export default {
     ResultComponent
   },
   methods: {
+    ...mapActions(['fetchResults']),
+    startSailing () {
+      this.stepper = 4
+      this.fetchResults()
+    }
   }
 }
 </script>
@@ -109,8 +129,12 @@ export default {
   height: 100%;
 }
 
-.fleets {
+.stepper-fleet {
   max-height: 60vh;
+}
+
+.fleets {
+  max-height: 50vh;
   overflow-y: auto;
 }
 </style>

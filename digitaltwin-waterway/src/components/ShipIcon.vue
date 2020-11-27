@@ -1,7 +1,7 @@
 <template>
   <div class="ship" :style="shipStyle" :title="name">
     <v-avatar :size="size * 0.9" class="avatar" :color="avatarColor">
-      <img :src="harborIcon">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">>
     </v-avatar>
     <v-progress-circular :rotate="270" :value="progress" :size="size" :color="progressColor"></v-progress-circular>
   </div>
@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
-
 export default {
   name: 'EquipmentIcon',
   props: {
@@ -24,9 +22,9 @@ export default {
     },
     progressColor: {
       type: String,
-      default: 'rgba(0, 0, 0, 0.8)'
+      default: 'pink'
     },
-    badge: {
+    shipImage: {
       type: String
     },
     size: {
@@ -40,11 +38,6 @@ export default {
     },
     // any type is fine
     name: [String, Number]
-  },
-  data () {
-    return {
-      harborIcon
-    }
   },
   computed: {
     shipStyle () {

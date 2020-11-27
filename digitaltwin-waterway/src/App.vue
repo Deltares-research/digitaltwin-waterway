@@ -28,11 +28,10 @@ export default {
     StepperComponent
   },
   created () {
-    this.fetchResults()
     this.fetchSites()
   },
   methods: {
-    ...mapActions(['fetchResults', 'fetchSites'])
+    ...mapActions(['fetchSites'])
   }
 }
 </script>

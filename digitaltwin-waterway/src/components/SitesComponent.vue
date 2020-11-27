@@ -2,7 +2,13 @@
   <div>
     <h2> Sites </h2>
     <v-card v-for="site in sites.features" :key="site.id">
-      <v-card-title>{{ site.properties.name }}<v-spacer /><v-avatar size="20px"><img :src="harborIcon"></v-avatar></v-card-title>
+      <v-card-title class="mb-4">
+        {{ site.properties.name }}
+        <v-spacer />
+        <v-avatar size="20px">
+          <img :src="harborIcon">
+        </v-avatar>
+      </v-card-title>
       <v-card-text>
         <v-slider
           v-if="site.properties.name === 'Origin'"
@@ -37,7 +43,6 @@
 import { mapState } from 'vuex'
 import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
 
-console.log('maki', harborIcon)
 export default {
   data () {
     return {
