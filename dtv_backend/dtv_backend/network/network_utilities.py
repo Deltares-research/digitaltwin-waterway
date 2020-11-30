@@ -55,8 +55,8 @@ def determine_min_waterdepth_on_path(graph, origin, destination, discharge_df, l
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
     
-    origin_node = find_closest_node(graph, origin.geometry)
-    destination_node = find_closest_node(graph, destination.geometry)
+    origin_node = find_closest_node(graph, origin.geometry)[0]
+    destination_node = find_closest_node(graph, destination.geometry)[0]
     
     # determine path and route (subgraph)
     path = nx.dijkstra_path(graph, origin_node, destination_node, weight='Length')
