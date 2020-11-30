@@ -40,6 +40,7 @@
                 "coordinates": [4.087406, 51.936737]
             },
             "properties": {
+                "name": "Large Rhine vessel",
                 "CEMT-class": "Va",
                 "RWS-class": "M8",
                 "Vessel type": "Motorvessel",
@@ -59,7 +60,10 @@
                 "Height average [m]": 6.21,
                 "Load Weight average [ton]": 2286,
                 "Load weight maximum [ton]": 2689,
-                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU",
+                "capacity": 3000,
+                "loading_rate": 1,
+                "unloading_rate": 1
             }
         }
     ],
