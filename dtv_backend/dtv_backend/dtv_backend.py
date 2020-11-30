@@ -16,7 +16,7 @@ import openclsim.model as CLmodel
 import openclsim.core as CLcore
 
 from dtv_backend.core import vessels as backendVessels
-
+from dtv_backend.network.network import load_fis_network
 
 #%% Provide environment
 def provide_environment(simulation_start=None):
@@ -71,25 +71,13 @@ def load_DTV_network_to_env(env):
     """
     # provide info
     click.echo("Starting (down)loading the network")
-
     # link to the latets version of the network
     url = 'https://zenodo.org/record/3981105/files/network_digital_twin_v0.1.yaml'
+    # alternative url (zenodo was unavailable today)
+    url = 'https://storage.googleapis.com/et-data-science/dtv/network_digital_twin_v0.1.yaml'
 
-    # create a temporary file
-    f = tempfile.NamedTemporaryFile()
-    f.close()
+    G = load_fis_network(url)
 
-    # retrieve the info and create the graph
-    urllib.request.urlretrieve(url, f.name)
-    G = nx.read_yaml(f.name)
-
-    # the temp file can be deleted
-    del f
-
-    # making geometry really a geometry type
-    for n in G.nodes:
-        G.nodes[n]['geometry'] = shapely.geometry.Point(G.nodes[n]['X'], G.nodes[n]['Y'])
-        
     # add graph to environment (note that it is added as attribute FG as to ensure with the defailt in openTNSim)
     env.FG = G.copy()
 
@@ -97,7 +85,7 @@ def load_DTV_network_to_env(env):
     click.echo("Network succesfully added to simulation")
 
 
-#%% 
+#%%
 def add_fleet_to_simulation(env, origin, config):
     """
     Adds the fleet to the environment based on the input
@@ -120,7 +108,7 @@ def add_fleet_to_simulation(env, origin, config):
     # TODO: decode the input to extract the vessels
     # define empty fleet
     fleet = []
-    
+
     # loop actoss the info in the input to add the individual vessels to the fleet
     for vessel_info in config.vessels:
         # TODO: extract all the relevant info of these vessels from the input and add do dict
@@ -134,16 +122,16 @@ def add_fleet_to_simulation(env, origin, config):
                         "route": None,
                         'vessel_type': vessel_info.type,
                         'installed_power': 1000,
-                        'width': vessel_info.width, 
-                        'length': vessel_info.length, 
-                        'height_empty': vessel_info.height_empty, 
-                        'height_full': vessel_info.height_full, 
-                        'draught_empty': vessel_info.draught_empty, 
+                        'width': vessel_info.width,
+                        'length': vessel_info.length,
+                        'height_empty': vessel_info.height_empty,
+                        'height_full': vessel_info.height_full,
+                        'draught_empty': vessel_info.draught_empty,
                         'draught_full': vessel_info.draught_full
                     }
-        
+
         fleet.append(backendVessels.provideVessel(**data_vessel))
-    
+
     return fleet
 
 
