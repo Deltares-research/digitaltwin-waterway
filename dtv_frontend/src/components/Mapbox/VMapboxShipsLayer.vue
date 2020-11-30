@@ -19,7 +19,6 @@ export default {
   watch: {
     play: {
       handler () {
-        console.log('play', this.play)
         if (this.play) {
           this.startSailing()
         }
@@ -33,11 +32,13 @@ export default {
       trajectory: null,
       trajectoryLength: 0,
       cargo: 0,
-      distance: 0
+      distance: 0,
+      forward: true,
+      maxCargo: 0
     }
   },
   computed: {
-    ...mapState(['results']),
+    ...mapState(['results', 'sites']),
     play: {
       get () { return this.$store.state.play },
       set (value) { this.setPlay(value) }
@@ -63,6 +64,8 @@ export default {
       points = points.flat()
       this.trajectory = turf.lineString(points)
       this.trajectoryLength = turf.length(this.trajectory, options)
+      const cargo = this.results.equipment.features.map(feat => parseFloat(feat.properties.Value))
+      this.maxCargo = Math.max(...cargo)
     },
     createMarker () {
       const featId = 'ship1'
@@ -86,15 +89,19 @@ export default {
       if (!this.play) {
         return
       }
-      console.log(timestamp)
       const options = { units: 'kilometers' }
-      const location = turf.along(this.trajectory, this.count, options)
+      let along = this.count
+      if (!this.forward) {
+        along = this.trajectoryLength - this.count
+      }
+      const location = turf.along(this.trajectory, along, options)
       const coordinates = _.get(location, 'geometry.coordinates')
       const marker = _.get(this.markers, 'ship1.mapboxMarker')
       marker.setLngLat(coordinates)
       marker.addTo(this.map)
 
       this.count += 10
+
       if (this.count > this.trajectoryLength) {
         this.shipState += 1
         this.startSailing()
@@ -108,11 +115,10 @@ export default {
       if (!this.play) {
         return
       }
-      this.count += 1
-      const maxCargo = Math.max(this.cargo[0], this.cargo[this.cargo.length - 1])
+      this.count += 5
       const marker = _.get(this.markers, 'ship1')
-      const progress = 100 - (100 * this.cargo[this.count] / maxCargo)
-      console.log(this.cargo[this.count], maxCargo, progress)
+      const progress = 100 - (100 * this.cargo[this.count] / this.maxCargo)
+      console.log(marker, this.cargo[this.count], this.maxCargo, progress)
       marker.progress = progress
       if (this.count > this.cargo.length) {
         this.shipState += 1
@@ -142,12 +148,13 @@ export default {
       // TODO: Check origin and destination per session with the true orig and destination (otherwise )
       // we only have one way trips..
       this.currentDistance = turf.distance(origin.geometry.coordinates, destination.geometry.coordinates, { units: 'kilometers' })
-      this.animationDone = false
       this.cargo = _.range([origin.properties.Value], destination.properties.Value, [10])
       this.count = 0
+      console.log(this.currentDistance, this.cargo)
       if (this.currentDistance === 0) {
         requestAnimationFrame(this.animateCargo)
       } else {
+        this.forward = turf.distance(origin.geometry.coordinates, _.get(this.sites, 'features[0].geometry.coordinates')) === 0
         requestAnimationFrame(this.animateMarker)
       }
     },

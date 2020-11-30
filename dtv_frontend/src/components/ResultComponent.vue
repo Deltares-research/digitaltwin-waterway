@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-slider
       v-model="shipState"
       :thumb-size="24"
@@ -7,12 +7,14 @@
       :max="states.length"
       :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
       @click:prepend='play = !play'
+      class="d-flex-grow pt-6"
     >
       <v-avatar size="50px">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
       </v-avatar>
     </v-slider>
     <v-timeline
+      class="fleets pa-0 pr-2"
       dense
       clipped
     >
@@ -41,7 +43,7 @@
       </v-timeline-item>
       </div>
     </v-timeline>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -73,9 +75,16 @@ export default {
     ...mapMutations(['setPlay', 'setShipState']),
     stateColor (stateId) {
       stateId = parseInt(stateId)
-      console.log(stateId >= this.shipState)
       return stateId >= this.shipState ? 'grey' : 'blue'
     }
   }
 }
 </script>
+
+<style>
+.fleets {
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+</style>

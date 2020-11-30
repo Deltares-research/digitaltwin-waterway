@@ -89,7 +89,7 @@
       <small>charts and visualisations</small>
     </v-stepper-step>
     <v-stepper-content step="4">
-      <result-component class="fleets"></result-component>
+      <result-component></result-component>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -131,10 +131,5 @@ export default {
 
 .stepper-fleet {
   max-height: 60vh;
-}
-
-.fleets {
-  max-height: 50vh;
-  overflow-y: auto;
 }
 </style>

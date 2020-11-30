@@ -54,12 +54,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .ship {
   position: relative;
 }
-.ship .v-progress-circular__overlay {
-  transition: initial;
+.v-progress-circular__overlay {
+  transition: initial !important;
 }
 .ship .avatar {
   font-weight: 200;
