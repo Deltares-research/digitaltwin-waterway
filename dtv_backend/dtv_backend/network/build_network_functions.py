@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 
 
 def nearest_line(point: Point, lines: Sequence[LineString]) -> (int, float):
-    # Splitting the closest line at given point
+    # For a point, find the nearest geometry from a list of points/lines
     #
     # point: Shapely Point
     # lines: List of shapely LineString

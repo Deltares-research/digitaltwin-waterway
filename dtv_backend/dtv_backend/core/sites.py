@@ -35,7 +35,9 @@ Site = type(
 def provideSite(env, point, name, capacity, level, loading_rate=1, unloading_rate=1):
     """
     Returns a Site that can be used in simulation based on a given shapely.geometry.Point
-
+    
+    ENTER THE (UN)LOADING RATES AS UNITS/HOUR
+    
     Parameters
     ----------
     env : TYPE
@@ -70,8 +72,8 @@ def provideSite(env, point, name, capacity, level, loading_rate=1, unloading_rat
             "geometry": env.FG.nodes[closest_node]['geometry'],
             "capacity": capacity,
             "level": level,
-            "loading_rate": loading_rate,
-            "unloading_rate": unloading_rate,
+            "loading_rate": loading_rate/3600,
+            "unloading_rate": unloading_rate/3600,
             }
     
     # define the site object
