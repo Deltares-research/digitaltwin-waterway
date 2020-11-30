@@ -21,6 +21,7 @@ dependencies:
   - pip:
     - simpy
     - "--editable=git+https://github.com/TUDelft-CITG/OpenCLSim.git#egg=OpenCLSim"
+    - "--editable=git+https://github.com/TUDelft-CITG/OpenTNSim.git#egg=OpenTNSim"
 
 # - -e git@github.com:TUDelft-CITG/OpenCLSim.git#egg=OpenCLSim
 # - -e git@github.com:TUDelft-CITG/OpenTNSim.git#egg=OpenTNSim

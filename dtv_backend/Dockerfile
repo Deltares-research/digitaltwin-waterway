@@ -29,6 +29,10 @@ COPY . $HOME/app
 
 WORKDIR $HOME/app
 
-RUN conda env create -f environment.yml
+RUN conda env update -f environment.yml
+ENV PATH /opt/conda/bin:$PATH
+RUN pip install -e .
+
+
 
 CMD dtv_backend simulate test/test-01/config.json
