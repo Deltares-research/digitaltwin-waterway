@@ -11,6 +11,8 @@ import scipy.interpolate
 import networkx as nx
 import pandas as pd
 import shapely
+import shapely.wkt
+
 
 #%%
 def find_closest_node(G, point):
@@ -45,7 +47,10 @@ def find_closest_node(G, point):
 def find_closest_edge(G, point):
     distance = np.full((len(G.edges)), fill_value=np.nan)
     for ii, e in enumerate(G.edges):
-        distance[ii] = point.distance(G.edges[e]['geometry'])
+        #start_node = G.nodes[G.edges[e]['StartJunctionId']]
+        #end_node = G.nodes[G.edges[e]['EndJunctionId']]
+        #distance[ii] = point.distance()
+        distance[ii] = point.hausdorff_distance(shapely.wkt.loads(G.edges[e]['Wkt']))
     name_edge = list(G.edges)[np.argmin(distance)]
     distance_edge = np.min(distance)
     return name_edge, distance_edge
@@ -77,15 +82,15 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
 
     # add some coordinates
     coordinates = {
-        'Kaub': shapely.wkt.loads("POINT(7.764967 50.085433)"),
-        'Duisburg-Ruhrort': shapely.wkt.loads("POINT(6.727933 51.455350)"),
-        'Emmerich': shapely.wkt.loads("POINT(6.245600 51.829250)"),
-        'Erlecom': shapely.wkt.loads("POINT(5.95044 51.86054)"),
-        'Nijmegen': shapely.wkt.loads("POINT(5.84601 51.85651)"),
-        'Ophemert': shapely.wkt.loads("POINT(5.41371 51.85023)"),
-        'St. Andries': shapely.wkt.loads("POINT(5.33567 51.80930)"),
-        'Zaltbommel': shapely.wkt.loads("POINT(5.24990 51.81733)"),
-        'Nijmegen (fixed layer)': shapely.wkt.loads("POINT(5.85458 51.85264)")
+        'Kaub': shapely.geometry.Point(7.764967, 50.085433),
+        'Duisburg-Ruhrort': shapely.geometry.Point(6.727933, 51.455350),
+        'Emmerich': shapely.geometry.Point(6.245600, 51.829250),
+        'Erlecom': shapely.geometry.Point(5.95044, 51.86054),
+        'Nijmegen': shapely.geometry.Point(5.84601, 51.85651),
+        'Ophemert': shapely.geometry.Point(5.41371, 51.85023),
+        'St. Andries': shapely.geometry.Point(5.33567, 51.80930),
+        'Zaltbommel': shapely.geometry.Point(5.24990, 51.81733),
+        'Nijmegen (fixed layer)': shapely.geometry.Point(5.85458, 51.85264)
     }
     # store in a DataFrame
     depth_df = pd.DataFrame(F, columns=['F'])
