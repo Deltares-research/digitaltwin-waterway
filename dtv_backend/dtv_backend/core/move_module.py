@@ -139,7 +139,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
                 shapely.geometry.asShape(dest).y,
             )[2]
 
-            yield self.env.timeout((self.distance / self.current_speed) / 3600)
+            yield self.env.timeout((self.distance / self.current_speed) * 3600) # assuming speed is in km/h, but timeout is in seconds
             self.log_entry("Sailing to start", self.env.now, self.distance, dest)
 
         # Move over the path and log every step
@@ -183,7 +183,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
         logger.debug("  sailing:  " + "%4.2f" % self.current_speed + " m/s")
         logger.debug(
             "  duration: "
-            + "%4.2f" % ((self.distance / self.current_speed) / 3600)
+            + "%4.2f" % ((self.distance / self.current_speed) * 3600) # assuming speed is in km/h, but timeout is in seconds
             + " hrs"
         )
 
@@ -218,11 +218,11 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
             orig,
             self.ActivityID,
         )
-        yield self.env.timeout((distance / self.current_speed) / 3600)
+        yield self.env.timeout((distance / self.current_speed) * 3600) # assuming speed is in km/h, but timeout is in seconds
         self.log_entry(
             "Sailing from node {} to node {} stop".format(origin, destination),
             self.env.now,
-            0,
+            distance,
             dest,
             self.ActivityID,
         )
