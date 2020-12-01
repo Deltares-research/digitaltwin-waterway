@@ -17,7 +17,12 @@ dependencies:
   - scipy
   - setuptools
   - shapely
+  - geos
   - tqdm
+  - jupyter
+  - notebook
+  - jupyterlab
+  - ipython
   - pip:
     - simpy
     - "--editable=git+https://github.com/TUDelft-CITG/OpenCLSim.git#egg=OpenCLSim"
