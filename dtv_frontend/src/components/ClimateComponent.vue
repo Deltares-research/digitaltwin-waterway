@@ -28,18 +28,18 @@
         :min="0"
         :max="600"
         disabled
-        label="Kiel waterlevel"
+        label="Kaub waterlevel"
         thumb-label="always"
-        v-model="kiel"
+        v-model="kaub"
       ></v-slider>
       <v-slider
         inverse-label
         :min="0"
         :max="600"
         disabled
-        label="Neuss waterlevel"
+        label="Duisburg waterlevel"
         thumb-label="always"
-        v-model="neuss"
+        v-model="duisburg"
       ></v-slider>
     </v-card-text>
   </v-card>
@@ -57,11 +57,11 @@ export default {
     nijmegen () {
       return this.rhine / 70
     },
-    kiel () {
-      return this.rhine / 50
-    },
-    neuss () {
+    kaub () {
       return this.rhine / 80
+    },
+    duisburg () {
+      return this.rhine / 50
     }
 
   }

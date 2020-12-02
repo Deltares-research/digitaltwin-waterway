@@ -114,3 +114,46 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     max_draught = min_depth - underkeel_clearance
 
     return max_draught
+
+
+
+def shorted_path_by_dimensions(graph, source, destination, width, height, depth, length):
+    """create a new constrained graph, based on dimensions, of the same type as graph and find the shortest path"""
+    nodes = []
+    edges = []
+    for start_node, end_node, edge in graph.edges(data=True):
+        # GeneralWidth can be missing or None or it should be bigger than width
+        width_ok = (
+            'GeneralWidth' not in edge
+            or np.isnan(edge['GeneralWidth'])
+            or edge['GeneralWidth'] >= width
+        )
+        height_ok = (
+            'GeneralHeight' not in edge
+            or np.isnan(edge['GeneralHeight'])
+            or edge['GeneralHeight'] >= height
+        )
+        depth_ok = (
+            'GeneralDepth' not in edge
+            or edge['GeneralDepth'] >= depth
+            or np.isnan(edge['GeneralDepth'])
+        )
+        length_ok = (
+            'GeneralLength' not in edge
+            or edge['GeneralLength'] >= length
+            or np.isnan(edge['GeneralLength'])
+        )
+        if (all([width_ok, height_ok, depth_ok, length_ok])):
+            edges.append((start_node, end_node))
+            nodes.append(start_node)
+            nodes.append(end_node)
+
+    constrained_graph = graph.__class__()
+
+    for node in nodes:
+        constrained_graph.add_node(node)
+    for edge in edges:
+        constrained_graph.add_edge(edge[0], edge[1])
+
+    path = nx.dijkstra_path(constrained_graph, source, destination, weight='length')
+    return path
