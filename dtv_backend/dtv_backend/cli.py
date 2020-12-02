@@ -2,6 +2,8 @@
 import sys
 import json
 import logging
+import copy
+import datetime
 
 import click
 
@@ -32,10 +34,7 @@ def simulate(input):
     # click.echo("Running a simulation")
     config = json.load(input)
 
-    click.echo(f"fleet {config['fleet']}", )
-    click.echo(f"sites {config['sites']}")
-    click.echo(f"climate {config['climate']}")
-    click.echo(f"activities {config['activities']}")
+    click.echo(f"loaded {list(config.keys())}")
 
     # set up an environment
     env = backend.provide_environment()
@@ -49,8 +48,19 @@ def simulate(input):
         in config['sites']
     ]
 
+    cranes = []
+    for site_feature in config['sites']:
+        crane_feature = copy.deepcopy(site_feature)
+
+        crane_feature['properties']['name'] = 'Crane ' + crane_feature['properties']['name']
+        crane = dtv_backend.core.sites.feature2site(crane_feature, env)
+        cranes.append(crane)
+
     origin = sites[0]
     destination = sites[1]
+
+    crane_origin = cranes[0]
+    crane_destination = cranes[1]
 
     lobith_discharge = config["climate"]["lobith"]
 
@@ -73,11 +83,14 @@ def simulate(input):
         env,
         origin,
         destination,
-        loader=origin,
-        unloader=destination
+        loader=crane_origin,
+        unloader=crane_destination
     )
+    click.echo(f'Simulation starting @ {datetime.datetime.utcfromtimestamp(env.now)}')
     env.run()
-    print(origin.container.get_level())
+    click.echo(f'Simulation finished @ {datetime.datetime.utcfromtimestamp(env.now)}')
+    import pandas as pd
+    print(pd.DataFrame(crane_origin.log))
 
     # activity = config["activities"][0]
     # activity["source"]
