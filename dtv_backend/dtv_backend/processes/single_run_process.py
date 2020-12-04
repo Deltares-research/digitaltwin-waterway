@@ -17,7 +17,7 @@ from dtv_backend.activities.move_activity import MoveActivity
 
 # copy from the openCLSim, in which we should define the move activity using openTNSim
 # move from origin to destination --> determine path
-# move from destination to origin --> determine path 
+# move from destination to origin --> determine path
 def single_run_process(
     env,
     registry,
@@ -28,8 +28,8 @@ def single_run_process(
     loader,
     unloader,
     start_event=None,
-    stop_event=[],
-    requested_resources={},
+    stop_event=None,
+    requested_resources=None,
     postpone_start=False,
 ):
     """Single run activity for the simulation."""
@@ -42,7 +42,8 @@ def single_run_process(
                 ]
             }
         ]
-     
+
+
     single_run = [
         MoveActivity(
             env=env,
