@@ -211,6 +211,7 @@ class Ship(object):
             self.log.append(log_entry(message="Sailing", ship=self, geometry=self.geometry, value=total_distance, timestamp=self.env.now, state='STARTED'))
             yield self.env.timeout(total_distance / self.speed)
             self.log.append(log_entry(message="Sailing", ship=self, geometry=self.geometry, value=total_distance, timestamp=self.env.now, state='STOPPED'))
+
     def load_move_unload(self, source, destination):
         """do a full A to B cycle"""
         yield from self.move_to(source)
