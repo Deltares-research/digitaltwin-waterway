@@ -16,10 +16,12 @@ def path2gdf(path, network):
         # TODO: add geometry to edges
         geometry = shapely.wkt.loads(edge['Wkt'])
         edge['geometry'] = geometry
+        edge['start_node'] = a
+        edge['end_node'] = b
         edges.append(edge)
     gdf = gpd.GeoDataFrame(edges)
     return gdf
-	
+
 
 #%% Visualization of vessel planning
 def get_colors(n):
@@ -136,4 +138,3 @@ def vessel_planning(
         return iplot(fig, filename="news-source")
     else:
         return {"data": traces, "layout": layout}
-
