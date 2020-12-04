@@ -72,7 +72,7 @@ def feature2vessel(feature, env):
         height_empty = height_average - (draught_average - draught_empty)
         height_full = height_average - (draught_average - draught_full)
         logger.info(
-            'computed: height empty %s, full %s',
+            'Defining draught function: height empty %s, full %s',
             height_empty,
             height_full
         )
