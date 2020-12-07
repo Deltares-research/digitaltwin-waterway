@@ -3,6 +3,8 @@ import datetime
 import itertools
 import uuid
 
+import simpy
+
 # global counter that you can iterate over
 COUNT = itertools.count()
 
@@ -17,6 +19,7 @@ class LogDecorator(ContextDecorator):
         self.logbook = logbook
         self.message = message
         self.kwargs = kwargs
+
         self.activity_id = next(COUNT)
 
     def log_entry(self, message=None, timestamp=None, value=None, geometry=None, activity_id=None, activity_state=None, **kwargs):
@@ -33,12 +36,14 @@ class LogDecorator(ContextDecorator):
 
     def __enter__(self):
         """log a start message on entrance"""
+        kwargs = {}
+        kwargs.update(self.kwargs)
         self.log_entry(
             message=self.message,
             timestamp=self.env.now,
             activity_id=self.activity_id,
             state='START',
-            **self.kwargs
+            **self._get_meta()
         )
         return self
 
@@ -49,9 +54,31 @@ class LogDecorator(ContextDecorator):
             timestamp=self.env.now,
             activity_id=self.activity_id,
             state='STOP',
-            **self.kwargs
+            **self._get_meta()
         )
         return False
+
+    def _get_meta(self):
+        """return metadata based on kwargs with some extras:
+        - if value is a container, get the current level
+        - if source/destination is a container, get the current level
+        - if self has a geometry. get the current geometry
+        """
+        kwargs = {}
+        kwargs.update(self.kwargs)
+
+        # store source and destination level
+        for key in ('source', 'destination'):
+            if key in kwargs:
+                if isinstance(kwargs[key], simpy.resources.container.Container):
+                    kwargs[key + '_level'] = kwargs[key].level
+        if 'value' in kwargs:
+            if isinstance(kwargs['value'], simpy.resources.container.Container):
+                kwargs['value'] = kwargs['value'].level
+        if hasattr(self, 'geometry'):
+            kwargs['geometry'] = self.geometry
+        return kwargs
+
 
 
 class HasLog(object):

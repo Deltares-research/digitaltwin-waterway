@@ -138,13 +138,13 @@ def find_closest_edge(G, point):
     distance_edge = np.min(distance)
     return name_edge, distance_edge
 
-
-def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, underkeel_clearance = 0.30
-):
+def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, underkeel_clearance = 0.30):
     """
     compute
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
+    if cache.get((origin.geometry, destination.geometry, lobith_discharge)):
+        return cache.get((origin.geometry, destination.geometry, lobith_discharge))
 
     depth_path = pathlib.Path('~/data/vaarwegen/discharge/depth.csv')
     discharge_df = pd.read_csv(depth_path)
@@ -195,6 +195,9 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
 
     max_draught = min_depth - underkeel_clearance
 
+    # assume graph stays the same
+    cache.set((origin.geometry, destination.geometry, lobith_discharge), max_draught)
+
     return max_draught
 
 
@@ -238,4 +241,10 @@ def shorted_path_by_dimensions(graph, source, destination, width, height, depth,
         constrained_graph.add_edge(edge[0], edge[1])
 
     path = nx.dijkstra_path(constrained_graph, source, destination, weight='length')
+    return path
+
+
+def shorted_path(graph, source, destination):
+    """compute shortest path on a graph"""
+    path = nx.dijkstra_path(graph, source, destination, weight='length')
     return path
