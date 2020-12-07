@@ -2,6 +2,7 @@ import uuid
 import datetime
 import itertools
 
+import numpy as np
 import simpy
 import shapely.geometry
 from pint import UnitRegistry
@@ -15,7 +16,7 @@ ureg = UnitRegistry()
 
 class Operator(dtv_backend.logbook.HasLog):
     """This class represents a fleet operator."""
-    def __init__(self, env, name='Operator', ships=None):
+    def __init__(self, env, name='Operator', ships=None, n_margin=0):
         super().__init__(env=env)
         self.name = name
         if not ships:
@@ -26,6 +27,8 @@ class Operator(dtv_backend.logbook.HasLog):
         self.tasks = simpy.Store(env, capacity=len(ships))
         for ship in ships:
             self.fleet.put(ship)
+        # number of extra tasks to send as a safety margin
+        self.n_margin = n_margin
 
     def send_task(self, task):
         """return send task request"""
@@ -44,9 +47,11 @@ class Operator(dtv_backend.logbook.HasLog):
                 max(ship.max_load for ship in self.fleet.items),
                 source.cargo.level
             )
+            min_load = min(ship.max_load for ship in self.fleet.items)
             # estimate n tasks + 1 reserve
-            n_tasks = (total_work // max_load) + 1
-            print('max_load', max_load, n_tasks, total_work)
+            n_tasks = int(np.ceil(total_work / min_load))
+            # safety margin
+            n_tasks += self.n_margin
             for i in range(n_tasks):
                 if source.cargo.level <= 0:
                     # source port is empty, we're  done
@@ -105,40 +110,58 @@ class Port(dtv_backend.logbook.HasLog):
             # this yields and stops the iteratur
             return self.env.timeout(0)
 
-        source.cargo.get(cargo_to_move)
-        # move it to the destination
-        destination.cargo.put(cargo_to_move)
-        # how long did this take
         # tonne / (tonne / hour) -> s
         load_time = cargo_to_move * ureg.metric_ton / (self.loading_rate * (ureg.metric_ton / ureg.hour))
         load_time = load_time.to(ureg.second).magnitude
         with self.log(
                 message=f"Loading ({source.name}) -> ({destination.name})",
-                destination=destination,
-                source=source,
+                destination=destination.cargo,
+                source=source.cargo,
                 geometry=self.geometry,
-                value=source.cargo.level,
-                source_level=source.cargo.level,
-                destination_level=destination.cargo.level
+                value=source.cargo
         ):
+            source.cargo.get(cargo_to_move)
+            # move it to the destination
+            destination.cargo.put(cargo_to_move)
+            # how long did this take
             yield self.env.timeout(load_time)
 
 
 
 class Ship(dtv_backend.logbook.HasLog):
-    def __init__(self, env, name=None, geometry=None, level=0, capacity=1, speed=1, **kwargs):
+    def __init__(self, env, name=None, geometry=None, level=0, capacity=1, speed=1, climate=None, **kwargs):
         super().__init__(env=env)
         self.name = name
         self.geometry = shapely.geometry.asShape(geometry)
         self.cargo = simpy.Container(self.env, init=level, capacity=capacity)
         self.speed = speed
+        self.climate = climate
         self.metadata = kwargs
 
     @property
     def max_load(self):
         """return the maximum cargo to load"""
-        # TODO: update with maximum draught
+        # independent of trip
         return self.cargo.capacity - self.cargo.level
+
+    def get_max_cargo_for_trip(self, origin, destination, lobith_discharge):
+        max_draught = dtv_backend.fis.determine_max_draught_on_path(
+            self.env.FG,
+            origin,
+            destination,
+            lobith_discharge,
+            underkeel_clearance=0.30
+        )
+        draught_full = self.metadata["Draught loaded [m]"]
+        draught_empty = self.metadata["Draught empty [m]"]
+        if max_draught > draught_full:
+            return self.cargo.capacity
+        if max_draught < draught_empty:
+            return 0
+
+        load_frac = (max_draught - draught_empty) / (draught_full - draught_empty)
+        max_cargo = self.cargo.capacity * load_frac
+        return max_cargo
 
     @property
     def node(self):
@@ -185,22 +208,29 @@ class Ship(dtv_backend.logbook.HasLog):
                 # load the cargo
                 yield self.env.process(port.load(self, port))
 
-    def move_to(self, destination):
+    def move_to(self, destination, limited=False):
         """Move ship to location"""
         graph = self.env.FG
-        width = self.metadata['Beam [m]']
-        length = self.metadata['Length [m]']
-        depth = self.metadata['Draught loaded [m]']
-        height = self.metadata['Height average [m]']
-        path = dtv_backend.fis.shorted_path_by_dimensions(
-            graph,
-            self.node,
-            destination.node,
-            width,
-            height,
-            depth,
-            length
-        )
+        if limited:
+            width = self.metadata['Beam [m]']
+            length = self.metadata['Length [m]']
+            depth = self.metadata['Draught loaded [m]']
+            height = self.metadata['Height average [m]']
+            path = dtv_backend.fis.shorted_path_by_dimensions(
+                graph,
+                self.node,
+                destination.node,
+                width,
+                height,
+                depth,
+                length
+            )
+        else:
+            path = dtv_backend.fis.shorted_path(
+                graph,
+                self.node,
+                destination.node
+            )
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
             distance = graph.edges[edge]['length']
@@ -209,16 +239,34 @@ class Ship(dtv_backend.logbook.HasLog):
             # move to destination
             end_node = graph.nodes[path[-1]]
             self.geometry = end_node['geometry']
-            with self.log(message=f"Sailing ({self.name})", ship=self, geometry=self.geometry, value=total_distance):
+            with self.log(message=f"Sailing ({self.name})", ship=self, geometry=self.geometry, value=total_distance, path=path):
                 yield self.env.timeout(total_distance / self.speed)
 
     def load_move_unload(self, source, destination, max_load=None):
         """do a full A to B cycle"""
         with self.log(message="Cycle"):
-            yield from self.move_to(source)
-            yield from self.load_at(source, max_load)
-            yield from self.move_to(destination)
-            yield from self.unload_at(destination)
+            if source.cargo.level > 0:
+                yield from self.move_to(source)
+
+                # determine what the cargo to take
+                # TODO: move to separate function/prop
+                if (self.climate):
+                    lobith_discharge = self.climate['lobith']
+                    max_cargo_for_trip = self.get_max_cargo_for_trip(
+                        source,
+                        destination,
+                        lobith_discharge
+                    )
+                    # take the minumum of what was requested and what we can take
+                    max_cargo_for_trip = min(max_load, max_cargo_for_trip)
+                else:
+                    #
+                    max_cargo_for_trip = max_load
+                print('max cargo', max_cargo_for_trip)
+                yield from self.load_at(source, max_cargo_for_trip)
+            if self.cargo.level > 0:
+                yield from self.move_to(destination)
+                yield from self.unload_at(destination)
 
     def work_for(self, operator):
         """Work for an operator by listening to tasks"""
