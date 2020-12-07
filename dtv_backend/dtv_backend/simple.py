@@ -28,6 +28,7 @@ class Operator(dtv_backend.logbook.HasLog):
         for ship in ships:
             self.fleet.put(ship)
         # number of extra tasks to send as a safety margin
+        # TODO: implement ship -> operator communication for replanning
         self.n_margin = n_margin
 
     def send_task(self, task):
@@ -43,6 +44,7 @@ class Operator(dtv_backend.logbook.HasLog):
         with self.log(message=f'Plan ({self.name})'):
             total_work = source.cargo.level
             # estimate max_load per task
+            # TODO: implement smarter planning
             max_load = min(
                 max(ship.max_load for ship in self.fleet.items),
                 source.cargo.level
@@ -113,6 +115,7 @@ class Port(dtv_backend.logbook.HasLog):
         # tonne / (tonne / hour) -> s
         load_time = cargo_to_move * ureg.metric_ton / (self.loading_rate * (ureg.metric_ton / ureg.hour))
         load_time = load_time.to(ureg.second).magnitude
+        # log cargo levels before/after
         with self.log(
                 message=f"Loading ({source.name}) -> ({destination.name})",
                 destination=destination.cargo,
@@ -135,6 +138,7 @@ class Ship(dtv_backend.logbook.HasLog):
         self.geometry = shapely.geometry.asShape(geometry)
         self.cargo = simpy.Container(self.env, init=level, capacity=capacity)
         self.speed = speed
+        # TODO: where to put this...
         self.climate = climate
         self.metadata = kwargs
 
@@ -145,6 +149,8 @@ class Ship(dtv_backend.logbook.HasLog):
         return self.cargo.capacity - self.cargo.level
 
     def get_max_cargo_for_trip(self, origin, destination, lobith_discharge):
+        """determin max cargo to take on a trip, given the discharge at lobith"""
+        # TODO: move this out of here?
         max_draught = dtv_backend.fis.determine_max_draught_on_path(
             self.env.FG,
             origin,
@@ -216,6 +222,7 @@ class Ship(dtv_backend.logbook.HasLog):
             length = self.metadata['Length [m]']
             depth = self.metadata['Draught loaded [m]']
             height = self.metadata['Height average [m]']
+            # TODO: validate network dimensions (Duisburg was not reached with Vb)
             path = dtv_backend.fis.shorted_path_by_dimensions(
                 graph,
                 self.node,
@@ -245,6 +252,7 @@ class Ship(dtv_backend.logbook.HasLog):
     def load_move_unload(self, source, destination, max_load=None):
         """do a full A to B cycle"""
         with self.log(message="Cycle"):
+            # Don't sail to empty source
             if source.cargo.level > 0:
                 yield from self.move_to(source)
 
@@ -262,8 +270,8 @@ class Ship(dtv_backend.logbook.HasLog):
                 else:
                     #
                     max_cargo_for_trip = max_load
-                print('max cargo', max_cargo_for_trip)
                 yield from self.load_at(source, max_cargo_for_trip)
+            # Don't sail empty
             if self.cargo.level > 0:
                 yield from self.move_to(destination)
                 yield from self.unload_at(destination)
@@ -277,4 +285,6 @@ class Ship(dtv_backend.logbook.HasLog):
             destination = task.get('destination')
             max_load = task.get('max_load')
             # TODO: consider notifying the operator
+            # Notify operator of load changes so extra tasks can be planned
+            # operator.send_message() or something...
             yield from self.load_move_unload(source, destination, max_load)
