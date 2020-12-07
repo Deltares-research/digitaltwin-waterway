@@ -64,7 +64,7 @@
                 "capacity": 3000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 10
+                "speed": 5
             }
         },
         {
@@ -99,21 +99,12 @@
                 "capacity": 3000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 10
+                "speed": 5
             }
         }
     ],
-    "climate": {
-        "lobith": 1500
-    },
-    "activities": [
-        {
-            "type": "move",
-            "from": "Maasvlakte",
-            "to": "Basel",
-            "mover": "M8",
-            "loader": "Maasvlakte",
-            "unloader": "Basel"
-        }
-    ]
+    "operator": {
+        "name": "Operator",
+        "n_margin": 0
+    }
 }
