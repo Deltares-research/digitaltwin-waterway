@@ -144,7 +144,7 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
     if cache.get((origin.geometry, destination.geometry, lobith_discharge)):
-        return cache.get((origin.geometry, destination.geometry, lobith_discharge))
+        return cache.get((origin.geometry, destination.geometry>, lobith_discharge))
 
     depth_path = pathlib.Path('~/data/vaarwegen/discharge/depth.csv')
     discharge_df = pd.read_csv(depth_path)
@@ -248,3 +248,21 @@ def shorted_path(graph, source, destination):
     """compute shortest path on a graph"""
     path = nx.dijkstra_path(graph, source, destination, weight='length')
     return path
+
+
+def sort_path(path_gdf):
+    """return sorted version of path_gdf"""
+    path_gdf = path_gdf.copy()
+    def invert(row):
+        StartJunctionId = row.StartJunctionId
+        EndJunctionId = row.EndJunctionId
+        row.StartJunctionId = EndJunctionId
+        row.EndJunctionId = StartJunctionId
+        row.geometry = shapely.geometry.LineString(row.geometry.coords[::-1])
+        return row
+    # the start_node and StartJunctionId should match
+    # if not, the path is inverted
+    # we do this by id, because the node geometry and edge geometries do not match
+    to_invert = path_gdf['start_node'] != path_gdf['StartJunctionId']
+    path_gdf.loc[to_invert] = path_gdf.loc[to_invert].apply(invert, axis=1)
+    return path_gdf
