@@ -64,7 +64,7 @@
                 "capacity": 3000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         },
         {
@@ -99,7 +99,7 @@
                 "capacity": 3000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         }
     ],

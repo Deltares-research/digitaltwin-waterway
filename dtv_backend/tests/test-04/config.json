@@ -64,7 +64,7 @@
                 "capacity": 2750,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         },
         {
@@ -99,7 +99,7 @@
                 "capacity": 2750,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         },
         {
@@ -134,7 +134,7 @@
                 "capacity": 2750,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         },
         {
@@ -169,7 +169,7 @@
                 "capacity": 2750,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 5
+                "speed": 3
             }
         },
         {
@@ -204,7 +204,7 @@
                 "capacity": 6000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 4
+                "speed": 2.7
             }
         },
         {
@@ -239,7 +239,7 @@
                 "capacity": 6000,
                 "loading_rate": 1,
                 "unloading_rate": 1,
-                "speed": 4
+                "speed": 2.7
             }
         }
 
