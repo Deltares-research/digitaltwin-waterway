@@ -144,7 +144,7 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
     if cache.get((origin.geometry, destination.geometry, lobith_discharge)):
-        return cache.get((origin.geometry, destination.geometry>, lobith_discharge))
+        return cache.get((origin.geometry, destination.geometry, lobith_discharge))
 
     depth_path = pathlib.Path('~/data/vaarwegen/discharge/depth.csv')
     discharge_df = pd.read_csv(depth_path)
