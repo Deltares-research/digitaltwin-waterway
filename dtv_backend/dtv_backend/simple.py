@@ -281,10 +281,14 @@ class Ship(dtv_backend.logbook.HasLog):
         while True:
             # Get event for message pipe
             task = yield operator.get_task()
+            # Where to get the cargo
             source = task.get('source')
+            # Where to take it
             destination = task.get('destination')
+            # How much
             max_load = task.get('max_load')
-            # TODO: consider notifying the operator
+
+            # TODO: consider notifying the operator on progress
             # Notify operator of load changes so extra tasks can be planned
             # operator.send_message() or something...
             yield from self.load_move_unload(source, destination, max_load)
