@@ -20,7 +20,7 @@ class Locatable:
     """Something with a geometry (geojson format)
 
     geometry: can be a point as well as a polygon
-    
+
     This is a mix-in of openTNSim and openCLSim Locatable"""
 
     def __init__(self, geometry, *args, **kwargs):
@@ -50,11 +50,11 @@ class Locatable:
 #         """Initialization"""
 #         self.compute_v = compute_v
 #         self.wgs84 = pyproj.Geod(ellps="WGS84")
-        
+
 #     @property
 #     def is_loaded(self):
 #         return True if self.container.get_level() > 0 else False
-    
+
 #     @property
 #     def filling_degree(self):
 #         return self.container.get_level() / self.container.get_capacity()
@@ -192,7 +192,7 @@ class Movable(Locatable, TNcore.Routeable, CLcore.Log):
         # compute distance from spherical distance between origin and destination geometry
         orig = self.env.FG.nodes[origin]["geometry"]
         dest = self.env.FG.nodes[destination]["geometry"]
-        
+
         # for DTV changed to capital {L}ength to get the 'real' distances from the graph
         if 'Length' in edge:
             distance = edge['Length']
@@ -366,21 +366,19 @@ class ContainerDependentMovable(Movable, CLcore.HasContainer):
             self.allowable_draught = self.draught_full
         else:
             self.allowable_draught = allowable_draught
-        
+
         # based on the allowable draught derive the allowable capacity
         self.container.allowable_capacity = self.container.get_capacity() * (self.allowable_draught - self.draught_empty) / (self.draught_full - self.draught_empty)
-        
-    
+
+
     @property
     def is_loaded(self):
         return True if self.container.get_level() > 0 else False
-    
+
     @property
     def filling_degree(self):
         return self.container.get_level() / self.container.get_capacity()
-    
+
     @property
     def current_speed(self):
         return self.compute_v(self.container.get_level() / self.container.get_capacity())
-
-

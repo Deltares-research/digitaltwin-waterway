@@ -4,6 +4,8 @@ Created on Mon Nov 23 17:10:36 2020
 
 @author: KLEF
 """
+import pathlib
+
 import numpy as np
 import scipy.interpolate
 import networkx as nx
@@ -12,10 +14,10 @@ import shapely
 import shapely.wkt
 
 
-#%% 
+#%%
 def find_closest_node(G, point):
     """
-    Find the node on graph G that is closest to the given 
+    Find the node on graph G that is closest to the given
     shapely.geometry.Point point
 
     Parameters
@@ -55,23 +57,29 @@ def find_closest_edge(G, point):
 
 
 #%%
-def determine_min_waterdepth_on_path(graph, origin, destination, discharge_df, lobith_discharge):
+def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, underkeel_clearance = 0.30
+):
     """
+    compute
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
-    
-    origin_node = find_closest_node(graph, origin.geometry)[0]
-    destination_node = find_closest_node(graph, destination.geometry)[0]
-    
+
+    depth_path = pathlib.Path('~/data/vaarwegen/discharge/depth.csv')
+    discharge_df = pd.read_csv(depth_path)
+
+    # also return distance
+    origin_node, _ = find_closest_node(graph, origin.geometry)
+    destination_node, _ = find_closest_node(graph, destination.geometry)
+
     # determine path and route (subgraph)
     path = nx.dijkstra_path(graph, origin_node, destination_node, weight='Length')
     route = nx.DiGraph(graph.subgraph(path))
-    
+
     # get the discharge interpolation functions
     discharge_df = discharge_df.rename(columns={'Unnamed: 0': 'Lobith'})
     discharge_df = discharge_df.set_index('Lobith')
     F = discharge_df.apply(lambda series: scipy.interpolate.interp1d(series.index, series.values))
-    
+
     # add some coordinates
     coordinates = {
         'Kaub': shapely.geometry.Point(7.764967, 50.085433),
@@ -90,7 +98,7 @@ def determine_min_waterdepth_on_path(graph, origin, destination, discharge_df, l
     depth_locations_df = pd.DataFrame(data=coordinates.items(), columns=['location', 'geometry']).set_index('location')
     # merge back together
     depth_df = pd.merge(depth_df, depth_locations_df, left_index=True, right_index=True)
-    
+
     # lookup closest locations
     location_edge = {}
     for name, row in depth_df.iterrows():
@@ -99,8 +107,53 @@ def determine_min_waterdepth_on_path(graph, origin, destination, discharge_df, l
     edges_df = pd.DataFrame(location_edge).T.rename(columns={0: 'edge_from', 1: 'edge_to'})
     depth_df = pd.merge(depth_df, edges_df, left_index=True, right_index=True)
     depth_df['on_route'] = depth_df.apply(lambda x: route.has_edge(x.edge_from, x.edge_to), axis=1)
-    
+
     # determine the minimal depth
     min_depth = depth_df[depth_df.on_route].apply(lambda x: x.F(lobith_discharge), axis=1).min()
-    
-    return min_depth
+
+    max_draught = min_depth - underkeel_clearance
+
+    return max_draught
+
+
+
+def shorted_path_by_dimensions(graph, source, destination, width, height, depth, length):
+    """create a new constrained graph, based on dimensions, of the same type as graph and find the shortest path"""
+    nodes = []
+    edges = []
+    for start_node, end_node, edge in graph.edges(data=True):
+        # GeneralWidth can be missing or None or it should be bigger than width
+        width_ok = (
+            'GeneralWidth' not in edge
+            or np.isnan(edge['GeneralWidth'])
+            or edge['GeneralWidth'] >= width
+        )
+        height_ok = (
+            'GeneralHeight' not in edge
+            or np.isnan(edge['GeneralHeight'])
+            or edge['GeneralHeight'] >= height
+        )
+        depth_ok = (
+            'GeneralDepth' not in edge
+            or edge['GeneralDepth'] >= depth
+            or np.isnan(edge['GeneralDepth'])
+        )
+        length_ok = (
+            'GeneralLength' not in edge
+            or edge['GeneralLength'] >= length
+            or np.isnan(edge['GeneralLength'])
+        )
+        if (all([width_ok, height_ok, depth_ok, length_ok])):
+            edges.append((start_node, end_node))
+            nodes.append(start_node)
+            nodes.append(end_node)
+
+    constrained_graph = graph.__class__()
+
+    for node in nodes:
+        constrained_graph.add_node(node)
+    for edge in edges:
+        constrained_graph.add_edge(edge[0], edge[1])
+
+    path = nx.dijkstra_path(constrained_graph, source, destination, weight='length')
+    return path

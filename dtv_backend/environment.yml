@@ -1,0 +1,27 @@
+name: dtv-backend
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - git
+  - pip
+  - DiskCache
+  - click
+  - geojson
+  - geopandas
+  - networkx>=2.4
+  - numpy
+  - pandas
+  - pyproj
+  - requests
+  - scipy
+  - setuptools
+  - shapely
+  - geos
+  - tqdm
+  - jupyter
+  - notebook
+  - jupyterlab
+  - ipython
+  - pip:
+    - simpy

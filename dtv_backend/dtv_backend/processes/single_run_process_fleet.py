@@ -10,20 +10,25 @@ def single_run_process_fleet(fleet, env, origin, destination, loader, unloader):
     single_runs = []
     activities = []
     while_activities = []
-    
+
+    requested_resources = {}
+    registry = {}
+
     for mover in fleet:
         single_run, activity, while_activity  = single_run_process(
-                                                                    name=f"{mover.name} transport process single run",
-                                                                    registry={},
-                                                                    env=env,
-                                                                    origin=origin,
-                                                                    destination=destination,
-                                                                    mover=mover,
-                                                                    loader=loader,
-                                                                    unloader=unloader
-                                                                )
+            name=f"{mover.name} transport process single run",
+            registry=registry,
+            env=env,
+            origin=origin,
+            destination=destination,
+            mover=mover,
+            loader=loader,
+            unloader=unloader,
+            stop_event=[],
+            requested_resources=requested_resources
+        )
         single_runs.append(single_run)
         activities.append(activity)
         while_activities.append(while_activity)
-    
+
     return single_runs, activities, while_activities

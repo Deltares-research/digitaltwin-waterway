@@ -1,0 +1,110 @@
+{
+    "sites": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [4.087406, 51.936737]
+            },
+            "id": "Maasvlakte",
+            "properties": {
+                "name": "Transferium Maasvlakte",
+                "capacity": 10000,
+                "level": 10000,
+                "loading_rate": 1000,
+                "unloading_rate": 1000
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [7.640572, 47.555449]
+            },
+            "id": "Basel",
+            "properties": {
+                "name": "Basel",
+                "capacity": 10000,
+                "level": 0,
+                "loading_rate": 1000,
+                "unloading_rate": 1000
+            }
+        }
+    ],
+    "fleet": [
+        {
+            "type": "Feature",
+            "id": "M8",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [4.087406, 51.936737]
+            },
+            "properties": {
+                "name": "Vessel A",
+                "CEMT-class": "Va",
+                "RWS-class": "M8",
+                "Vessel type": "Motorvessel",
+                "Description (English)": "Large Rhine vessel",
+                "Description (Dutch)": "Groot Rijnschip",
+                "Beam [m]": 11.4,
+                "Beam 10% percentile [m]": 10.6,
+                "Beam 50% percentile [m]": 11.45,
+                "Beam 90% percentile [m]": 11.45,
+                "Length [m]": 110,
+                "Length 10% percentile [m]": 93,
+                "Length 50% percentile [m]": 110,
+                "Length 90% percentile [m]": 110,
+                "Draught loaded [m]": 3.5,
+                "Draught average [m]": 3.14,
+                "Draught empty [m]": 1.4,
+                "Height average [m]": 6.21,
+                "Load Weight average [ton]": 2286,
+                "Load weight maximum [ton]": 2689,
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU",
+                "capacity": 3000,
+                "loading_rate": 1,
+                "unloading_rate": 1,
+                "speed": 3
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "M8",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [4.087406, 51.936737]
+            },
+            "properties": {
+                "name": "Vessel B",
+                "CEMT-class": "Va",
+                "RWS-class": "M8",
+                "Vessel type": "Motorvessel",
+                "Description (English)": "Large Rhine vessel",
+                "Description (Dutch)": "Groot Rijnschip",
+                "Beam [m]": 11.4,
+                "Beam 10% percentile [m]": 10.6,
+                "Beam 50% percentile [m]": 11.45,
+                "Beam 90% percentile [m]": 11.45,
+                "Length [m]": 110,
+                "Length 10% percentile [m]": 93,
+                "Length 50% percentile [m]": 110,
+                "Length 90% percentile [m]": 110,
+                "Draught loaded [m]": 3.5,
+                "Draught average [m]": 3.14,
+                "Draught empty [m]": 1.4,
+                "Height average [m]": 6.21,
+                "Load Weight average [ton]": 2286,
+                "Load weight maximum [ton]": 2689,
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU",
+                "capacity": 3000,
+                "loading_rate": 1,
+                "unloading_rate": 1,
+                "speed": 3
+            }
+        }
+    ],
+    "operator": {
+        "name": "Operator",
+        "n_margin": 0
+    }
+}
