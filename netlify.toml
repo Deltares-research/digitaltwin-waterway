@@ -1,0 +1,7 @@
+[build]
+# Directory to change to before starting a build.
+# This is where we will look for package.json/.nvmrc/etc.
+# If not set, defaults to the root directory.
+base = "dtv-frontend/"
+publish = "dist/"
+command = "npm run build"

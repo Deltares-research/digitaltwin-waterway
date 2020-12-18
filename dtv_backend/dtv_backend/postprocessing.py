@@ -1,10 +1,11 @@
 """Routines for postprocessing the results of OpenCLSim/OpenTNSim"""
+import json
 
+import pandas as pd
 import geopandas as gpd
 import shapely.wkt
 import random
 
-import pandas as pd
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 import plotly.express as px
@@ -42,6 +43,9 @@ def log2gantt(log_df):
     fig = px.timeline(gantt_df, x_start="Start", x_end="Stop", y="Name", color="Actor", opacity=0.3)
     fig.update_yaxes(autorange="reversed")
     return fig
+
+def log2json(log_df):
+    return json.loads(log_df.to_json(orient='records'))
 
 
 #%% Visualization of vessel planning

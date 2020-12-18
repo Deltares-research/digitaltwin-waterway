@@ -12,11 +12,11 @@ def home():
     return {"message": "Welcome to the Digital Twin Fairways"}
 
 
-@dtv.route('/simulate')
+@dtv.route('/simulate', methods=['POST'])
 def simulate():
-    input = flask.request.json()
-    result = dtv_backend.simulate.run()
-    log_json = dtv_backend.posptprocessing.log2json(result['operator'].logbook)
+    config = flask.request.json
+    result = dtv_backend.simulate.run(config)
+    log_json = dtv_backend.postprocessing.log2json(result['operator'].logbook)
     return log_json
 
 
