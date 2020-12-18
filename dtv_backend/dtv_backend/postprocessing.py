@@ -7,6 +7,8 @@ import random
 import pandas as pd
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
+import plotly.express as px
+
 
 def path2gdf(path, network):
     """export a path to a geodataframe"""
@@ -21,6 +23,25 @@ def path2gdf(path, network):
         edges.append(edge)
     gdf = gpd.GeoDataFrame(edges)
     return gdf
+
+def log2gantt(log_df):
+    """convert log data frame to a gantt chart"""
+    log_df['actor_name'] = log_df['Meta'].apply(lambda x:x['actor'].name)
+    log_df['state'] = log_df['Meta'].apply(lambda x:x['state'])
+    gantt_df = pd.DataFrame(
+        log_df.pivot(index='ActivityID', columns='state')[
+            [('Timestamp', 'START'), ('Timestamp', 'STOP'), ('Message', 'START'), ('actor_name', 'START')]
+        ].values,
+        columns=['Start', 'Stop', 'Name', 'Actor']
+    )
+    # TODO: check why operator cycle ends with NaN
+    gantt_df = gantt_df.dropna()
+    # add proper gantt chart headers
+    gantt_df = gantt_df.query('Name != "Cycle"')
+    gantt_df = gantt_df.sort_values(['Start', 'Name'])
+    fig = px.timeline(gantt_df, x_start="Start", x_end="Stop", y="Name", color="Actor", opacity=0.3)
+    fig.update_yaxes(autorange="reversed")
+    return fig
 
 
 #%% Visualization of vessel planning

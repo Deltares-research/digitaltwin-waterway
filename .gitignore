@@ -1,6 +1,11 @@
 # Don't upload results
 notebooks/result
 
+# outputs
+gantt.svg
+gantt.pdf
+logbook.csv
+
 cache
 
 # Byte-compiled / optimized / DLL files
