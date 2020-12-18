@@ -35,8 +35,7 @@ def main():
 def simulate(input):
     """run a simulation"""
 
-
-    logger.info(f"Loading configuration file ⚙")
+    logger.info("Loading configuration file ⚙")
     # read input file
     with open(input.name) as f:
         config = geojson.load(f)

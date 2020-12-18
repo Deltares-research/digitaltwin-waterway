@@ -19,6 +19,7 @@ def simulate():
     log_json = dtv_backend.posptprocessing.log2json(result['operator'].logbook)
     return log_json
 
+
 def create_app():
     """Serve"""
     app = flask.Flask('Digital Twin Fairways')
