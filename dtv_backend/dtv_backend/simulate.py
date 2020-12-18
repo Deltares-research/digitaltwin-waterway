@@ -15,11 +15,7 @@ import dtv_backend.network.network_utilities
 
 logger = logging.getLogger(__name__)
 
-def run(input_path):
-
-    # read input file
-    with open(input_path) as f:
-        config = geojson.load(f)
+def run(config):
 
 
     # always start at now
