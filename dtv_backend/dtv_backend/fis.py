@@ -5,6 +5,7 @@ Created on Mon Nov 23 17:10:36 2020
 @author: KLEF
 """
 import pathlib
+import tempfile
 
 import numpy as np
 import scipy.interpolate
@@ -28,7 +29,12 @@ import pyproj
 
 from diskcache import Cache
 
-cache = Cache(directory='./cache')
+
+try:
+    cache = Cache(directory='./cache')
+except:
+    tmp_dir = tempfile.TemporaryDirectory()
+    cache = Cache(directory=tmp_dir.name)
 
 
 
