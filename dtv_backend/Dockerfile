@@ -40,4 +40,5 @@ RUN pip install -e .
 
 EXPOSE 5000
 
-CMD gunicorn --capture-output --log-level info --error-logfile="-"  --access-logfile="-" -w 4 -b 0.0.0.0:5000 "dtv_backend.server:create_app()"
+# CMD gunicorn --capture-output --log-level info --error-logfile="-"  --access-logfile="-" -w 4 -b 0.0.0.0:5000 "dtv_backend.server:create_app()"
+CMD dtv_backend run --port 5000 --host 0.0.0.0 --no-debugger
