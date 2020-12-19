@@ -1,47 +1,56 @@
 <template>
-  <div v-show="events">
-    <v-slider
-      v-model="shipState"
-      :thumb-size="24"
-      thumb-label="always"
-      :max="events.length"
-      :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
-      @click:prepend='play = !play'
-      class="d-flex-grow pt-6"
-    >
-      <v-avatar size="50px">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
-      </v-avatar>
-    </v-slider>
-    <v-timeline
-      class="fleets pa-0 pr-2"
-      dense
-      clipped
-    >
-    <div
-      v-for="event in events"
-      :key="event.id"
+  <div>
+    <div v-show="events.length === 0">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+
+    </div>
+    <div v-show="events.length > 0">
+      <v-slider
+        v-model="shipState"
+        :thumb-size="24"
+        thumb-label="always"
+        :max="events.length"
+        :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
+        @click:prepend='play = !play'
+        class="d-flex-grow pt-6"
       >
-      <v-timeline-item
-        class="mb-4"
-        :color="eventColor(event)"
-        icon-color="grey lighten-2"
-        small
+        <v-avatar size="50px">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
+        </v-avatar>
+      </v-slider>
+      <v-timeline
+        class="fleets pa-0 pr-2"
+        dense
+        clipped
       >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            {{event.properties.Description}}
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
+        <div
+          v-for="event in events"
+          :key="event.id"
+        >
+          <v-timeline-item
+            class="mb-4"
+            :color="eventColor(event)"
+            icon-color="grey lighten-2"
+            small
           >
-            {{event.properties.Start}}
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-      </div>
-    </v-timeline>
+            <v-row justify="space-between">
+              <v-col cols="7">
+                {{event.properties.Description}}
+              </v-col>
+              <v-col
+                class="text-right"
+                cols="5"
+              >
+                {{event.properties.Start}}
+              </v-col>
+            </v-row>
+          </v-timeline-item>
+        </div>
+      </v-timeline>
+    </div>
   </div>
 </template>
 
@@ -84,9 +93,9 @@ export default {
 </script>
 
 <style>
-.fleets {
-  max-height: 50vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+  .fleets {
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 </style>
