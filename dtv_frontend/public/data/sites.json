@@ -8,7 +8,9 @@
                 "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
                 "name": "Maasvlakte",
                 "capacity": 100000,
-                "level": 5000
+                "level": 5000,
+                "unloading_rate": 1000,
+                "loading_rate": 1000
             },
             "geometry": {
                 "type": "Point",
@@ -25,7 +27,9 @@
                 "ActivityID": null,
                 "name": "Basel",
                 "capacity": 100000,
-                "level": 0
+                "level": 0,
+                "loading_rate": 1000,
+                "unloading_rate": 1000
             },
             "geometry": {
                 "type": "Point",
