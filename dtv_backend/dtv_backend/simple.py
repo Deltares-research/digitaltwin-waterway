@@ -261,10 +261,17 @@ class Ship(dtv_backend.logbook.HasLog):
             else:
                 # extrect the geometry
                 path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
-                # sort
-                sorted_path = dtv_backend.network.network_utilities.sort_path(path_df)
                 # convert to single linestring
-                path_geometry = shapely.ops.linemerge(sorted_path['geometry'].values)
+                path_geometry = shapely.ops.linemerge(path_df['geometry'].values)
+
+                start_point = graph.nodes[path_df.iloc[0]['start_node']]['geometry']
+                end_point = graph.nodes[path_df.iloc[1]['end_node']]['geometry']
+                first_path_point = shapely.geometry.Point(path_geometry.coords[0])
+                start_distance = start_point.distance(first_path_point)
+                end_distance = end_point.distance(first_path_point)
+                if start_distance > end_distance:
+                    # invert geometry
+                    path_geometry = shapely.geometry.LineString(path_geometry.coords[::-1])
 
             with self.log(
                     message="Sailing",
