@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="events">
     <v-slider
       v-model="shipState"
       :thumb-size="24"

@@ -30,8 +30,8 @@ export default {
       markers: {},
       // Start time for animation
       start: null,
-      // run for 30s
-      duration: 30,
+      // run for n seconds
+      duration: 240,
       count: 0,
       trajectory: null,
       trajectoryLength: 0,
@@ -56,7 +56,7 @@ export default {
         _.get(this.results, 'log.features'),
         feature => (
           feature.properties['Actor type'] === 'Ship' &&
-          ['Load', 'Sailing'].includes(feature.properties.Name)
+          ['Load request', 'Unload request', 'Sailing'].includes(feature.properties.Name)
         )
       )
       return ships
@@ -69,7 +69,8 @@ export default {
     ...mapMutations(['setPlay', 'setShipState']),
     clearMarkers () {
       Object.entries(this.markers).forEach(([key, marker]) => {
-        marker.remove()
+        marker.mapboxMarker.remove()
+        this.$destroy(marker)
         delete this.markers[key]
       })
     },
@@ -105,8 +106,7 @@ export default {
       const start = ship.geometry.type === 'Point' ? ship.geometry.coordinates : ship.geometry.coordinates[0]
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
-      mapboxMarker.vueMarker = marker
-      this.markers.[featId] = mapboxMarker
+      this.markers.[featId] = marker
     },
     animate (timestamp) {
       if (this.start === null) {
@@ -132,6 +132,10 @@ export default {
           tNow >= ship.properties['Start Timestamp'] &&
           tNow < ship.properties['Stop Timestamp']
         ) {
+          /* bump the event number */
+          if (this.shipState < parseInt(ship.id)) {
+            this.setShipState(parseInt(ship.id))
+          }
           // animate ship
           const fraction = (
             (tNow - ship.properties['Start Timestamp']) /
@@ -141,14 +145,19 @@ export default {
             const options = { units: 'kilometers' }
             const length = turf.length(ship.geometry, options)
             const along = turf.along(ship.geometry, length * fraction, options)
-            this.markers[ship.id].setLngLat(along.geometry.coordinates)
-            this.markers[ship.id].addTo(this.map)
-          } else {
-            this.markers[ship.id].vueMarker.progress = fraction * 100
-            this.markers[ship.id].addTo(this.map)
+            this.markers[ship.id].mapboxMarker.setLngLat(along.geometry.coordinates)
+            this.markers[ship.id].mapboxMarker.addTo(this.map)
+          } else if (ship.properties.Name === 'Load request') {
+            this.markers[ship.id].mapboxMarker.setLngLat(ship.geometry.coordinates)
+            this.markers[ship.id].progress = fraction * 100
+            this.markers[ship.id].mapboxMarker.addTo(this.map)
+          } else if (ship.properties.Name === 'Unload request') {
+            this.markers[ship.id].mapboxMarker.setLngLat(ship.geometry.coordinates)
+            this.markers[ship.id].progress = 100 - (fraction * 100)
+            this.markers[ship.id].mapboxMarker.addTo(this.map)
           }
         } else {
-          this.markers[ship.id].remove()
+          this.markers[ship.id].mapboxMarker.remove()
         }
       })
     },
@@ -204,31 +213,12 @@ export default {
       this.start = null
       this.clearMarkers()
 
-      /* clear markers */
-      console.log('ships', this.ships)
-
       this.ships.forEach(ship => {
         /* create and remember marker */
         this.createMarker(ship)
       })
 
       requestAnimationFrame(this.animate)
-
-      // Calculate distance from origin to destination. If no distance, then
-      // the cargo should be visualized. If there is a distance, visualize the trip/
-      // TODO: Check origin and destination per session with the true orig and destination (otherwise )
-      // we only have one way trips..
-      /*
-      this.currentDistance = turf.distance(origin.geometry.coordinates, destination.geometry.coordinates, { units: 'kilometers' })
-      this.cargo = _.range([origin.properties.Value], destination.properties.Value, [10])
-      this.count = 0
-      console.log(this.currentDistance, this.cargo)
-      if (this.currentDistance === 0) {
-      } else {
-        this.forward = turf.distance(origin.geometry.coordinates, _.get(this.sites, 'features[0].geometry.coordinates')) === 0
-        requestAnimationFrame(this.animateMarker)
-      }
-       */
     },
     addTrajectory () {
       this.map.addLayer({
