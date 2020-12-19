@@ -47,7 +47,7 @@ def memoize(*args, **kwargs):
     try:
         f = cache.memoize(*args, **kwargs)
     except AttributeError:
-        f = functools.cache
+        f = functools.lru_cache
     return f
 
 
