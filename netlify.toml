@@ -3,5 +3,5 @@
 # This is where we will look for package.json/.nvmrc/etc.
 # If not set, defaults to the root directory.
 base = "dtv_frontend/"
-publish = "dtv_frontend/dist/"
+publish = "dist/"
 command = "npm run build"
