@@ -2,6 +2,8 @@
   <v-mapbox
     id="map"
     ref="map"
+    :zoom="5"
+    :center="[6, 50]"
     :access-token="mapboxAccessToken"
     :preserve-drawing-buffer="true"
     map-style="mapbox://styles/global-data-viewer/cjtss3jfb05w71fmra13u4qqm"
