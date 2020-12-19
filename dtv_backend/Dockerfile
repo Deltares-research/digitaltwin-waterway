@@ -28,8 +28,9 @@ RUN conda update -n base -c defaults conda
 COPY . $HOME/app
 
 WORKDIR $HOME/app
-
-RUN conda env update -f environment.yml
+# this is faster
+RUN conda install --override-channels -c conda-forge git  pip diskcache click geojson geopandas networkx numpy pandas pyproj requests scipy setuptools shapely geos tqdm jupyter notebook jupyterlab ipython
+RUN pip install simpy
 ENV PATH /opt/conda/bin:$PATH
 RUN pip install -e .
 
