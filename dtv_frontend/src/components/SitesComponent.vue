@@ -11,7 +11,7 @@
       </v-card-title>
       <v-card-text>
         <v-slider
-          v-if="site.properties.name === 'Origin'"
+          v-if="site.properties.name === 'Maasvlakte'"
 
           :step="500"
           inverse-label
@@ -20,11 +20,11 @@
           label="cargo in TEU/Tonne"
           thumb-label="always"
 
-          v-model="site.properties.cargo"
+          v-model="site.properties.level"
         ></v-slider>
         <v-slider
-          v-if="site.properties.name === 'Destination'"
-
+          v-if="site.properties.name === 'Basel'"
+          disabled
           :step="500"
           inverse-label
           :min="0"
@@ -32,7 +32,7 @@
           label="capacity in TEU/Tonne"
           thumb-label="always"
 
-          v-model="site.properties.cargo"
+          v-model="site.properties.level"
         ></v-slider>
       </v-card-text>
     </v-card>

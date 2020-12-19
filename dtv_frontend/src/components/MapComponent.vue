@@ -8,7 +8,10 @@
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
   >
-    <v-mapbox-ships-layer v-if="this.features.length > 0" />
+    <v-mapbox-ships-layer
+      v-if="this.features.length > 0"
+      :tStart="this.results.env.epoch"
+      :tStop="this.results.env.now" />
     <v-mapbox-site-layer v-if="this.sites.features" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
@@ -31,7 +34,7 @@ export default {
   computed: {
     ...mapState(['results', 'sites']),
     features () {
-      return _.get(this.results, 'equipment.features', [])
+      return _.get(this.results, 'log.features', [])
     }
   },
   data () {

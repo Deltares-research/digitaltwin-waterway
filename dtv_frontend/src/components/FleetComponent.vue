@@ -84,6 +84,8 @@ export default {
       const ships = await resp.json()
       /* add ship count  */
       ships.forEach((ship) => {
+        ship.capacity = ship['Load Weight average [ton]']
+        ship.name = ship['Description (English)']
         ship.count = 0
       })
       return ships

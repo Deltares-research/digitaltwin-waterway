@@ -8,10 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@turf/turf": "^5.1.6",
     "@mapbox/maki": "^6.2.0",
     "@mdi/font": "^5.8.55",
+    "@turf/turf": "^5.1.6",
     "core-js": "^3.6.5",
+    "d3": "^6.3.1",
+    "d3-scale": "^3.2.3",
     "mapbox-gl": "^1.13.0",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",

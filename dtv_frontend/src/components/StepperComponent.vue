@@ -14,7 +14,7 @@
     </v-stepper-step>
 
     <v-stepper-content step="1">
-      <sites-component class="mb-3"></sites-component>
+      <sites-component class="mb-3" ref="sites"></sites-component>
       <v-btn
         color="primary"
         @click="stepper = 2"
@@ -39,7 +39,7 @@
     </v-stepper-step>
 
     <v-stepper-content step="2" class="stepper-fleet">
-      <fleet-component class="mb-3 d-flex-grow fleets"/>
+      <fleet-component class="mb-3 d-flex-grow fleets" ref="fleet"/>
       <v-row>
         <v-btn
           color="primary"
@@ -99,7 +99,7 @@ import FleetComponent from './FleetComponent'
 import SitesComponent from './SitesComponent'
 import ClimateComponent from './ClimateComponent'
 import ResultComponent from './ResultComponent'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -117,8 +117,38 @@ export default {
     ...mapActions(['fetchResults']),
     startSailing () {
       this.stepper = 4
-      this.fetchResults()
+      this.fetchResults(this.config)
     }
+  },
+  computed: {
+    ...mapState(['sites']),
+    config () {
+      return {
+        sites: this.sites.features,
+        fleet: this.fleet,
+        operator: { name: 'Operator' }
+      }
+    },
+    fleet () {
+      const fleet = []
+      this.$refs.fleet.ships.forEach(ship => {
+        for (var i = 0; i < ship.count; i++) {
+          fleet.push(ship)
+        }
+      })
+      const features = fleet.map((ship, i) => {
+        const geometry = this.sites.features[0].geometry
+        const feature = {
+          type: 'Feature',
+          id: i,
+          geometry: geometry,
+          properties: ship
+        }
+        return feature
+      })
+      return features
+    }
+
   }
 }
 </script>

@@ -2,12 +2,13 @@
     "type": "FeatureCollection",
     "features": [
         {
-            "id": "0",
+            "id": "6dbbbdf4-4589-11e9-a501-b469212bff5b",
             "type": "Feature",
             "properties": {
                 "ActivityID": "f276516f-6b71-4fb2-a792-0789df787270",
-                "id": "6dbbbdf4-4589-11e9-a501-b469212bff5b",
-                "name": "Origin"
+                "name": "Maasvlakte",
+                "capacity": 100000,
+                "level": 5000
             },
             "geometry": {
                 "type": "Point",
@@ -18,12 +19,13 @@
             }
         },
         {
-            "id": "1",
+            "id": "6dbbbdf5-4589-11e9-82b2-b469212bff5b",
             "type": "Feature",
             "properties": {
                 "ActivityID": null,
-                "id": "6dbbbdf5-4589-11e9-82b2-b469212bff5b",
-                "name": "Destination"
+                "name": "Basel",
+                "capacity": 100000,
+                "level": 0
             },
             "geometry": {
                 "type": "Point",

@@ -4,7 +4,7 @@
       v-model="shipState"
       :thumb-size="24"
       thumb-label="always"
-      :max="states.length"
+      :max="events.length"
       :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
       @click:prepend='play = !play'
       class="d-flex-grow pt-6"
@@ -19,25 +19,24 @@
       clipped
     >
     <div
-      v-for="state in states"
-      :key="state.id"
+      v-for="event in events"
+      :key="event.id"
       >
       <v-timeline-item
-        v-if="state.properties.ActivityState === 'START'"
         class="mb-4"
-        :color="stateColor(state.id)"
+        :color="eventColor(event)"
         icon-color="grey lighten-2"
         small
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            {{state.properties.Message}} [value: {{ state.properties.Value}}]
+            {{event.properties.Description}}
           </v-col>
           <v-col
             class="text-right"
             cols="5"
           >
-            {{state.properties.Timestamp}}
+            {{event.properties.Start}}
           </v-col>
         </v-row>
       </v-timeline-item>
@@ -52,7 +51,6 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
   data: () => ({
-    events: [],
     input: null,
     nonce: 0
   }),
@@ -67,15 +65,19 @@ export default {
       get () { return this.$store.state.shipState },
       set (value) { this.setShipState(value) }
     },
-    states () {
-      return _.get(this.results, 'equipment.features', [])
+    events () {
+      return _.get(this.results, 'log.features', [])
     }
   },
   methods: {
     ...mapMutations(['setPlay', 'setShipState']),
-    stateColor (stateId) {
-      stateId = parseInt(stateId)
-      return stateId >= this.shipState ? 'grey' : 'blue'
+    eventColor (event) {
+      const colors = {
+        Ship: 'blue',
+        Port: 'green',
+        Operator: 'purple'
+      }
+      return colors[event.properties.Actor] || 'grey'
     }
   }
 }

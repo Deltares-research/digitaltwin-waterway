@@ -11,22 +11,32 @@ export default new Vuex.Store({
     play: false
   },
   actions: {
-    async fetchResults () {
-      const resp = await fetch('data/sample-result.json')
+    async fetchResults ({ commit }, config) {
+      console.log('config', config)
+      const request = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config) // body data type must match "Content-Type" header
+      }
+      console.log('env', process.env)
+      const apiUrl = process.env.VUE_APP_API_URL
+      const resp = await fetch(`${apiUrl}/simulate`, request)
       const results = await resp.json()
-      this.commit('setResults', results)
+      commit('setResults', results)
     },
-    async fetchSites () {
+    async fetchSites ({ commit }) {
       const resp = await fetch('data/sites.json')
       const sites = await resp.json()
       console.log('sites', sites)
       sites.features = sites.features.map(
         feature => {
-          feature.properties.cargo = 0
           return feature
         }
       )
-      this.commit('setSites', sites)
+      commit('setSites', sites)
     }
   },
   mutations: {

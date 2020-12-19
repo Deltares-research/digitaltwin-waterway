@@ -8,8 +8,8 @@
       <v-slider
         :step="500"
         inverse-label
-        :min="0"
-        :max="30000"
+        :min="10000"
+        :max="15000"
         label="Rhine discharge"
         thumb-label="always"
         v-model="rhine"
@@ -50,18 +50,33 @@ export default {
   name: 'ClimateComponent',
   data () {
     return {
-      rhine: 0
+      rhine: 15000
     }
   },
   computed: {
-    nijmegen () {
-      return this.rhine / 70
+    nijmegen: {
+      get () {
+        return this.rhine / 70
+      },
+      set (val) {
+
+      }
     },
-    kaub () {
-      return this.rhine / 80
+    kaub: {
+      get () {
+        return this.rhine / 80
+      },
+      set (val) {
+
+      }
     },
-    duisburg () {
-      return this.rhine / 50
+    duisburg: {
+      get () {
+        return this.rhine / 50
+      },
+      set (val) {
+
+      }
     }
 
   }
