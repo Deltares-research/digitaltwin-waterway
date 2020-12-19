@@ -33,8 +33,7 @@ from diskcache import Cache
 try:
     cache = Cache(directory='./cache')
 except:
-    tmp_dir = tempfile.TemporaryDirectory()
-    cache = Cache(directory=tmp_dir.name)
+    cache = {}
 
 
 
@@ -42,6 +41,15 @@ logger = logging.getLogger(__name__)
 
 # define the coorinate system
 geod = pyproj.Geod(ellps="WGS84")
+
+def memoize(*args, **kwargs):
+    """decorate with caching"""
+    try:
+        f = cache.memoize(*args, **kwargs)
+    except AttributeError:
+        f = functools.cache
+    return f
+
 
 
 # The network version 0.1 contains the lat/lon distance in a length property.
@@ -59,7 +67,7 @@ def edge_length(edge):
 # now create the function can load the network
 
 # store the result so it will immediately give a result
-@cache.memoize(expire=3600 * 24)
+@memoize(expire=3600 * 24)
 def load_fis_network(url):
     """load the topological fairway information system network"""
 
@@ -202,7 +210,7 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     max_draught = min_depth - underkeel_clearance
 
     # assume graph stays the same
-    cache.set((origin.geometry, destination.geometry, lobith_discharge), max_draught)
+    cache[(origin.geometry, destination.geometry, lobith_discharge)] = max_draught
 
     return max_draught
 
