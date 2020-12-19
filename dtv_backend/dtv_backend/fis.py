@@ -71,7 +71,7 @@ def edge_length(edge):
 def load_fis_network(url):
     """load the topological fairway information system network"""
 
-    logger.info(f'storing results in {cache.directory}')
+    logger.info(f'storing results in {cache}')
 
     # get the data from the url
     resp = requests.get(url)
