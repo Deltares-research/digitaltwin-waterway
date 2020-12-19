@@ -20,6 +20,7 @@
     "Load Weight average [ton]": 312,
       "Load weight maximum [ton]": 367,
       "capacity":350,
+      "speed": 5,
     "image": "data:image/jpeg;base64,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"
   },
   {
@@ -43,6 +44,7 @@
     "Load Weight average [ton]": 490,
       "Load weight maximum [ton]": 577,
       "capacity": 655,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -65,6 +67,7 @@
     "Height average [m]": 5.32,
       "Load Weight average [ton]": 677,
       "Load weight maximum [ton]": 796,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -87,6 +90,7 @@
     "Height average [m]": 5.32,
     "Load Weight average [ton]": 808,
       "Load weight maximum [ton]": 951,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -108,7 +112,8 @@
     "Draught empty [m]": 1.2,
     "Height average [m]": 4.95,
     "Load Weight average [ton]": 995,
-    "Load weight maximum [ton]": 1171,
+      "Load weight maximum [ton]": 1171,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -131,6 +136,7 @@
     "Height average [m]": 5.4,
     "Load Weight average [ton]": 1272,
     "Load weight maximum [ton]": 1497,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -153,6 +159,7 @@
     "Height average [m]": 5.59,
     "Load Weight average [ton]": 1722,
     "Load weight maximum [ton]": 2026,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -175,6 +182,7 @@
     "Height average [m]": 6.21,
     "Load Weight average [ton]": 2286,
     "Load weight maximum [ton]": 2689,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -197,6 +205,7 @@
     "Height average [m]": 6.36,
     "Load Weight average [ton]": 3315,
     "Load weight maximum [ton]": 3900,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -219,6 +228,7 @@
     "Height average [m]": 7.18,
     "Load Weight average [ton]": 3342,
     "Load weight maximum [ton]": 3932,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -241,6 +251,7 @@
     "Height average [m]": 7.29,
     "Load Weight average [ton]": 4408,
     "Load weight maximum [ton]": 5186,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -263,6 +274,7 @@
     "Height average [m]": 8.37,
     "Load Weight average [ton]": 5015,
     "Load weight maximum [ton]": 5900,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -285,6 +297,7 @@
     "Height average [m]": 4.27,
     "Load Weight average [ton]": 629,
     "Load weight maximum [ton]": 740,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -307,6 +320,7 @@
     "Height average [m]": 4.27,
     "Load Weight average [ton]": 647,
     "Load weight maximum [ton]": 761,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -329,6 +343,7 @@
     "Height average [m]": 5.4,
     "Load Weight average [ton]": 1535,
     "Load weight maximum [ton]": 1806,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -351,6 +366,7 @@
     "Height average [m]": 6.5,
     "Load Weight average [ton]": 4451,
     "Load weight maximum [ton]": 5236,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -373,6 +389,7 @@
     "Height average [m]": 5.4,
     "Load Weight average [ton]": 1921,
     "Load weight maximum [ton]": 2260,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -395,6 +412,7 @@
     "Height average [m]": 6.5,
     "Load Weight average [ton]": 4636,
     "Load weight maximum [ton]": 5454,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -417,6 +435,7 @@
     "Height average [m]": 6.5,
     "Load Weight average [ton]": 6923,
     "Load weight maximum [ton]": 8145,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -439,6 +458,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 85,
     "Load weight maximum [ton]": 100,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -461,6 +481,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 357,
     "Load weight maximum [ton]": 420,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -483,6 +504,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 544,
     "Load weight maximum [ton]": 640,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -505,6 +527,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 804,
     "Load weight maximum [ton]": 946,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -527,6 +550,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 1256,
     "Load weight maximum [ton]": 1478,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -549,6 +573,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": 1893,
     "Load weight maximum [ton]": 2227,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -571,6 +596,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": null,
     "Load weight maximum [ton]": null,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -593,6 +619,7 @@
     "Height average [m]": 6.02,
     "Load Weight average [ton]": null,
     "Load weight maximum [ton]": null,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -615,6 +642,7 @@
     "Height average [m]": 6.93,
     "Load Weight average [ton]": 4671,
     "Load weight maximum [ton]": 5495,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -637,6 +665,7 @@
     "Height average [m]": 6.93,
     "Load Weight average [ton]": 4761,
     "Load weight maximum [ton]": 5601,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -659,6 +688,7 @@
     "Height average [m]": 9.35,
     "Load Weight average [ton]": 9508,
     "Load weight maximum [ton]": 11186,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -681,6 +711,7 @@
     "Height average [m]": 9.35,
     "Load Weight average [ton]": 14019,
     "Load weight maximum [ton]": 16493,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   },
   {
@@ -703,6 +734,7 @@
     "Height average [m]": 9.35,
     "Load Weight average [ton]": 14243,
     "Load weight maximum [ton]": 16757,
+      "speed": 5,
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU"
   }
 ]
