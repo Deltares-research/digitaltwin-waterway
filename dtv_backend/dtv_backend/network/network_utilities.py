@@ -169,12 +169,26 @@ def path2gdf(path, graph):
         start_point = graph.nodes[a]['geometry']
         edge_geom = shapely.wkt.loads(edge['Wkt'])
         end_point = graph.nodes[b]['geometry']
-        geometry = shapely.geometry.LineString([
-            *start_point.coords,
-            *edge_geom.coords,
-            *end_point.coords
-        ])
 
+        first_edge_point = shapely.geometry.Point(edge_geom.coords[0])
+        start_distance = start_point.distance(first_edge_point)
+        end_distance = end_point.distance(first_edge_point)
+
+        # correct order
+        if (start_distance < end_distance):
+            geometry = shapely.geometry.LineString([
+                *start_point.coords,
+                *edge_geom.coords,
+                *end_point.coords
+            ])
+        # inverted
+        else:
+            # invert edge coordinates
+            geometry = shapely.geometry.LineString([
+                *start_point.coords,
+                *edge_geom.coords[::-1],
+                *end_point.coords
+            ])
         edge['geometry'] = geometry
         edge['start_node'] = a
         edge['end_node'] = b
