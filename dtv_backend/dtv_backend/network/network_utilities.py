@@ -10,6 +10,7 @@ import numpy as np
 import scipy.interpolate
 import networkx as nx
 import pandas as pd
+import geopandas as gpd
 import shapely
 import shapely.wkt
 
@@ -157,3 +158,44 @@ def shorted_path_by_dimensions(graph, source, destination, width, height, depth,
 
     path = nx.dijkstra_path(constrained_graph, source, destination, weight='length')
     return path
+
+
+def path2gdf(path, graph):
+    """export a path to a geodataframe"""
+    edges = []
+    for a, b in zip(path[:-1], path[1:]):
+        edge = graph.edges[a, b]
+        # make sure geometries always start and end with node geometry
+        start_point = graph.nodes[a]['geometry']
+        edge_geom = shapely.wkt.loads(edge['Wkt'])
+        end_point = graph.nodes[b]['geometry']
+        geometry = shapely.geometry.LineString([
+            *start_point.coords,
+            *edge_geom.coords,
+            *end_point.coords
+        ])
+
+        edge['geometry'] = geometry
+        edge['start_node'] = a
+        edge['end_node'] = b
+        edges.append(edge)
+    gdf = gpd.GeoDataFrame(edges)
+    return gdf
+
+
+def sort_path(path_gdf):
+    """return sorted version of path_gdf"""
+    path_gdf = path_gdf.copy()
+    def invert(row):
+        StartJunctionId = row.StartJunctionId
+        EndJunctionId = row.EndJunctionId
+        row.StartJunctionId = EndJunctionId
+        row.EndJunctionId = StartJunctionId
+        row.geometry = shapely.geometry.LineString(row.geometry.coords[::-1])
+        return row
+    # the start_node and StartJunctionId should match
+    # if not, the path is inverted
+    # we do this by id, because the node geometry and edge geometries do not match
+    to_invert = path_gdf['start_node'] != path_gdf['StartJunctionId']
+    path_gdf.loc[to_invert] = path_gdf.loc[to_invert].apply(invert, axis=1)
+    return path_gdf

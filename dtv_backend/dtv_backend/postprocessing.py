@@ -1,6 +1,7 @@
 """Routines for postprocessing the results of OpenCLSim/OpenTNSim"""
 import json
 
+import numpy as np
 import pandas as pd
 import geopandas as gpd
 import shapely.wkt
@@ -10,20 +11,6 @@ import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
 import plotly.express as px
 
-
-def path2gdf(path, network):
-    """export a path to a geodataframe"""
-    edges = []
-    for a, b in zip(path[:-1], path[1:]):
-        edge = network.edges[a, b]
-        # TODO: add geometry to edges
-        geometry = shapely.wkt.loads(edge['Wkt'])
-        edge['geometry'] = geometry
-        edge['start_node'] = a
-        edge['end_node'] = b
-        edges.append(edge)
-    gdf = gpd.GeoDataFrame(edges)
-    return gdf
 
 def log2gantt(log_df):
     """convert log data frame to a gantt chart"""
@@ -45,7 +32,42 @@ def log2gantt(log_df):
     return fig
 
 def log2json(log_df):
-    return json.loads(log_df.to_json(orient='records'))
+    """convert a log dataframe to a pivoted geojson"""
+    log_df['actor_name'] = log_df['Meta'].apply(lambda x:x['actor'].name)
+    log_df['actor_type'] = log_df['Meta'].apply(
+        lambda x:type(x['actor']).__name__
+    )
+    log_df['state'] = log_df['Meta'].apply(lambda x:x['state'])
+    log_df['description'] = log_df['Meta'].apply(lambda x:x['description'])
+
+    # rename to these columns
+    columns = ['Start', 'Stop', 'Name', 'Description', 'Actor', 'Actor type', 'Geometry']
+    pivot_df = pd.DataFrame(
+        # the pivot creates a multi-index, pick to create a single index
+        log_df.pivot(index='ActivityID', columns='state')[
+            [
+                ('Timestamp', 'START'),
+                ('Timestamp', 'STOP'),
+                ('Message', 'START'),
+                ('description', 'START'),
+                ('actor_name', 'START'),
+                ('actor_type', 'START'),
+                ('geometry', 'START')
+            ]
+        ].values,
+        columns=columns
+    )
+
+
+    pivot_df['Start Timestamp'] = pivot_df['Start'].values.astype(np.int64) // 10 ** 9
+    pivot_df['Stop Timestamp'] = pivot_df['Stop'].values.astype(np.int64) // 10 ** 9
+
+    export_columns = [*columns, 'Start Timestamp', 'Stop Timestamp']
+    pivot_df['Start'] = pivot_df['Start'].dt.strftime('%Y-%m-%d %H:%M:%S')
+    pivot_df['Stop'] = pivot_df['Stop'].dt.strftime('%Y-%m-%d %H:%M:%S')
+    pivot_df = gpd.GeoDataFrame(pivot_df[export_columns], geometry='Geometry')
+    json_str = pivot_df.to_json()
+    return json.loads(json_str)
 
 
 #%% Visualization of vessel planning

@@ -41,7 +41,10 @@ class Operator(dtv_backend.logbook.HasLog):
 
     def plan(self, source, destination):
         """A process which prepares tasks."""
-        with self.log(message=f'Plan ({self.name})'):
+        with self.log(
+                message="Plan",
+                description=f'Plan ({self.name})'
+        ):
             total_work = source.cargo.level
             # estimate max_load per task
             # TODO: implement smarter planning
@@ -59,7 +62,10 @@ class Operator(dtv_backend.logbook.HasLog):
                     # source port is empty, we're  done
                     break
                 # Send out tasks
-                with self.log(message=f"Sending task ({self.name})", max_load=max_load):
+                with self.log(
+                        message="Task",
+                        description=f"Sending task ({self.name})", max_load=max_load
+                ):
                     # Time it takes to send an assignment (1 hour)
                     yield self.env.timeout(3600)
                     self.send_task({
@@ -117,7 +123,8 @@ class Port(dtv_backend.logbook.HasLog):
         load_time = load_time.to(ureg.second).magnitude
         # log cargo levels before/after
         with self.log(
-                message=f"Loading ({source.name}) -> ({destination.name})",
+                message="Load",
+                description=f"Loading ({source.name}) -> ({destination.name})",
                 destination=destination.cargo,
                 source=source.cargo,
                 geometry=self.geometry,
@@ -183,7 +190,8 @@ class Ship(dtv_backend.logbook.HasLog):
 
         """
         with self.log(
-                message=f"Load request ({port.name})",
+                message="Load request",
+                description=f"Load request ({port.name})",
                 ship=self,
                 crane=port.crane,
                 geometry=self.geometry
@@ -203,10 +211,11 @@ class Ship(dtv_backend.logbook.HasLog):
 
         """
         with self.log(
-            message=f"Unload request ({port.name})",
-            ship=self,
-            crane=port.crane,
-            geometry=self.geometry
+                message="Unload request",
+                description=f"Unload request ({port.name})",
+                ship=self,
+                crane=port.crane,
+                geometry=self.geometry
         ):
             with port.crane.request() as request:
                 # wait for the crane to become available
@@ -246,12 +255,30 @@ class Ship(dtv_backend.logbook.HasLog):
             # move to destination
             end_node = graph.nodes[path[-1]]
             self.geometry = end_node['geometry']
-            with self.log(message=f"Sailing ({self.name})", ship=self, geometry=self.geometry, value=total_distance, path=path):
+
+            if len(path) < 2:
+                path_geometry = self.geometry
+            else:
+                # extrect the geometry
+                path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
+                # sort
+                sorted_path = dtv_backend.network.network_utilities.sort_path(path_df)
+                # convert to single linestring
+                path_geometry = shapely.ops.linemerge(sorted_path['geometry'].values)
+
+            with self.log(
+                    message="Sailing",
+                    description=f"Sailing ({self.name})",
+                    ship=self,
+                    geometry=path_geometry,
+                    value=total_distance,
+                    path=path
+            ):
                 yield self.env.timeout(total_distance / self.speed)
 
     def load_move_unload(self, source, destination, max_load=None):
         """do a full A to B cycle"""
-        with self.log(message="Cycle"):
+        with self.log(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
             if source.cargo.level > 0:
                 yield from self.move_to(source)

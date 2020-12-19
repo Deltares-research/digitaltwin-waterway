@@ -84,8 +84,15 @@ class LogDecorator(ContextDecorator):
 class HasLog(object):
     """class that provides a log function for building a logbook"""
     # global logbook
-    logbook = []
     def __init__(self, env, *args, **kwargs):
+        if hasattr(env, 'logbook'):
+            # get logbook from environment
+            self.logbook = env.logbook
+        else:
+            # share logbook with environment
+            self.logbook = []
+            env.logbook = self.logbook
+
         self.env = env
         self.id = str(uuid.uuid4())
 
