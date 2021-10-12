@@ -27,6 +27,7 @@ const Template = (args) => ({
       <button @click="play = true">play</button>
       <button @click="play = false">pause</button>
       <input type="range" min="0" max="100" v-model="progress" />
+      {{ progress }}
       <v-mapbox
         style="width:80vw;height:80vh"
         id="map"
@@ -50,7 +51,7 @@ const Template = (args) => ({
           :results="response"
           :sites="sites"
           :play="play"
-          :progress="progress / 1000"
+          :progress="progress / 100"
           @change="$event => progress = $event"
         />
       </v-mapbox>
