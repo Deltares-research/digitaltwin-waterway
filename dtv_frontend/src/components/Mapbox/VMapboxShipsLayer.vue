@@ -71,8 +71,11 @@ export default {
         this.animate()
       }
     },
-    totalProgress (value) {
+    totalProgress () {
       this.moveShips()
+    },
+    shipState (value) {
+      this.$emit('shipStateChange', value)
     }
   },
   computed: {

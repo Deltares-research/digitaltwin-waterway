@@ -11,10 +11,16 @@
     :trackResize="'false'"
   >
     <v-mapbox-ships-layer
-      v-if="this.features.length > 0"
-      :tStart="this.results.env.epoch"
-      :tStop="this.results.env.now" />
-    <v-mapbox-site-layer v-if="this.sites.features" :sites="sites" />
+      v-if="features.length > 0"
+      :tStart="results.env.epoch"
+      :tStop="results.env.now"
+      :results="results"
+      :sites="sites"
+      :play="play"
+      @shipStateChange="onShipStateChange"
+    />
+    <!-- :progress="progress / 100" -->
+    <v-mapbox-site-layer v-if="sites.features" :sites="sites" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
       position="bottom-right"
@@ -23,7 +29,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import VMapboxSiteLayer from './Mapbox/VMapboxSiteLayer'
 import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
 import _ from 'lodash'
@@ -34,7 +40,7 @@ export default {
     VMapboxShipsLayer
   },
   computed: {
-    ...mapState(['results', 'sites']),
+    ...mapState(['results', 'sites', 'play']),
     features () {
       return _.get(this.results, 'log.features', [])
     }
@@ -43,6 +49,13 @@ export default {
     return {
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
       map: null
+    }
+  },
+  methods: {
+    ...mapMutations(['setPlay', 'setShipState']),
+    onShipStateChange (value) {
+      console.log(value)
+      this.setShipState(value)
     }
   }
 }
