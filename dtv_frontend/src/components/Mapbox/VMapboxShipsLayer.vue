@@ -15,14 +15,47 @@ const ShipIconClass = Vue.extend(ShipIcon)
 
 export default {
   inject: ['getMap'],
-  props: [
-    'tStart',
-    'tStop',
-    'results',
-    'sites',
-    'play',
-    'progress'
-  ],
+  props: {
+    tStart: {
+      type: Number,
+      required: true
+    },
+    tStop: {
+      type: Number,
+      required: true
+    },
+    results: {
+      type: Object,
+      required: true
+    },
+    sites: {
+      type: Object,
+      required: true
+    },
+    play: {
+      type: Boolean,
+      required: true
+    },
+    progress: {
+      type: Number,
+      default: 0
+    },
+    // run for n miliseconds
+    duration: {
+      type: Number,
+      default: 240000
+    }
+  },
+  data () {
+    return {
+      markers: {},
+      shipState: 0,
+      initialized: false,
+      startTime: null,
+      internalProgress: 0,
+      persistedProgress: 0
+    }
+  },
   watch: {
     play () {
       if (this.play) {
@@ -40,26 +73,6 @@ export default {
     },
     totalProgress (value) {
       this.moveShips()
-    }
-  },
-  data () {
-    return {
-      markers: {},
-      count: 0,
-      trajectory: null,
-      trajectoryLength: 0,
-      cargo: 0,
-      distance: 0,
-      forward: true,
-      maxCargo: 0,
-      shipState: 0,
-      initialized: false,
-
-      // run for n miliseconds
-      startTime: null,
-      duration: 240000,
-      internalProgress: 0,
-      persistedProgress: 0
     }
   },
   computed: {
@@ -93,17 +106,6 @@ export default {
         this.$destroy(marker)
         delete this.markers[key]
       })
-    },
-    setFeatures () {
-      const options = { units: 'kilometers' }
-      let points = this.results.path.features.map(feat => {
-        return _.get(feat, 'geometry.coordinates')
-      })
-      points = points.flat()
-      this.trajectory = turf.lineString(points)
-      this.trajectoryLength = turf.length(this.trajectory, options)
-      const cargo = this.results.equipment.features.map(feat => parseFloat(feat.properties.Value))
-      this.maxCargo = Math.max(...cargo)
     },
     createMarker (ship) {
       const featId = ship.id
@@ -140,9 +142,9 @@ export default {
         this.startTime = timestamp
       }
 
-      const currentDuration = timestamp - this.startTime
+      const duration = timestamp - this.startTime
 
-      this.internalProgress = currentDuration / this.duration
+      this.internalProgress = duration / this.duration
 
       if (this.totalProgress >= 1) {
         return
@@ -189,8 +191,6 @@ export default {
       )
 
       const tNow = timeScale(this.totalProgress)
-
-      console.log(this.tStart, tNow, this.tStop)
 
       // lookup ships
       // set state to what it should be
