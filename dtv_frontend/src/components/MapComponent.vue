@@ -14,7 +14,7 @@
       v-if="this.features.length > 0"
       :tStart="this.results.env.epoch"
       :tStop="this.results.env.now" />
-    <v-mapbox-site-layer v-if="this.sites.features" />
+    <v-mapbox-site-layer v-if="this.sites.features" :sites="sites" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
       position="bottom-right"

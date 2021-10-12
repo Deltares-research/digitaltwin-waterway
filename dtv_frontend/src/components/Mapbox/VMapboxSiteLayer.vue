@@ -3,18 +3,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   inject: ['getMap'],
-  props: {
-  },
+  props: ['sites'],
   data () {
     return {
     }
-  },
-  computed: {
-    ...mapState(['sites'])
   },
   methods: {
     deferredMountedTo () {

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+// import { mapState, mapMutations } from 'vuex'
 import * as turf from '@turf/turf'
 import Vue from 'vue'
 import mapboxgl from 'mapbox-gl'
@@ -15,42 +15,54 @@ const ShipIconClass = Vue.extend(ShipIcon)
 
 export default {
   inject: ['getMap'],
-  props: ['tStart', 'tStop'],
+  props: [
+    'tStart',
+    'tStop',
+    'results',
+    'sites',
+    'play',
+    'progress'
+  ],
   watch: {
-    play: {
-      handler () {
-        if (this.play) {
-          this.startSailing()
-        }
+    play () {
+      if (this.play) {
+        this.start()
       }
+    },
+    progress (value) {
+      this.startTime = 0
+      this.persistedProgress = value
+      this.internalProgress = 0
+
+      if (!this.play) {
+        this.animate()
+      }
+    },
+    totalProgress (value) {
+      this.moveShips()
     }
   },
   data () {
     return {
       markers: {},
-      // Start time for animation
-      start: null,
-      // run for n seconds
-      duration: 240,
       count: 0,
       trajectory: null,
       trajectoryLength: 0,
       cargo: 0,
       distance: 0,
       forward: true,
-      maxCargo: 0
+      maxCargo: 0,
+      shipState: 0,
+      initialized: false,
+
+      // run for n miliseconds
+      startTime: null,
+      duration: 240000,
+      internalProgress: 0,
+      persistedProgress: 0
     }
   },
   computed: {
-    ...mapState(['results', 'sites']),
-    play: {
-      get () { return this.$store.state.play },
-      set (value) { this.setPlay(value) }
-    },
-    shipState: {
-      get () { return this.$store.state.shipState },
-      set (value) { this.setShipState(value) }
-    },
     ships () {
       const ships = _.filter(
         _.get(this.results, 'log.features'),
@@ -60,13 +72,21 @@ export default {
         )
       )
       return ships
+    },
+    totalProgress () {
+      return this.persistedProgress + this.internalProgress
     }
   },
   mounted () {
     this.map = this.getMap()
   },
   methods: {
-    ...mapMutations(['setPlay', 'setShipState']),
+    deferredMountedTo () {
+      this.map = this.getMap()
+    },
+    setShipState (value) {
+      this.shipState = value
+    },
     clearMarkers () {
       Object.entries(this.markers).forEach(([key, marker]) => {
         marker.mapboxMarker.remove()
@@ -106,25 +126,72 @@ export default {
       const start = ship.geometry.type === 'Point' ? ship.geometry.coordinates : ship.geometry.coordinates[0]
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
-      this.markers.[featId] = marker
+      this.markers[featId] = marker
     },
     animate (timestamp) {
-      if (this.start === null) {
-        this.start = timestamp
-      }
-
-      if (timestamp > (this.start + (this.duration * 1000))) {
-        this.play = false
+      if (!this.play) {
+        this.persistedProgress = this.persistedProgress + this.internalProgress
+        this.internalProgress = 0
+        this.startTime = null
         return
       }
+
+      if (!this.startTime) {
+        this.startTime = timestamp
+      }
+
+      const currentDuration = timestamp - this.startTime
+
+      this.internalProgress = currentDuration / this.duration
+
+      if (this.totalProgress >= 1) {
+        return
+      }
+
       requestAnimationFrame(this.animate)
+    },
+    start () {
+      requestAnimationFrame(this.animate)
+    },
+    addTrajectory () {
+      this.map.addLayer({
+        id: 'trajectory',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: this.results.path
+        },
+        paint: {
+          'line-color': 'red'
+        }
+      })
+    },
+    createShips () {
+      if (!this.initialized) {
+        this.clearMarkers()
+
+        this.ships.forEach(ship => {
+          /* create and remember marker */
+          this.createMarker(ship)
+        })
+
+        this.initialized = true
+      }
+    },
+    moveShips () {
+      this.createShips()
+
       // const elapsed = timestamp - start
       const timeScale = (
         d3.scaleLinear()
-          .domain([this.start, this.start + this.duration * 1000])
+          .domain([0, 1])
           .range([this.tStart, this.tStop])
       )
-      const tNow = timeScale(timestamp)
+
+      const tNow = timeScale(this.totalProgress)
+
+      console.log(this.tStart, tNow, this.tStop)
+
       // lookup ships
       // set state to what it should be
       this.ships.forEach(ship => {
@@ -158,78 +225,6 @@ export default {
           }
         } else {
           this.markers[ship.id].mapboxMarker.remove()
-        }
-      })
-    },
-    animateMarker (timestamp) {
-      if (!this.play) {
-        return
-      }
-      const options = { units: 'kilometers' }
-      let along = this.count
-      if (!this.forward) {
-        along = this.trajectoryLength - this.count
-      }
-      const location = turf.along(this.trajectory, along, options)
-      const coordinates = _.get(location, 'geometry.coordinates')
-      const marker = _.get(this.markers, 'ship1.mapboxMarker')
-      marker.setLngLat(coordinates)
-      marker.addTo(this.map)
-
-      this.count += 10
-
-      if (this.count > this.trajectoryLength) {
-        this.shipState += 1
-        this.startSailing()
-      } else {
-        // Request the next frame of the animation.
-        requestAnimationFrame(this.animateMarker)
-      }
-    },
-    animateCargo () {
-      // Animate the loading of the cargo
-      if (!this.play) {
-        return
-      }
-      this.count += 5
-      const marker = _.get(this.markers, 'ship1')
-      const progress = 100 - (100 * this.cargo[this.count] / this.maxCargo)
-      console.log(marker, this.cargo[this.count], this.maxCargo, progress)
-      marker.progress = progress
-      if (this.count > this.cargo.length) {
-        this.shipState += 1
-        this.startSailing()
-      } else {
-        // Request the next frame of the animation.
-        requestAnimationFrame(this.animateCargo)
-      }
-    },
-    startSailing () {
-      // Get the data to either visualize cargo or sailing of the ship
-      if (!this.play) {
-        return
-      }
-
-      this.start = null
-      this.clearMarkers()
-
-      this.ships.forEach(ship => {
-        /* create and remember marker */
-        this.createMarker(ship)
-      })
-
-      requestAnimationFrame(this.animate)
-    },
-    addTrajectory () {
-      this.map.addLayer({
-        id: 'trajectory',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: this.results.path
-        },
-        paint: {
-          'line-color': 'red'
         }
       })
     }
