@@ -8,6 +8,7 @@ export default new Vuex.Store({
     results: {},
     sites: [],
     currentTime: null,
+    progress: 0,
     shipState: 0,
     play: false
   },
@@ -55,6 +56,9 @@ export default new Vuex.Store({
     },
     setCurrentTime (state, time) {
       state.currentTime = time
+    },
+    setProgress (state, progress) {
+      state.progress = progress
     }
   }
 })

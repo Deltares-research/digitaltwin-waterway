@@ -43,7 +43,7 @@ export default {
     // run for n miliseconds
     duration: {
       type: Number,
-      default: 240000
+      default: 50000
     }
   },
   data () {
@@ -63,11 +63,11 @@ export default {
       }
     },
     progress (value) {
-      this.startTime = 0
-      this.persistedProgress = value
-      this.internalProgress = 0
-
       if (!this.play) {
+        this.startTime = 0
+        this.persistedProgress = value
+        this.internalProgress = 0
+
         this.animate()
       }
     },
@@ -91,6 +91,11 @@ export default {
     },
     totalProgress () {
       return this.persistedProgress + this.internalProgress
+    },
+    timeScale () {
+      return d3.scaleLinear()
+        .domain([0, 1])
+        .range([this.tStart, this.tStop])
     }
   },
   mounted () {
@@ -141,6 +146,9 @@ export default {
         this.persistedProgress = this.persistedProgress + this.internalProgress
         this.internalProgress = 0
         this.startTime = null
+
+        this.$emit('start')
+
         return
       }
 
@@ -153,6 +161,8 @@ export default {
       this.internalProgress = duration / this.duration
 
       if (this.totalProgress >= 1) {
+        this.$emit('end')
+
         return
       }
 
@@ -189,15 +199,12 @@ export default {
     moveShips () {
       this.createShips()
 
-      // const elapsed = timestamp - start
-      const timeScale = (
-        d3.scaleLinear()
-          .domain([0, 1])
-          .range([this.tStart, this.tStop])
-      )
+      const tNow = this.timeScale(this.totalProgress)
 
-      const tNow = timeScale(this.totalProgress)
-      this.$emit('timeChange', tNow)
+      this.$emit('progressChange', {
+        progress: this.totalProgress,
+        time: tNow
+      })
 
       // lookup ships
       // set state to what it should be

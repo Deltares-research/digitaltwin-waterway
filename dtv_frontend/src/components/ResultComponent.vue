@@ -7,21 +7,20 @@
       ></v-progress-circular>
 
     </div>
-    <div v-show="events.length > 0">
+    <div v-if="results.env && events.length > 0">
       <v-slider
-        v-model="shipState"
+        :value="progress"
         :thumb-size="24"
-        thumb-label="always"
-        :max="events.length"
+        :min="0"
+        :max="1"
+        :step="0.01"
         :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
         @click:prepend='play = !play'
-        @change="onChange"
+        @input="onInput"
+        @mousedown="onMousedown"
+        @mouseup="onMouseup"
         class="d-flex-grow pt-6"
-      >
-        <v-avatar size="50px">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
-        </v-avatar>
-      </v-slider>
+      />
       <div class="fleets pa-0 pr-2">
         <v-timeline
           class="fleets pa-0 pr-2"
@@ -71,7 +70,7 @@ export default {
   }),
 
   computed: {
-    ...mapState(['results', 'currentTime']),
+    ...mapState(['results', 'currentTime', 'progress', 'play']),
     play: {
       get () { return this.$store.state.play },
       set (value) { this.setPlay(value) }
@@ -87,21 +86,12 @@ export default {
 
   watch: {
     shipState (value) {
-      const ref = this.$refs[`event-${value}`]
-
-      if (ref && ref[0]) {
-        const { $el } = ref[0]
-
-        $el.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        })
-      }
+      this.scrollEventIntoView(value)
     }
   },
 
   methods: {
-    ...mapMutations(['setPlay', 'setShipState']),
+    ...mapMutations(['setPlay', 'setShipState', 'setProgress']),
     eventColor (event) {
       const colors = {
         Ship: 'blue',
@@ -113,8 +103,27 @@ export default {
     checkIfActive (event) {
       return this.currentTime >= event.properties['Start Timestamp']
     },
-    onChange (event) {
-      console.log(event)
+    scrollEventIntoView: _.debounce(function (value) {
+      const ref = this.$refs[`event-${value}`]
+
+      if (ref && ref[0]) {
+        const { $el } = ref[0]
+
+        $el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      }
+    }, 200),
+    onMousedown () {
+      this.wasPlaying = this.play
+      this.setPlay(false)
+    },
+    onMouseup () {
+      this.setPlay(this.wasPlaying)
+    },
+    onInput (value) {
+      this.setProgress(value)
     }
   }
 }

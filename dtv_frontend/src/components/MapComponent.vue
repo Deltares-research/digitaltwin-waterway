@@ -17,9 +17,12 @@
       :results="results"
       :sites="sites"
       :play="play"
+      :progress="progress"
       @shipStateChange="onShipStateChange"
-      @timeChange="onTimeChange"
+      @progressChange="onProgressChange"
+      @end="onAnimationEnd"
     />
+    <!-- :progress="progress" -->
     <v-mapbox-site-layer v-if="sites.features" :sites="sites" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
@@ -40,7 +43,7 @@ export default {
     VMapboxShipsLayer
   },
   computed: {
-    ...mapState(['results', 'sites', 'play']),
+    ...mapState(['results', 'sites', 'play', 'progress']),
     features () {
       return _.get(this.results, 'log.features', [])
     }
@@ -52,13 +55,17 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setPlay', 'setShipState', 'setCurrentTime']),
+    ...mapMutations(['setPlay', 'setShipState', 'setCurrentTime', 'setProgress']),
     onShipStateChange (value) {
       this.setShipState(value)
     },
-    onTimeChange: _.throttle(function (value) {
-      this.setCurrentTime(value)
-    }, 500)
+    onProgressChange: _.throttle(function ({ time, progress }) {
+      this.setCurrentTime(time)
+      this.setProgress(progress)
+    }, 250),
+    onAnimationEnd () {
+      this.setPlay(false)
+    }
   }
 }
 </script>
