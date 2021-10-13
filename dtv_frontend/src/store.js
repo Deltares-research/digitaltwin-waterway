@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     results: {},
     sites: [],
+    currentTime: null,
     shipState: 0,
     play: false
   },
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     setShipState (state, shipState) {
       state.shipState = shipState
+    },
+    setCurrentTime (state, time) {
+      state.currentTime = time
     }
   }
 })

@@ -18,8 +18,8 @@
       :sites="sites"
       :play="play"
       @shipStateChange="onShipStateChange"
+      @timeChange="onTimeChange"
     />
-    <!-- :progress="progress / 100" -->
     <v-mapbox-site-layer v-if="sites.features" :sites="sites" />
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
@@ -52,11 +52,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setPlay', 'setShipState']),
+    ...mapMutations(['setPlay', 'setShipState', 'setCurrentTime']),
     onShipStateChange (value) {
-      console.log(value)
       this.setShipState(value)
-    }
+    },
+    onTimeChange: _.throttle(function (value) {
+      this.setCurrentTime(value)
+    }, 500)
   }
 }
 </script>

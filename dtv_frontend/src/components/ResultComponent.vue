@@ -8,6 +8,7 @@
 
     </div>
     <div v-show="events.length > 0">
+      {{ currentTime }}
       <v-slider
         v-model="shipState"
         :thumb-size="24"
@@ -26,12 +27,10 @@
         dense
         clipped
       >
-        <div
-          v-for="event in events"
-          :key="event.id"
-        >
           <v-timeline-item
+            v-for="event in events"
             class="mb-4"
+            :key="event.id"
             :color="eventColor(event)"
             icon-color="grey lighten-2"
             small
@@ -48,7 +47,6 @@
               </v-col>
             </v-row>
           </v-timeline-item>
-        </div>
       </v-timeline>
     </div>
   </div>
@@ -65,7 +63,7 @@ export default {
   }),
 
   computed: {
-    ...mapState(['results']),
+    ...mapState(['results', 'currentTime']),
     play: {
       get () { return this.$store.state.play },
       set (value) { this.setPlay(value) }
