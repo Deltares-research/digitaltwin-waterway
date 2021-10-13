@@ -117,7 +117,7 @@ export default {
       el.appendChild(child)
 
       const mapboxMarker = new mapboxgl.Marker(el)
-      
+
       const shipInfo = this.results.config.fleet.find(({ properties }) => properties.name === ship.properties.Actor)
 
       const marker = new ShipIconClass({
@@ -197,6 +197,7 @@ export default {
       )
 
       const tNow = timeScale(this.totalProgress)
+      this.$emit('timeChange', tNow)
 
       // lookup ships
       // set state to what it should be

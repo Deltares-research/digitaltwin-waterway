@@ -8,7 +8,6 @@
 
     </div>
     <div v-show="events.length > 0">
-      {{ currentTime }}
       <v-slider
         v-model="shipState"
         :thumb-size="24"
@@ -16,38 +15,47 @@
         :max="events.length"
         :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
         @click:prepend='play = !play'
+        @change="onChange"
         class="d-flex-grow pt-6"
       >
         <v-avatar size="50px">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
         </v-avatar>
       </v-slider>
-      <v-timeline
-        class="fleets pa-0 pr-2"
-        dense
-        clipped
-      >
-          <v-timeline-item
-            v-for="event in events"
-            class="mb-4"
-            :key="event.id"
-            :color="eventColor(event)"
-            icon-color="grey lighten-2"
-            small
-          >
-            <v-row justify="space-between">
-              <v-col cols="7">
-                {{event.properties.Description}}
-              </v-col>
-              <v-col
-                class="text-right"
-                cols="5"
+      <div class="fleets pa-0 pr-2">
+        <v-timeline
+          class="fleets pa-0 pr-2"
+          dense
+          clipped
+        >
+            <v-timeline-item
+              v-for="event in events"
+              :key="event.id"
+              :ref="`event-${event.id}`"
+              :color="eventColor(event)"
+              class="mb-4"
+              icon-color="grey lighten-2"
+              small
+            >
+              <v-row
+                :class="{
+                  'font-weight-bold': checkIfActive(event)
+                }"
+                justify="space-between"
               >
-                {{event.properties.Start}}
-              </v-col>
-            </v-row>
-          </v-timeline-item>
-      </v-timeline>
+                <v-col cols="7">
+                  {{event.properties.Description}}
+                </v-col>
+                <v-col
+                  class="text-right"
+                  cols="5"
+                >
+                  {{event.properties.Start}}
+                </v-col>
+              </v-row>
+            </v-timeline-item>
+        </v-timeline>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +84,22 @@ export default {
       return _.get(this.results, 'log.features', [])
     }
   },
+
+  watch: {
+    shipState (value) {
+      const ref = this.$refs[`event-${value}`]
+
+      if (ref && ref[0]) {
+        const { $el } = ref[0]
+
+        $el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      }
+    }
+  },
+
   methods: {
     ...mapMutations(['setPlay', 'setShipState']),
     eventColor (event) {
@@ -85,6 +109,12 @@ export default {
         Operator: 'purple'
       }
       return colors[event.properties.Actor] || 'grey'
+    },
+    checkIfActive (event) {
+      return this.currentTime >= event.properties['Start Timestamp']
+    },
+    onChange (event) {
+      console.log(event)
     }
   }
 }
