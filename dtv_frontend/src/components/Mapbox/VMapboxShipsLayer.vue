@@ -117,10 +117,13 @@ export default {
       el.appendChild(child)
 
       const mapboxMarker = new mapboxgl.Marker(el)
+      
+      const shipInfo = this.results.config.fleet.find(({ properties }) => properties.name === ship.properties.Actor)
 
       const marker = new ShipIconClass({
         propsData: {
-          mapboxMarker
+          mapboxMarker,
+          shipImage: shipInfo.properties.image
         }
       }).$mount(child)
       const node = marker.$createElement('div', [featId])
