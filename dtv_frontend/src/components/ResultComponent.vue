@@ -75,23 +75,30 @@ export default {
       get () { return this.$store.state.play },
       set (value) { this.setPlay(value) }
     },
-    shipState: {
-      get () { return this.$store.state.shipState },
-      set (value) { this.setShipState(value) }
-    },
     events () {
       return _.get(this.results, 'log.features', [])
+    },
+    activeEvent () {
+      const activeEvents = this.events
+        .filter(event => {
+          return this.currentTime >= event.properties['Start Timestamp'] &&
+            this.currentTime < event.properties['Stop Timestamp']
+        })
+        .map(({ id }) => parseInt(id))
+        .sort()
+
+      return activeEvents[0]
     }
   },
 
   watch: {
-    shipState (value) {
+    activeEvent (value) {
       this.scrollEventIntoView(value)
     }
   },
 
   methods: {
-    ...mapMutations(['setPlay', 'setShipState', 'setProgress']),
+    ...mapMutations(['setPlay', 'setProgress']),
     eventColor (event) {
       const colors = {
         Ship: 'blue',

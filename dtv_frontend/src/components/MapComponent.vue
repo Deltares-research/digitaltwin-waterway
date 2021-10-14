@@ -18,7 +18,6 @@
       :sites="sites"
       :play="play"
       :progress="progress"
-      @shipStateChange="onShipStateChange"
       @progressChange="onProgressChange"
       @end="onAnimationEnd"
     />
@@ -55,10 +54,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setPlay', 'setShipState', 'setCurrentTime', 'setProgress']),
-    onShipStateChange (value) {
-      this.setShipState(value)
-    },
+    ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
     onProgressChange: _.throttle(function ({ time, progress }) {
       this.setCurrentTime(time)
       this.setProgress(progress)

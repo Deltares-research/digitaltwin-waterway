@@ -49,7 +49,6 @@ export default {
   data () {
     return {
       markers: {},
-      shipState: 0,
       initialized: false,
       startTime: null,
       internalProgress: 0,
@@ -73,9 +72,6 @@ export default {
     },
     totalProgress () {
       this.moveShips()
-    },
-    shipState (value) {
-      this.$emit('shipStateChange', value)
     }
   },
   computed: {
@@ -104,9 +100,6 @@ export default {
   methods: {
     deferredMountedTo () {
       this.map = this.getMap()
-    },
-    setShipState (value) {
-      this.shipState = value
     },
     clearMarkers () {
       Object.entries(this.markers).forEach(([key, marker]) => {
@@ -213,10 +206,6 @@ export default {
           tNow >= ship.properties['Start Timestamp'] &&
           tNow < ship.properties['Stop Timestamp']
         ) {
-          /* bump the event number */
-          if (this.shipState < parseInt(ship.id)) {
-            this.setShipState(parseInt(ship.id))
-          }
           // animate ship
           const fraction = (
             (tNow - ship.properties['Start Timestamp']) /

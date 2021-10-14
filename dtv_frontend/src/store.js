@@ -9,7 +9,6 @@ export default new Vuex.Store({
     sites: [],
     currentTime: null,
     progress: 0,
-    shipState: 0,
     play: false
   },
   actions: {
@@ -50,9 +49,6 @@ export default new Vuex.Store({
     },
     setPlay (state, play) {
       state.play = play
-    },
-    setShipState (state, shipState) {
-      state.shipState = shipState
     },
     setCurrentTime (state, time) {
       state.currentTime = time
