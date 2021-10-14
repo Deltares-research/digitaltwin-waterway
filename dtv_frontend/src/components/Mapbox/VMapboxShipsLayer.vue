@@ -96,10 +96,12 @@ export default {
   },
   mounted () {
     this.map = this.getMap()
+    this.addTrajectory()
   },
   methods: {
     deferredMountedTo () {
       this.map = this.getMap()
+      this.addTrajectory()
     },
     clearMarkers () {
       Object.entries(this.markers).forEach(([key, marker]) => {
@@ -164,16 +166,31 @@ export default {
     start () {
       requestAnimationFrame(this.animate)
     },
-    addTrajectory () {
+    addTrajectory (id, coordinates) {
+      const sourceId = `trajectory-source-${id}`
+      const layerId = `trajectory-layer-${id}`
+
+      if (!id || this.map.getSource(sourceId)) return
+
+      this.map.addSource(sourceId, {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates
+          }
+        }
+      })
+
       this.map.addLayer({
-        id: 'trajectory',
+        id: layerId,
         type: 'line',
-        source: {
-          type: 'geojson',
-          data: this.results.path
-        },
+        source: sourceId,
         paint: {
-          'line-color': 'red'
+          'line-color': '#00FFFF',
+          'line-width': 2,
+          'line-opacity': 0.1
         }
       })
     },
@@ -226,6 +243,8 @@ export default {
             this.markers[ship.id].progress = 100 - (fraction * 100)
             this.markers[ship.id].mapboxMarker.addTo(this.map)
           }
+
+          this.addTrajectory(ship.id, ship.geometry.coordinates)
         } else {
           this.markers[ship.id].mapboxMarker.remove()
         }

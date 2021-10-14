@@ -78,8 +78,6 @@ export default {
     events () {
       const events = _.get(this.results, 'log.features', [])
 
-      console.log(this.results.env)
-
       return events.length ? [
         {
           id: 'start',

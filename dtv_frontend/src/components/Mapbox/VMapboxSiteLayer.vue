@@ -24,7 +24,7 @@ export default {
           data: this.sites
         },
         paint: {
-          'circle-color': 'red'
+          'circle-color': '#00FFFF'
         }
       })
     }
