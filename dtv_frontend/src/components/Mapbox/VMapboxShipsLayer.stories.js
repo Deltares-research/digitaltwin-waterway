@@ -52,7 +52,6 @@ const Template = (args) => ({
           :sites="sites"
           :play="play"
           :progress="progress / 100"
-          @change="$event => progress = $event"
         />
       </v-mapbox>
     </div>

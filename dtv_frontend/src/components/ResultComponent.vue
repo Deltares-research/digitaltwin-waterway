@@ -76,7 +76,37 @@ export default {
       set (value) { this.setPlay(value) }
     },
     events () {
-      return _.get(this.results, 'log.features', [])
+      const events = _.get(this.results, 'log.features', [])
+
+      console.log(this.results.env)
+
+      return events.length ? [
+        {
+          id: 'start',
+          properties: {
+            Description: 'Start simulation',
+            Name: 'Start',
+            Start: this.results.env.epoch_iso,
+            'Start Timestamp': this.results.env.epoch,
+            Stop: this.results.env.epoch_iso,
+            'Stop Timestamp': this.results.env.epoch
+          }
+        },
+        // add event for start of simulation
+        ...events,
+        // add event for end of simulation
+        {
+          id: 'stop',
+          properties: {
+            Description: 'Stop simulation',
+            Name: 'Stop',
+            Start: this.results.env.now_iso,
+            'Start Timestamp': this.results.env.now,
+            Stop: this.results.env.now_iso,
+            'Stop Timestamp': this.results.env.now
+          }
+        }
+      ] : []
     },
     activeEvent () {
       const activeEvents = this.events
