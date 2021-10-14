@@ -78,6 +78,7 @@ export default {
     events () {
       const events = _.get(this.results, 'log.features', [])
 
+      // add custom events for start & end of simulation
       return events.length ? [
         {
           id: 'start',
@@ -90,9 +91,7 @@ export default {
             'Stop Timestamp': this.results.env.epoch
           }
         },
-        // add event for start of simulation
         ...events,
-        // add event for end of simulation
         {
           id: 'stop',
           properties: {
@@ -151,10 +150,13 @@ export default {
       }
     }, 200),
     onMousedown () {
+      // store if timeline was playing so we can either start playing
+      // or not when dragging ends
       this.wasPlaying = this.play
       this.setPlay(false)
     },
     onMouseup () {
+      // use stored playing state to start playing or not
       this.setPlay(this.wasPlaying)
     },
     onInput (value) {

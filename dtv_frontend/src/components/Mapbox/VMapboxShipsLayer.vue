@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// import { mapState, mapMutations } from 'vuex'
 import * as turf from '@turf/turf'
 import Vue from 'vue'
 import mapboxgl from 'mapbox-gl'
@@ -114,31 +113,39 @@ export default {
       const featId = ship.id
       const el = document.createElement('div')
       const child = document.createElement('div')
+
       el.appendChild(child)
 
       const mapboxMarker = new mapboxgl.Marker(el)
-
       const shipInfo = this.results.config.fleet.find(({ properties }) => properties.name === ship.properties.Actor)
 
+      // create Vue component & mount to div
       const marker = new ShipIconClass({
         propsData: {
           mapboxMarker,
           shipImage: shipInfo.properties.image
         }
       }).$mount(child)
+
       const node = marker.$createElement('div', [featId])
+
       marker.$slots.default = [node]
       marker.$mount(child)
 
-      /* set to starting location */
+      // set to starting location
       const start = ship.geometry.type === 'Point' ? ship.geometry.coordinates : ship.geometry.coordinates[0]
+
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
+
       this.markers[featId] = marker
     },
     animate (timestamp) {
       if (!this.play) {
+        // add internalProgress to the persistedProgress to make that the new starting point
+        // when animation starts again
         this.persistedProgress = this.persistedProgress + this.internalProgress
+        // reset internalProgress because that's included in the persistedProgress now
         this.internalProgress = 0
         this.startTime = null
 
@@ -153,6 +160,7 @@ export default {
 
       const duration = timestamp - this.startTime
 
+      // convert time-based values to progress in a range from 0 to 1
       this.internalProgress = duration / this.duration
 
       if (this.totalProgress >= 1) {
@@ -209,8 +217,10 @@ export default {
     moveShips () {
       this.createShips()
 
+      // get current progress as time on timescale
       const tNow = this.timeScale(this.totalProgress)
 
+      // emit progress & tNow when ships animate
       this.$emit('progressChange', {
         progress: this.totalProgress,
         time: tNow
