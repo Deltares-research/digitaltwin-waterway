@@ -1,96 +1,88 @@
 <template>
-  <v-stepper
-    v-model="stepper"
-    vertical
-    class="stepper"
-  >
-    <v-stepper-step
-      :complete="stepper > 1"
-      step="1"
-      @click="stepper = 1"
-    >
-      Sites
-      <small>Selection location A to B</small>
-    </v-stepper-step>
+  <v-stepper class="stepper" v-model="stepper">
+    <v-stepper-header>
+      <v-stepper-step
+        :complete="stepper > 1"
+        step="1"
+      >
+        Sites
+        <small>Selection location A to B</small>
+      </v-stepper-step>
 
-    <v-stepper-content step="1">
-      <sites-component class="mb-3" ref="sites"></sites-component>
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="stepper > 2"
+        step="2"
+      >
+        Fleet
+        <small>Selection of ships within a fleet</small>
+      </v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="stepper > 3"
+        step="3"
+      >
+        Climate
+        <small>Set climate conditions</small>
+      </v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="stepper > 3"
+        step="4"
+      >
+        Results
+        <small>charts and visualisations</small>
+      </v-stepper-step>
+    </v-stepper-header>
+
+    <v-stepper-items class="stepper-content">
+      <v-stepper-content step="1">
+        <h2 class="text-h4 mb-5">Sites</h2>
+        <v-divider class="mb-6" />
+        <sites-component ref="sites" />
+      </v-stepper-content>
+
+      <v-stepper-content step="2">
+        <h2 class="text-h4 mb-5 ">Fleet selection</h2>
+        <v-divider class="mb-6" />
+        <fleet-component ref="fleet" />
+      </v-stepper-content>
+
+      <v-stepper-content step="3">
+        <h2 class="text-h4 mb-5 ">Climate</h2>
+        <v-divider class="mb-6" />
+        <climate-component />
+      </v-stepper-content>
+
+      <v-stepper-content step="4">
+        <h2 class="text-h4 mb-5">Results</h2>
+        <v-divider class="mb-2" />
+        <result-component />
+      </v-stepper-content>
+    </v-stepper-items>
+    <div class="pa-4 mt-auto d-flex stepper-footer">
       <v-btn
+        v-if="stepper > 1"
+        text
+        @click="prevStep"
+      >
+        Back
+      </v-btn>
+
+      <v-btn
+        v-if="stepper < 4"
         color="primary"
-        @click="stepper = 2"
+        class="ml-auto"
+        @click="nextStep"
       >
         Continue
       </v-btn>
-      <v-btn
-        text
-        @click="stepper = 1"
-      >
-        Back
-      </v-btn>
-    </v-stepper-content>
-
-    <v-stepper-step
-      :complete="stepper > 2"
-      step="2"
-      @click="stepper = 2"
-    >
-      Fleet
-      <small>Selection of ships within a fleet</small>
-    </v-stepper-step>
-
-    <v-stepper-content step="2" class="stepper-fleet">
-      <fleet-component class="mb-3 d-flex-grow fleets" ref="fleet"/>
-      <v-row>
-        <v-btn
-          color="primary"
-          @click="stepper = 3"
-        >
-          Continue
-        </v-btn>
-        <v-btn
-          text
-          @click="stepper = 2"
-        >
-          Back
-        </v-btn>
-        </v-row>
-    </v-stepper-content>
-
-    <v-stepper-step
-      :complete="stepper > 3"
-      step="3"
-      @click="stepper = 3"
-    >
-      Climate
-      <small>Set climate conditions</small>
-    </v-stepper-step>
-
-    <v-stepper-content step="3">
-      <climate-component class="mb-3"/>
-      <v-btn
-        color="primary"
-        @click="startSailing"
-      >
-        Start sailing
-      </v-btn>
-      <v-btn
-        text
-        @click="stepper = 2"
-      >
-        Back
-      </v-btn>
-    </v-stepper-content>
-    <v-stepper-step
-      :complete="stepper > 4"
-      step="4"
-      @click="stepper = 4"
-    >
-      Results
-      <small>charts and visualisations</small>
-    </v-stepper-step>
-    <v-stepper-content step="4">
-      <result-component></result-component>
-    </v-stepper-content>
+    </div>
   </v-stepper>
 </template>
 
@@ -112,13 +104,6 @@ export default {
     SitesComponent,
     ClimateComponent,
     ResultComponent
-  },
-  methods: {
-    ...mapActions(['fetchResults']),
-    startSailing () {
-      this.stepper = 4
-      this.fetchResults(this.config)
-    }
   },
   computed: {
     ...mapState(['sites']),
@@ -148,7 +133,29 @@ export default {
       })
       return features
     }
-
+  },
+  watch: {
+    stepper (value) {
+      if (value === 4) {
+        this.startSailing()
+      }
+    }
+  },
+  methods: {
+    ...mapActions(['fetchResults']),
+    startSailing () {
+      this.fetchResults(this.config)
+    },
+    nextStep () {
+      if (this.stepper < 4) {
+        this.stepper = this.stepper + 1
+      }
+    },
+    prevStep () {
+      if (this.stepper > 1) {
+        this.stepper = this.stepper - 1
+      }
+    }
   }
 }
 </script>
@@ -157,9 +164,21 @@ export default {
 .stepper {
   max-height: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.stepper-fleet {
-  max-height: 60vh;
+.v-stepper__header {
+  box-shadow: none !important;
+  border-bottom: thin solid rgba(0,0,0,.12);
+}
+
+.v-stepper__content {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.stepper-footer {
+  border-top: thin solid rgba(0,0,0,.12);
 }
 </style>

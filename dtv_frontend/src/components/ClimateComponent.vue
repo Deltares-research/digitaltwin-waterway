@@ -1,9 +1,5 @@
 <template>
-<div>
-  <v-card>
-    <v-card-title class="mb-3">
-      Climate
-    </v-card-title>
+  <v-card outlined>
     <v-card-text>
       <v-slider
         :step="500"
@@ -43,7 +39,6 @@
       ></v-slider>
     </v-card-text>
   </v-card>
-</div>
 </template>
 <script>
 export default {

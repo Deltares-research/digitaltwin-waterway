@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div v-show="events.length === 0">
+    <div v-if="events.length === 0" class="py-8 w-full d-flex align-center justify-center">
       <v-progress-circular
         indeterminate
         color="primary"
       ></v-progress-circular>
-
     </div>
     <div v-show="events.length > 0">
       <v-slider
@@ -15,7 +14,7 @@
         :max="events.length"
         :prepend-icon="play ? 'mdi-pause' : 'mdi-play'"
         @click:prepend='play = !play'
-        class="d-flex-grow pt-6"
+        class="d-flex-grow pt-6 ml-1 mb-6 mt-4"
       >
         <v-avatar size="50px">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU">
@@ -94,7 +93,6 @@ export default {
 
 <style>
   .fleets {
-    max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
   }

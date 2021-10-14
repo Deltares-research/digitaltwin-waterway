@@ -106,7 +106,7 @@ export default {
       const start = ship.geometry.type === 'Point' ? ship.geometry.coordinates : ship.geometry.coordinates[0]
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
-      this.markers.[featId] = marker
+      this.markers[featId] = marker
     },
     animate (timestamp) {
       if (this.start === null) {
