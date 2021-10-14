@@ -43,7 +43,7 @@ export default {
     // run for n miliseconds
     duration: {
       type: Number,
-      default: 50000
+      default: 240000
     }
   },
   data () {
