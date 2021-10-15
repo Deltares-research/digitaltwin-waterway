@@ -138,7 +138,6 @@ export default {
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
       this.markers[featId] = marker
-      
     },
     animate (timestamp) {
       if (!this.play) {
