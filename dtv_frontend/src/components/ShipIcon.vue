@@ -1,7 +1,7 @@
 <template>
   <div class="ship" :style="shipStyle" :title="name">
     <v-avatar :size="size * 0.9" class="avatar" :color="avatarColor">
-      <img :src="shipImage || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU'" />
+      <img :src="imgUrl" />
     </v-avatar>
     <v-progress-circular :rotate="270" :value="progress" :size="size" :color="progressColor"></v-progress-circular>
   </div>
@@ -48,6 +48,9 @@ export default {
     },
     showBadge () {
       return !!this.badge
+    },
+    imgUrl () {
+      return this.shipImage || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU'
     }
   }
 }
