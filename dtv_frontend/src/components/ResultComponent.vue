@@ -112,7 +112,7 @@ export default {
             this.currentTime < event.properties['Stop Timestamp']
         })
         .map(({ id }) => parseInt(id))
-        .sort()
+        .sort((a, b) => b - a)
 
       return activeEvents[0]
     }
