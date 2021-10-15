@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     results: {},
     sites: [],
-    shipState: 0,
+    currentTime: null,
+    progress: 0,
     play: false
   },
   actions: {
@@ -49,8 +50,11 @@ export default new Vuex.Store({
     setPlay (state, play) {
       state.play = play
     },
-    setShipState (state, shipState) {
-      state.shipState = shipState
+    setCurrentTime (state, time) {
+      state.currentTime = time
+    },
+    setProgress (state, progress) {
+      state.progress = progress
     }
   }
 })

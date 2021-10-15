@@ -3,18 +3,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   inject: ['getMap'],
-  props: {
-  },
+  props: ['sites'],
   data () {
     return {
     }
-  },
-  computed: {
-    ...mapState(['sites'])
   },
   methods: {
     deferredMountedTo () {
@@ -30,7 +24,7 @@ export default {
           data: this.sites
         },
         paint: {
-          'circle-color': 'red'
+          'circle-color': '#00FFFF'
         }
       })
     }

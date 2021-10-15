@@ -85,6 +85,5 @@ export default {
       return ships
     }
   }
-
 }
 </script>
