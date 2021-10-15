@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2> Sites </h2>
-    <v-card v-for="site in sites.features" :key="site.id">
+    <v-card v-for="site in sites.features" :key="site.id" outlined class="mb-4">
       <v-card-title class="mb-4">
         {{ site.properties.name }}
         <v-spacer />

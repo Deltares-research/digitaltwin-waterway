@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div v-show="events.length === 0">
+    <div v-if="events.length === 0" class="py-8 w-full d-flex align-center justify-center">
       <v-progress-circular
         indeterminate
         color="primary"
       ></v-progress-circular>
-
     </div>
     <div v-if="results.env && events.length > 0">
       <v-slider
@@ -168,7 +167,6 @@ export default {
 
 <style>
   .fleets {
-    max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
   }

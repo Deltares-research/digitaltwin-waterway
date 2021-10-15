@@ -55,6 +55,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
+    // TODO: add comment about devtools
     onProgressChange: _.throttle(function ({ time, progress }) {
       this.setCurrentTime(time)
       this.setProgress(progress)
