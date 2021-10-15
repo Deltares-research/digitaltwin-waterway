@@ -5,10 +5,10 @@
     </v-app-bar>
     <v-main>
       <v-row class="main-row" no-gutters>
-        <v-col class="pa-3 main-row" cols="12" md="6">
+        <v-col class="pa-3 main-row" cols="12" md="5">
           <stepper-component />
         </v-col>
-        <v-col class="pa-0" cols="12" md="6">
+        <v-col class="pa-0" cols="12" md="7">
           <map-component />
         </v-col>
       </v-row>

@@ -1,7 +1,4 @@
 <template>
-<v-container>
-  <h2> Fleet selection</h2>
-
   <v-row dense>
     <v-col
       cols="12"
@@ -9,10 +6,8 @@
       v-for="(ship, index) in ships" :key="index">
 
       <v-card
-        class="ma-3"
         outlined
-        hover
-        >
+      >
         <v-card-title>
           {{ ship['Description (Dutch)'] }}
           <v-spacer />
@@ -56,7 +51,6 @@
       </v-card>
     </v-col>
   </v-row>
-</v-container>
 </template>
 
 <script>
