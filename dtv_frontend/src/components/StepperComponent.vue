@@ -6,7 +6,7 @@
         step="1"
       >
         Sites
-        <small>Selection location A to B</small>
+        <small class="d-none d-xl-flex">Selection location A to B</small>
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -16,7 +16,7 @@
         step="2"
       >
         Fleet
-        <small>Selection of ships within a fleet</small>
+        <small class="d-none d-xl-flex">Selection of ships within a fleet</small>
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -26,7 +26,7 @@
         step="3"
       >
         Climate
-        <small>Set climate conditions</small>
+        <small class="d-none d-xl-flex">Set climate conditions</small>
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -36,7 +36,7 @@
         step="4"
       >
         Results
-        <small>charts and visualisations</small>
+        <small class="d-none d-xl-flex">charts and visualisations</small>
       </v-stepper-step>
     </v-stepper-header>
 
