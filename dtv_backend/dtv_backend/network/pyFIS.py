@@ -130,6 +130,17 @@ class pyFIS:
         result = []
         offset = 0
 
+        def cleanup(rows):
+            result = []
+            for row in rows:
+                # always convert to string
+                if 'StartJunctionId' in row:
+                    row['StartJunctionId'] = str(row['StartJunctionId'])
+                if 'EndJunctionId' in row:
+                    row['EndJunctionId'] = str(row['EndJunctionId'])
+                result.append(row)
+            return result
+
         while True:
             url_page = url + f'?offset={offset}&count={self.count}'
             logger.debug(f'Requesting: {url_page}')
@@ -146,34 +157,36 @@ class pyFIS:
                     # Go to next page
                     offset += self.count
                 else:
-                    # Arrived on the final page                        
+                    # Arrived on the final page
                     break
             else:
                 # Single page. Looping not required
 
                 # When requesting single object, this should also be handles as a single multi-page response
                 if 'Geometry' in response_dict:
-                    result = gpd.GeoDataFrame([response_dict])
+                    result = cleanup([response_dict])
+                    result = gpd.GeoDataFrame(result)
                 else:
                     # Result is the dict itself
                     result = response_dict
-                
+
                 return result
 
         # Process the requested data
         if len(result) and isinstance(result[-1], dict) and 'Geometry' in result[-1]:
+            result = cleanup(result)
             result = gpd.GeoDataFrame(result)
-        
+
             # Convert data to real geometry data and transform to given coordinate system
             result.rename(axis=1, mapper={'Geometry': 'geometry'}, inplace=True)
-            
+
             na_geometry = result['geometry'].isna()
             if na_geometry.any():
                 logger.warning(f'Removing {na_geometry.sum()} nan-geometries from dataset')
                 result = result[~na_geometry]
-            
+
             try:
-                
+
                 result['geometry'] = result['geometry'].apply(wkt.loads)
                 if self.export_coordinate_system:
                     result.crs = {'init': self.service_coordinate_system}
@@ -245,7 +258,7 @@ class pyFIS:
             else:
                 left_on = ['Id']
                 right_on = ['ParentId']
-        
+
         # Left join
         df_merge = df_l.merge(df_r, left_on=left_on, right_on=right_on, how='left', suffixes=('', f'_{right_geotype}'))
         return df_merge
