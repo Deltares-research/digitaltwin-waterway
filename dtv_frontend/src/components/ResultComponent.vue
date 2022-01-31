@@ -22,7 +22,6 @@
       />
       <div class="fleets pa-0 pr-2">
         <v-timeline
-          class="fleets pa-0 pr-2"
           dense
           clipped
         >
@@ -169,5 +168,6 @@ export default {
   .fleets {
     overflow-y: auto;
     overflow-x: hidden;
+    max-height: 50vh;
   }
 </style>
