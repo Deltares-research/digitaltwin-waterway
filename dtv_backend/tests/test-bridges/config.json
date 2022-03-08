@@ -1,1 +1,224 @@
-{"sites": [{"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "id": "EMO", "properties": {"capacity": 5000, "level": 5000, "loading_rate": 0.027777777777777776, "name": "EMO", "unloading_rate": 0.027777777777777776}}, {"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "id": "BCTN", "properties": {"capacity": 5000, "level": 0, "loading_rate": 0.027777777777777776, "name": "BCTN", "unloading_rate": 0.027777777777777776}}], "fleet": [{"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "properties": {"CEMT-class": "Vb", "Vessel type": "Convoy", "Description (English)": "Va + Europe II long", "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)", "Beam [m]": 11.4, "Beam 10% percentile [m]": 11.0, "Beam 50% percentile [m]": 11.4, "Beam 90% percentile [m]": 11.45, "Length [m]": 180.0, "Length 10% percentile [m]": 171.0, "Length 50% percentile [m]": 180.0, "Length 90% percentile [m]": 187.0, "Draught loaded [m]": 3.5, "Draught average [m]": 3.57, "Draught empty [m]": 1.5, "Height average [m]": 6.5, "Load Weight average [ton]": 4451.0, "Load weight maximum [ton]": 5236.0, "Engine power minumum [kW] ": NaN, "Engine power maximum [kW] ": NaN, "Engine power averge [kW]": NaN, "Bow thruster minimum [kW]": NaN, "Bow thruster maximum [kW]": NaN}, "id": "ship-0", "name": "ship-0"}, {"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "properties": {"CEMT-class": "Vb", "Vessel type": "Convoy", "Description (English)": "Va + Europe II long", "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)", "Beam [m]": 11.4, "Beam 10% percentile [m]": 11.0, "Beam 50% percentile [m]": 11.4, "Beam 90% percentile [m]": 11.45, "Length [m]": 180.0, "Length 10% percentile [m]": 171.0, "Length 50% percentile [m]": 180.0, "Length 90% percentile [m]": 187.0, "Draught loaded [m]": 3.5, "Draught average [m]": 3.57, "Draught empty [m]": 1.5, "Height average [m]": 6.5, "Load Weight average [ton]": 4451.0, "Load weight maximum [ton]": 5236.0, "Engine power minumum [kW] ": NaN, "Engine power maximum [kW] ": NaN, "Engine power averge [kW]": NaN, "Bow thruster minimum [kW]": NaN, "Bow thruster maximum [kW]": NaN}, "id": "ship-1", "name": "ship-1"}, {"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "properties": {"CEMT-class": "Vb", "Vessel type": "Convoy", "Description (English)": "Va + Europe II long", "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)", "Beam [m]": 11.4, "Beam 10% percentile [m]": 11.0, "Beam 50% percentile [m]": 11.4, "Beam 90% percentile [m]": 11.45, "Length [m]": 180.0, "Length 10% percentile [m]": 171.0, "Length 50% percentile [m]": 180.0, "Length 90% percentile [m]": 187.0, "Draught loaded [m]": 3.5, "Draught average [m]": 3.57, "Draught empty [m]": 1.5, "Height average [m]": 6.5, "Load Weight average [ton]": 4451.0, "Load weight maximum [ton]": 5236.0, "Engine power minumum [kW] ": NaN, "Engine power maximum [kW] ": NaN, "Engine power averge [kW]": NaN, "Bow thruster minimum [kW]": NaN, "Bow thruster maximum [kW]": NaN}, "id": "ship-2", "name": "ship-2"}, {"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "properties": {"CEMT-class": "Vb", "Vessel type": "Convoy", "Description (English)": "Va + Europe II long", "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)", "Beam [m]": 11.4, "Beam 10% percentile [m]": 11.0, "Beam 50% percentile [m]": 11.4, "Beam 90% percentile [m]": 11.45, "Length [m]": 180.0, "Length 10% percentile [m]": 171.0, "Length 50% percentile [m]": 180.0, "Length 90% percentile [m]": 187.0, "Draught loaded [m]": 3.5, "Draught average [m]": 3.57, "Draught empty [m]": 1.5, "Height average [m]": 6.5, "Load Weight average [ton]": 4451.0, "Load weight maximum [ton]": 5236.0, "Engine power minumum [kW] ": NaN, "Engine power maximum [kW] ": NaN, "Engine power averge [kW]": NaN, "Bow thruster minimum [kW]": NaN, "Bow thruster maximum [kW]": NaN}, "id": "ship-3", "name": "ship-3"}, {"geometry": {"type": "Point", "coordinates": [4.03968730523854, 51.9453401090454]}, "properties": {"CEMT-class": "Vb", "Vessel type": "Convoy", "Description (English)": "Va + Europe II long", "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)", "Beam [m]": 11.4, "Beam 10% percentile [m]": 11.0, "Beam 50% percentile [m]": 11.4, "Beam 90% percentile [m]": 11.45, "Length [m]": 180.0, "Length 10% percentile [m]": 171.0, "Length 50% percentile [m]": 180.0, "Length 90% percentile [m]": 187.0, "Draught loaded [m]": 3.5, "Draught average [m]": 3.57, "Draught empty [m]": 1.5, "Height average [m]": 6.5, "Load Weight average [ton]": 4451.0, "Load weight maximum [ton]": 5236.0, "Engine power minumum [kW] ": NaN, "Engine power maximum [kW] ": NaN, "Engine power averge [kW]": NaN, "Bow thruster minimum [kW]": NaN, "Bow thruster maximum [kW]": NaN}, "id": "ship-4", "name": "ship-4"}], "operator": {"name": "Operator", "n_margin": 0}}
+{
+  "sites": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "id": "EMO",
+      "properties": {
+        "capacity": 5000,
+        "level": 5000,
+        "loading_rate": 0.027777777777777776,
+        "name": "EMO",
+        "unloading_rate": 0.027777777777777776
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "id": "BCTN",
+      "properties": {
+        "capacity": 5000,
+        "level": 0,
+        "loading_rate": 0.027777777777777776,
+        "name": "BCTN",
+        "unloading_rate": 0.027777777777777776
+      }
+    }
+  ],
+  "fleet": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "properties": {
+        "CEMT-class": "Vb",
+        "Vessel type": "Convoy",
+        "Description (English)": "Va + Europe II long",
+        "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)",
+        "Beam [m]": 11.4,
+        "Beam 10% percentile [m]": 11,
+        "Beam 50% percentile [m]": 11.4,
+        "Beam 90% percentile [m]": 11.45,
+        "Length [m]": 180,
+        "Length 10% percentile [m]": 171,
+        "Length 50% percentile [m]": 180,
+        "Length 90% percentile [m]": 187,
+        "Draught loaded [m]": 3.5,
+        "Draught average [m]": 3.57,
+        "Draught empty [m]": 1.5,
+        "Height average [m]": 6.5,
+        "Load Weight average [ton]": 4451,
+        "Load weight maximum [ton]": 5236,
+        "Engine power minumum [kW] ": null,
+        "Engine power maximum [kW] ": null,
+        "Engine power averge [kW]": null,
+        "Bow thruster minimum [kW]": null,
+        "Bow thruster maximum [kW]": null
+      },
+      "id": "ship-0",
+      "name": "ship-0"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "properties": {
+        "CEMT-class": "Vb",
+        "Vessel type": "Convoy",
+        "Description (English)": "Va + Europe II long",
+        "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)",
+        "Beam [m]": 11.4,
+        "Beam 10% percentile [m]": 11,
+        "Beam 50% percentile [m]": 11.4,
+        "Beam 90% percentile [m]": 11.45,
+        "Length [m]": 180,
+        "Length 10% percentile [m]": 171,
+        "Length 50% percentile [m]": 180,
+        "Length 90% percentile [m]": 187,
+        "Draught loaded [m]": 3.5,
+        "Draught average [m]": 3.57,
+        "Draught empty [m]": 1.5,
+        "Height average [m]": 6.5,
+        "Load Weight average [ton]": 4451,
+        "Load weight maximum [ton]": 5236,
+        "Engine power minumum [kW] ": null,
+        "Engine power maximum [kW] ": null,
+        "Engine power averge [kW]": null,
+        "Bow thruster minimum [kW]": null,
+        "Bow thruster maximum [kW]": null
+      },
+      "id": "ship-1",
+      "name": "ship-1"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "properties": {
+        "CEMT-class": "Vb",
+        "Vessel type": "Convoy",
+        "Description (English)": "Va + Europe II long",
+        "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)",
+        "Beam [m]": 11.4,
+        "Beam 10% percentile [m]": 11,
+        "Beam 50% percentile [m]": 11.4,
+        "Beam 90% percentile [m]": 11.45,
+        "Length [m]": 180,
+        "Length 10% percentile [m]": 171,
+        "Length 50% percentile [m]": 180,
+        "Length 90% percentile [m]": 187,
+        "Draught loaded [m]": 3.5,
+        "Draught average [m]": 3.57,
+        "Draught empty [m]": 1.5,
+        "Height average [m]": 6.5,
+        "Load Weight average [ton]": 4451,
+        "Load weight maximum [ton]": 5236,
+        "Engine power minumum [kW] ": null,
+        "Engine power maximum [kW] ": null,
+        "Engine power averge [kW]": null,
+        "Bow thruster minimum [kW]": null,
+        "Bow thruster maximum [kW]": null
+      },
+      "id": "ship-2",
+      "name": "ship-2"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "properties": {
+        "CEMT-class": "Vb",
+        "Vessel type": "Convoy",
+        "Description (English)": "Va + Europe II long",
+        "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)",
+        "Beam [m]": 11.4,
+        "Beam 10% percentile [m]": 11,
+        "Beam 50% percentile [m]": 11.4,
+        "Beam 90% percentile [m]": 11.45,
+        "Length [m]": 180,
+        "Length 10% percentile [m]": 171,
+        "Length 50% percentile [m]": 180,
+        "Length 90% percentile [m]": 187,
+        "Draught loaded [m]": 3.5,
+        "Draught average [m]": 3.57,
+        "Draught empty [m]": 1.5,
+        "Height average [m]": 6.5,
+        "Load Weight average [ton]": 4451,
+        "Load weight maximum [ton]": 5236,
+        "Engine power minumum [kW] ": null,
+        "Engine power maximum [kW] ": null,
+        "Engine power averge [kW]": null,
+        "Bow thruster minimum [kW]": null,
+        "Bow thruster maximum [kW]": null
+      },
+      "id": "ship-3",
+      "name": "ship-3"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03968730523854,
+          51.9453401090454
+        ]
+      },
+      "properties": {
+        "CEMT-class": "Vb",
+        "Vessel type": "Convoy",
+        "Description (English)": "Va + Europe II long",
+        "Description (Dutch)": "Klasse Va + 1 Europa II bak lang (L > 80m)",
+        "Beam [m]": 11.4,
+        "Beam 10% percentile [m]": 11,
+        "Beam 50% percentile [m]": 11.4,
+        "Beam 90% percentile [m]": 11.45,
+        "Length [m]": 180,
+        "Length 10% percentile [m]": 171,
+        "Length 50% percentile [m]": 180,
+        "Length 90% percentile [m]": 187,
+        "Draught loaded [m]": 3.5,
+        "Draught average [m]": 3.57,
+        "Draught empty [m]": 1.5,
+        "Height average [m]": 6.5,
+        "Load Weight average [ton]": 4451,
+        "Load weight maximum [ton]": 5236,
+        "Engine power minumum [kW] ": null,
+        "Engine power maximum [kW] ": null,
+        "Engine power averge [kW]": null,
+        "Bow thruster minimum [kW]": null,
+        "Bow thruster maximum [kW]": null
+      },
+      "id": "ship-4",
+      "name": "ship-4"
+    }
+  ],
+  "operator": {
+    "name": "Operator",
+    "n_margin": 0
+  }
+}
