@@ -39,6 +39,8 @@ except:
 
 logger = logging.getLogger(__name__)
 
+package_path = pathlib.Path(__file__).parent.parent
+
 # define the coorinate system
 geod = pyproj.Geod(ellps="WGS84")
 
@@ -157,10 +159,11 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     compute
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
-    if cache.get((origin.geometry, destination.geometry, lobith_discharge)):
-        return cache.get((origin.geometry, destination.geometry, lobith_discharge))
 
-    depth_path = pathlib.Path('~/data/vaarwegen/discharge/depth.csv')
+    # if cache.get((origin.geometry, destination.geometry, lobith_discharge)):
+    #     return cache.get((origin.geometry, destination.geometry, lobith_discharge))
+
+    depth_path = package_path / 'data' /  'depth.csv'
     discharge_df = pd.read_csv(depth_path)
 
     # also return distance
@@ -213,6 +216,29 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     cache[(origin.geometry, destination.geometry, lobith_discharge)] = max_draught
 
     return max_draught
+
+
+def determine_max_height_on_path(graph, origin, destination, lobith_discharge):
+
+    return 6
+
+def determine_max_layers(height):
+    """determine max number of container layers as a function of available height on the route"""
+
+    container_height = 2.591
+
+    max_layers = 0
+    if height <= 5.8:
+        max_layers = 2
+    elif height <= 8.5:
+        max_layers = 2
+    elif height <= 11.05:
+        max_layers = 3
+    else:
+        max_layers = 4
+
+    return max_layers
+
 
 
 

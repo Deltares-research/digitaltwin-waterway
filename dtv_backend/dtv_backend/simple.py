@@ -1,6 +1,7 @@
 import uuid
 import datetime
 import itertools
+import logging
 
 import numpy as np
 import simpy
@@ -121,6 +122,8 @@ class Port(dtv_backend.logbook.HasLog):
         # tonne / (tonne / hour) -> s
         load_time = cargo_to_move * ureg.metric_ton / (self.loading_rate * (ureg.metric_ton / ureg.hour))
         load_time = load_time.to(ureg.second).magnitude
+
+
         # log cargo levels before/after
         with self.log(
                 message="Load",
@@ -128,7 +131,7 @@ class Port(dtv_backend.logbook.HasLog):
                 destination=destination.cargo,
                 source=source.cargo,
                 geometry=self.geometry,
-                value=source.cargo
+                value=cargo_to_move
         ):
             source.cargo.get(cargo_to_move)
             # move it to the destination
@@ -155,6 +158,8 @@ class Ship(dtv_backend.logbook.HasLog):
         # independent of trip
         return self.cargo.capacity - self.cargo.level
 
+
+
     def get_max_cargo_for_trip(self, origin, destination, lobith_discharge):
         """determin max cargo to take on a trip, given the discharge at lobith"""
         # TODO: move this out of here?
@@ -167,13 +172,44 @@ class Ship(dtv_backend.logbook.HasLog):
         )
         draught_full = self.metadata["Draught loaded [m]"]
         draught_empty = self.metadata["Draught empty [m]"]
-        if max_draught > draught_full:
-            return self.cargo.capacity
-        if max_draught < draught_empty:
-            return 0
+        try:
+            if max_draught > draught_full:
+                return self.cargo.capacity
+            if max_draught < draught_empty:
+                return 0
+        except:
+            logging.exception("TODO Fix this")
+            pass
 
-        load_frac = (max_draught - draught_empty) / (draught_full - draught_empty)
-        max_cargo = self.cargo.capacity * load_frac
+
+        max_height = dtv_backend.fis.determine_max_height_on_path(
+            self.env.FG,
+            origin,
+            destination,
+            lobith_discharge
+        )
+        max_layers = dtv_backend.fis.determine_max_layers(max_height)
+
+        # TODO: separate function for container vs bulk ship
+        capacity = self.cargo.capacity
+        containers_per_layer = self.metadata.get('containers_per_layer', 87)
+
+        # max cargo under height limitation
+        max_cargo_height = max_layers * containers_per_layer
+
+        if max_cargo_height > capacity:
+            max_cargo_height = capacity
+
+        load_frac_draught = (max_draught - draught_empty) / (draught_full - draught_empty)
+
+        max_cargo_draught = self.cargo.capacity * load_frac_draught
+
+        try:
+            max_cargo = min(max_cargo_height, max_cargo_draught)
+        except:
+            logging.exception("TODO: fix this")
+            print(max_cargo_height)
+            max_cargo = max_cargo_height
         return max_cargo
 
     @property
@@ -249,8 +285,10 @@ class Ship(dtv_backend.logbook.HasLog):
             )
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
-            distance = graph.edges[edge]['length']
+            distance = graph.edges[edge]['length_m']
             total_distance += distance
+
+
         if path:
             # move to destination
             end_node = graph.nodes[path[-1]]
@@ -305,6 +343,7 @@ class Ship(dtv_backend.logbook.HasLog):
                     #
                     max_cargo_for_trip = max_load
                 yield from self.load_at(source, max_cargo_for_trip)
+
             # Don't sail empty
             if self.cargo.level > 0:
                 yield from self.move_to(destination)
