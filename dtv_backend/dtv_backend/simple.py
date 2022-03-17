@@ -331,7 +331,7 @@ class Ship(dtv_backend.logbook.HasLog):
                 # determine what the cargo to take
                 # TODO: move to separate function/prop
                 if (self.climate):
-                    lobith_discharge = self.climate['lobith']
+                    lobith_discharge = self.climate['discharge']
                     max_cargo_for_trip = self.get_max_cargo_for_trip(
                         source,
                         destination,

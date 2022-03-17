@@ -235,6 +235,8 @@
         "n_margin": 0
     },
     "climate": {
-        "lobith": 5000
+        "verticalClearance": 6,
+        "discharge": 8000,
+        "seaLevel": 0
     }
 }

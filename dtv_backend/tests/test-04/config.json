@@ -246,7 +246,7 @@
 
     ],
     "climate": {
-        "lobith": 1000
+        "discharge": 1000
     },
     "operator": {
         "name": "Operator",
