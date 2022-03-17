@@ -56,7 +56,7 @@
       <v-stepper-content step="3">
         <h2 class="text-h4 mb-5 ">Climate</h2>
         <v-divider class="mb-6" />
-        <climate-component />
+        <climate-component ref="climate" />
       </v-stepper-content>
 
       <v-stepper-content step="4">
@@ -111,7 +111,15 @@ export default {
       return {
         sites: this.sites.features,
         fleet: this.fleet,
-        operator: { name: 'Operator' }
+        operator: { name: 'Operator' },
+        climate: this.climate
+      }
+    },
+    climate () {
+      return {
+        verticalClearance: this.$refs.climate.verticalClearance,
+        discharge: this.$refs.climate.discharge,
+        seaLevel: this.$refs.climate.seaLevel
       }
     },
     fleet () {
