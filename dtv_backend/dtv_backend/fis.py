@@ -88,7 +88,7 @@ def load_fis_network(url):
     urllib.request.urlretrieve(url, f.name)
     # This will take a minute or two
     # Here we convert the network to a networkx object
-    G = nx.read_yaml(f.name)
+    G = nx.read_gpickle(f.name)
 
     # the temp file can be deleted
     del f
@@ -154,9 +154,9 @@ def find_closest_edge(G, point):
     distance_edge = np.min(distance)
     return name_edge, distance_edge
 
-def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, underkeel_clearance = 0.30):
+def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, underkeel_clearance = 0.30, default=100):
     """
-    compute
+    compute the max draught on the route. If none of the locations where we know the discharge depth relation is on the route, return the default max_draught.
     """
     #TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
 
@@ -210,7 +210,10 @@ def determine_max_draught_on_path(graph, origin, destination, lobith_discharge, 
     # determine the minimal depth
     min_depth = depth_df[depth_df.on_route].apply(lambda x: x.F(lobith_discharge), axis=1).min()
 
-    max_draught = min_depth - underkeel_clearance
+    if not min_depth.any():
+        max_draught = default
+    else:
+        max_draught = min_depth - underkeel_clearance
 
     # assume graph stays the same
     cache[(origin.geometry, destination.geometry, lobith_discharge)] = max_draught

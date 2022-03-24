@@ -1,3 +1,5 @@
+# .env is secret
+
 # Don't upload results
 notebooks/result
 

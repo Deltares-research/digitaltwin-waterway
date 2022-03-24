@@ -93,7 +93,7 @@ class Port(dtv_backend.logbook.HasLog):
         self.crane = simpy.Resource(env, num_cranes)
         self.loading_rate = loading_rate
         self.cargo = simpy.Container(env, init=level, capacity=capacity)
-        self.geometry = shapely.geometry.asShape(geometry)
+        self.geometry = shapely.geometry.shape(geometry)
         self.metadata = kwargs
 
     @property
@@ -145,7 +145,7 @@ class Ship(dtv_backend.logbook.HasLog):
     def __init__(self, env, name=None, geometry=None, level=0, capacity=1, speed=1, climate=None, **kwargs):
         super().__init__(env=env)
         self.name = name
-        self.geometry = shapely.geometry.asShape(geometry)
+        self.geometry = shapely.geometry.shape(geometry)
         self.cargo = simpy.Container(self.env, init=level, capacity=capacity)
         self.speed = speed
         # TODO: where to put this...
@@ -162,6 +162,7 @@ class Ship(dtv_backend.logbook.HasLog):
 
     def get_max_cargo_for_trip(self, origin, destination, lobith_discharge):
         """determin max cargo to take on a trip, given the discharge at lobith"""
+
         # TODO: move this out of here?
         max_draught = dtv_backend.fis.determine_max_draught_on_path(
             self.env.FG,

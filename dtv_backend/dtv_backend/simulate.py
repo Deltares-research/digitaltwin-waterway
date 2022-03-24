@@ -16,8 +16,6 @@ import dtv_backend.network.network_utilities
 logger = logging.getLogger(__name__)
 
 def run(config):
-
-
     # always start at now
     now = datetime.datetime.now()
     initial_time = now.timestamp()
@@ -26,6 +24,7 @@ def run(config):
 
     # read the network from google for performance reasons
     url = 'https://storage.googleapis.com/et-data-science/dtv/network_digital_twin_v0.1.yaml'
+    url = 'https://zenodo.org/record/4578289/files/network_digital_twin_v0.2.pickle?download=1'
     G = dtv_backend.fis.load_fis_network(url)
     env.FG = G
 
