@@ -28,7 +28,7 @@
             inverse-label
             :min="1000"
             :max="15000"
-            label="Rhine discharge"
+            label="Rhine discharge [m3/s]"
             thumb-label="always"
             v-model="discharge"
             ></v-slider>
@@ -75,7 +75,7 @@
             inverse-label
             :min="2"
             :max="15"
-            label="Vertical clearance"
+            label="Vertical clearance [m]"
             thumb-label="always"
             v-model="verticalClearance"
             ></v-slider>
@@ -92,26 +92,30 @@
           <h2>Sea level</h2>
           <p>Raise the sea level in the port.</p>
           <v-slider
-            :step="0.5"
+            :step="0.1"
             inverse-label
             :min="0"
             :max="2"
-            label="Sea level"
+            label="Sea level [m]"
             thumb-label="always"
             v-model="seaLevel"
             ></v-slider>
         </v-card-text>
-
+        <knob-control v-model="seaLevel" :min="0" :max="2" :stepSize="0.1"></knob-control>
       </v-card>
 
-      </v-tab-item>
+    </v-tab-item>
 
-    </v-tabs>
-  </div>
+  </v-tabs>
+</div>
 </template>
 <script>
+import KnobControl from './KnobControl'
 export default {
   name: 'ClimateComponent',
+  components: {
+    KnobControl
+  },
   data () {
     return {
       discharge: 8000,
