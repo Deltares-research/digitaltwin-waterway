@@ -1,37 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar class="app-header" app color="primary" dark>
+    <v-app-bar class="app-header" app >
       <v-toolbar-title> Digital Twin - waterways </v-toolbar-title>
     </v-app-bar>
     <v-main>
-      <v-row class="main-row" no-gutters>
-        <v-col class="pa-3 main-row" cols="12" md="5">
-          <stepper-component />
-        </v-col>
-        <v-col class="pa-0" cols="12" md="7">
-          <map-component />
-        </v-col>
-      </v-row>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import MapComponent from './components/MapComponent'
-import StepperComponent from './components/StepperComponent'
-import { mapActions } from 'vuex'
-
 export default {
   name: 'App',
   components: {
-    MapComponent,
-    StepperComponent
-  },
-  created () {
-    this.fetchSites()
-  },
-  methods: {
-    ...mapActions(['fetchSites'])
   }
 }
 </script>
