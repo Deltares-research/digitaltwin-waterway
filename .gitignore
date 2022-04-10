@@ -1,6 +1,7 @@
 # .env is secret
 
 # Don't upload results
+fis_cache
 notebooks/result
 
 # outputs
