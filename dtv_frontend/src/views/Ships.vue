@@ -108,7 +108,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '~vuetify/src/styles/main.sass';
 
   $blueprint: map-get($blue, 'darken-4');
