@@ -1,36 +1,32 @@
 <template>
 <div>
   <v-tabs
-    >
+  >
     <v-tab
-      :key="discharge">
+      key="discharge">
       Discharge
     </v-tab>
     <v-tab
-      :key="vc">
-      Vertical clearance
-    </v-tab>
-    <v-tab
-      :key="sl">
+      key="sl">
       Sea level
     </v-tab>
 
     <v-tab-item
-      :key="discharge"
+      key="discharge"
       class="climate-scenario"
       >
       <v-card outlined>
         <v-card-text>
-          <h2>Discharge</h2>
+          <h2>Rhine discharge</h2>
           <p>In/decrease the discharge at Lobith. This influences water depths and currents over the whole river.</p>
           <v-slider
             :step="1000"
             inverse-label
             :min="1000"
-            :max="15000"
+            :max="12000"
             label="Rhine discharge [m3/s]"
             thumb-label="always"
-            v-model="discharge"
+            v-model="lobithDischarge"
             ></v-slider>
           <v-slider
             inverse-label
@@ -61,32 +57,46 @@
             ></v-slider>
         </v-card-text>
       </v-card>
-    </v-tab-item>
-    <v-tab-item
-      :key="ad"
-      class="climate-scenario"
-      >
-      <v-card>
+
+      <v-card outlined>
         <v-card-text>
-          <h2>Vertical clearance</h2>
-          <p>Set the vertical clearance to a fixed level.</p>
+          <h2>Maas discharge</h2>
+          <p>In/decrease the discharge at st Pieter. This influences water depths and currents over the whole Maas river.</p>
           <v-slider
-            :step="0.5"
+            :step="100"
             inverse-label
-            :min="2"
-            :max="15"
-            label="Vertical clearance [m]"
+            :min="100"
+            :max="4000"
+            label="st Pieter discharge [m3/s]"
             thumb-label="always"
-            v-model="verticalClearance"
+            v-model="stPieterDischarge"
+            ></v-slider>
+          <v-slider
+            inverse-label
+            :min="0"
+            :max="60"
+            disabled
+            label="Venlo waterlevel"
+            thumb-label="always"
+            v-model="venlo"
+            ></v-slider>
+          <v-slider
+            inverse-label
+            :min="0"
+            :max="60"
+            disabled
+            label="Lith waterlevel"
+            thumb-label="always"
+            v-model="lith"
             ></v-slider>
         </v-card-text>
       </v-card>
 
     </v-tab-item>
-    <v-tab-item
-      :key="slr"
+        <v-tab-item
+      key="slr"
       class="climate-scenario"
-      >
+    >
       <v-card>
         <v-card-text>
           <h2>Sea level</h2>
@@ -96,12 +106,12 @@
             inverse-label
             :min="0"
             :max="2"
+            vertical
             label="Sea level [m]"
             thumb-label="always"
             v-model="seaLevel"
-            ></v-slider>
+          ></v-slider>
         </v-card-text>
-        <knob-control v-model="seaLevel" :min="0" :max="2" :stepSize="0.1"></knob-control>
       </v-card>
 
     </v-tab-item>
@@ -110,23 +120,21 @@
 </div>
 </template>
 <script>
-import KnobControl from './KnobControl'
 export default {
   name: 'ClimateComponent',
   components: {
-    KnobControl
   },
   data () {
     return {
-      discharge: 8000,
-      verticalClearance: 6,
+      lobithDischarge: 2000,
+      stPieterDischarge: 300,
       seaLevel: 0.0
     }
   },
   computed: {
     nijmegen: {
       get () {
-        return this.rhine / 70
+        return this.lobithDischarge / 70
       },
       set (val) {
 
@@ -134,7 +142,7 @@ export default {
     },
     kaub: {
       get () {
-        return this.rhine / 80
+        return this.lobithDischarge / 80
       },
       set (val) {
 
@@ -142,7 +150,23 @@ export default {
     },
     duisburg: {
       get () {
-        return this.rhine / 50
+        return this.lobithDischarge / 50
+      },
+      set (val) {
+
+      }
+    },
+    venlo: {
+      get () {
+        return this.stPieterDischarge / 70
+      },
+      set (val) {
+
+      }
+    },
+    lith: {
+      get () {
+        return this.stPieterDischarge / 80
       },
       set (val) {
 

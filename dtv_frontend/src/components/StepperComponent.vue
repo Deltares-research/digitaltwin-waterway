@@ -32,11 +32,29 @@
       <v-divider></v-divider>
 
       <v-stepper-step
-        :complete="stepper > 3"
+        :complete="stepper > 4"
         step="4"
       >
-        Results
-        <small class="d-none d-xl-flex">charts and visualisations</small>
+        Load
+        <small class="d-none d-xl-flex">Cargo loading</small>
+      </v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step
+        :complete="stepper > 5"
+        step="5"
+      >
+        Animation
+        <small class="d-none d-xl-flex">Visualisation of traffic</small>
+      </v-stepper-step>
+
+      <v-stepper-step
+        :complete="stepper > 5"
+        step="6"
+      >
+        KPI
+        <small class="d-none d-xl-flex">Key peformance indicators</small>
       </v-stepper-step>
     </v-stepper-header>
 
@@ -60,10 +78,23 @@
       </v-stepper-content>
 
       <v-stepper-content step="4">
-        <h2 class="text-h4 mb-5">Results</h2>
+        <h2 class="text-h4 mb-5 ">Load</h2>
+        <v-divider class="mb-6" />
+        <load-component ref="load" />
+      </v-stepper-content>
+
+      <v-stepper-content step="5">
+        <h2 class="text-h4 mb-5">Animation</h2>
         <v-divider class="mb-2" />
         <result-component />
       </v-stepper-content>
+
+      <v-stepper-content step="6">
+        <h2 class="text-h4 mb-5">KPI</h2>
+        <v-divider class="mb-2" />
+        <kpi-component />
+      </v-stepper-content>
+
     </v-stepper-items>
     <div class="pa-4 mt-auto d-flex stepper-footer">
       <v-btn
@@ -75,7 +106,7 @@
       </v-btn>
 
       <v-btn
-        v-if="stepper < 4"
+        v-if="stepper < maxStep"
         color="primary"
         class="ml-auto"
         @click="nextStep"
@@ -90,20 +121,26 @@
 import FleetComponent from './FleetComponent'
 import SitesComponent from './SitesComponent'
 import ClimateComponent from './ClimateComponent'
+import LoadComponent from './LoadComponent'
 import ResultComponent from './ResultComponent'
+import KpiComponent from './KpiComponent'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   data () {
     return {
-      stepper: 1
+      stepper: 1,
+      maxStep: 6
+
     }
   },
   components: {
     FleetComponent,
     SitesComponent,
     ClimateComponent,
-    ResultComponent
+    ResultComponent,
+    LoadComponent,
+    KpiComponent
   },
   computed: {
     ...mapState(['sites']),
@@ -155,7 +192,7 @@ export default {
       this.fetchResults(this.config)
     },
     nextStep () {
-      if (this.stepper < 4) {
+      if (this.stepper < this.maxStep) {
         this.stepper = this.stepper + 1
       }
     },
