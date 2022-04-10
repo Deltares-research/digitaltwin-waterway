@@ -2,6 +2,7 @@
 
 # Don't upload results
 fis_cache
+fis_cache.sqlite
 notebooks/result
 
 # outputs
