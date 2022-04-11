@@ -21,9 +21,10 @@ export default {
   },
   created () {
     this.fetchSites()
+    this.fetchRoute()
   },
   methods: {
-    ...mapActions(['fetchSites'])
+    ...mapActions(['fetchSites', 'fetchRoute'])
   }
 }
 </script>
