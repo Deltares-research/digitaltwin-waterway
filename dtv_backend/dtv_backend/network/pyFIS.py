@@ -8,6 +8,7 @@ Jurjen de Jong, Deltares, 24-9-2019
 
 import requests
 import logging
+
 from shapely import wkt
 from shapely.geometry import Point, Polygon, MultiPolygon
 from shapely.ops import nearest_points
@@ -16,11 +17,17 @@ from pathlib import Path
 import pandas as pd
 # import sqlite3
 from tqdm import tqdm
-from typing import Sequence
+from typing import Sequence, Tuple
+import requests_cache
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+
+# monkey patch requests with a cache
+requests_cache.install_cache('fis_cache')
+
 
 
 class pyFIS:
@@ -94,7 +101,7 @@ class pyFIS:
         objectid = str(objectid)
         return self._parse_request([self.geogeneration, geotype, objectid, geotype2])
 
-    def get_object_subobjects_list(self, geotype1: str, list_of_ids: Sequence[int], geotype2: str):
+    def get_object_subobjects_list(self, geotype1: str, list_of_ids: Tuple[int], geotype2: str):
         """
         When the received that contains no data on how to join different datasets, this functions
         can be ran to request the linked columns from the FIS-server.
