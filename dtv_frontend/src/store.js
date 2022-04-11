@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     results: {},
     sites: [],
+    route: [],
     currentTime: null,
     progress: 0,
     play: false
@@ -38,6 +39,12 @@ export default new Vuex.Store({
         }
       )
       commit('setSites', sites)
+    },
+    async fetchRoute ({ commit }) {
+      const resp = await fetch('data/routes.json')
+      const body = await resp.json()
+      console.log('route', body)
+      commit('setRoute', body.route)
     }
   },
   mutations: {
@@ -45,6 +52,7 @@ export default new Vuex.Store({
       state.results = results
     },
     setSites (state, sites) {
+      // TODO: also get routes
       state.sites = sites
     },
     setPlay (state, play) {
@@ -55,6 +63,9 @@ export default new Vuex.Store({
     },
     setProgress (state, progress) {
       state.progress = progress
+    },
+    setRoute (state, route) {
+      state.route = route
     }
   }
 })
