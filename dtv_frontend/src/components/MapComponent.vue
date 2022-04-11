@@ -2,11 +2,11 @@
   <v-mapbox
     id="map"
     ref="map"
-    :zoom="5"
-    :center="[6, 50]"
+    :zoom="8"
+    :center="[4, 52]"
     :access-token="mapboxAccessToken"
     :preserve-drawing-buffer="true"
-    map-style="mapbox://styles/global-data-viewer/cjtss3jfb05w71fmra13u4qqm"
+    map-style="mapbox://styles/siggyf/cl1tbrgu8000l14pk5x8jgbyg"
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
   >
