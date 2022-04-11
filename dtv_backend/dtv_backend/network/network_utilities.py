@@ -5,6 +5,7 @@ Created on Mon Nov 23 17:10:36 2020
 @author: KLEF
 """
 import pathlib
+import copy
 
 import numpy as np
 import scipy.interpolate
@@ -13,6 +14,8 @@ import pandas as pd
 import geopandas as gpd
 import shapely
 import shapely.wkt
+import shapely.geometry
+import pyproj
 
 
 #%%
@@ -213,3 +216,46 @@ def sort_path(path_gdf):
     to_invert = path_gdf['start_node'] != path_gdf['StartJunctionId']
     path_gdf.loc[to_invert] = path_gdf.loc[to_invert].apply(invert, axis=1)
     return path_gdf
+
+
+def add_geometries(network, geometry_type='dict'):
+    """make a copy of a network and add geometries based on node X,Y and"""
+    network = copy.deepcopy(network)
+    geod = pyproj.Geod(ellps="WGS84")
+
+    if geometry_type not in ["dict", "shapely"]:
+        ValueError(f"unknown geometry_type: {geometry_type}")
+
+    def edge_length(geom):
+        """compute the great circle length of an edge"""
+        # get lon, lat
+        lats, lons = np.array(geom).T
+        distance = geod.line_length(lons, lats)
+        return distance
+
+
+    # convert to shapely geometry
+
+    for n in network.nodes:
+        geometry = shapely.geometry.Point(network.nodes[n]['X'], network.nodes[n]['Y'])
+        # add geometry for export to json
+        if geometry_type == 'dict':
+            network.nodes[n]['geometry'] = shapely.geometry.mapping(
+                geometry
+            )
+        elif geometry_type == 'shapely':
+            network.nodes[n]['geometry'] = geometry
+        # add geometry for export to shapefile
+        network.nodes[n]['Wkt'] = shapely.wkt.dumps(geometry)
+
+    for e in network.edges:
+        edge = network.edges[e]
+        geometry = shapely.wkt.loads(edge['Wkt'])
+        network.edges[e]['length_m'] = edge_length(geometry)
+        # convert to dict
+        if geometry_type == 'dict':
+            network.edges[e]['geometry'] = shapely.geometry.mapping(geometry)
+        elif geometry_type == 'shapely':
+            network.edges[e]['geometry'] = geometry
+
+    return network

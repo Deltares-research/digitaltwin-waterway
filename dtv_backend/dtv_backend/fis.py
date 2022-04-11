@@ -6,6 +6,13 @@ Created on Mon Nov 23 17:10:36 2020
 """
 import pathlib
 import tempfile
+import logging
+import functools
+import io
+import itertools
+import tempfile
+import urllib
+
 
 import numpy as np
 import scipy.interpolate
@@ -13,12 +20,6 @@ import networkx as nx
 import pandas as pd
 import shapely
 import shapely.wkt
-
-import logging
-import functools
-import io
-import tempfile
-import urllib
 
 import shapely.wkt
 import shapely.geometry
@@ -28,6 +29,15 @@ import requests
 import pyproj
 
 from diskcache import Cache
+
+# add pairwise to itertools for python < 3.10
+if not hasattr(itertools, 'pairwise'):
+    def pairwise(iterable):
+        # pairwise('ABCDEFG') --> AB BC CD DE EF FG
+        a, b = itertools.tee(iterable)
+        next(b, None)
+        return zip(a, b)
+    itertools.pairwise = pairwise
 
 
 try:
@@ -105,6 +115,7 @@ def load_fis_network(url):
     # Let's convert those into python shapely objects for easier use later
     for n in G.nodes:
         G.nodes[n]['geometry'] = shapely.geometry.Point(G.nodes[n]['X'], G.nodes[n]['Y'])
+        G.nodes[n]['n'] = n
     for e in G.edges:
         edge = G.edges[e]
         edge['geometry'] = shapely.wkt.loads(edge['Wkt'])
@@ -283,11 +294,20 @@ def shorted_path_by_dimensions(graph, source, destination, width, height, depth,
     for edge in edges:
         constrained_graph.add_edge(edge[0], edge[1])
 
-    path = nx.dijkstra_path(constrained_graph, source, destination, weight='length')
+    path = nx.dijkstra_path(constrained_graph, source, destination, weight='length_m')
     return path
 
 
 def shorted_path(graph, source, destination):
     """compute shortest path on a graph"""
-    path = nx.dijkstra_path(graph, source, destination, weight='length')
+    path = nx.dijkstra_path(graph, source, destination, weight='length_m')
     return path
+
+def calculate_waypoints_route(network, waypoints):
+    assert len(waypoints) > 0, "there should be at least 1 waypoint"
+    # add first point
+    route = [waypoints[0]]
+    for source, target in itertools.pairwise(waypoints):
+        sub_route = nx.shortest_path(network, source=source, target=target, weight='lenght_m')
+        route.extend(sub_route[1:])
+    return route
