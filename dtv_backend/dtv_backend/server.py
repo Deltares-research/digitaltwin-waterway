@@ -4,6 +4,7 @@ import datetime
 
 import dtv_backend.simulate
 import dtv_backend.postprocessing
+import dtv_backend.fis
 
 from flask_cors import CORS
 
@@ -11,6 +12,7 @@ from flask_cors import CORS
 dtv = flask.Blueprint('dtv', __name__)
 
 # TODO: add swaggerui_blueprint
+url = "https://zenodo.org/record/4578289/files/network_digital_twin_v0.2.pickle?download=1"
 
 @dtv.route('/')
 def home():
@@ -35,6 +37,22 @@ def simulate():
         }
     }
     return flask.jsonify(result)
+
+@dtv.route('/find_route', methods=['POST'])
+def find_route():
+    """return a the route that passes through the `{"waypoints": ["node", "node"]}` """
+    body = flask.request.json
+    waypoints = body["waypoints"]
+    network = dtv_backend.fis.load_fis_network(url)
+    route = dtv_backend.fis.calculate_waypoints_route(network, waypoints)
+    return {
+        "waypoints": waypoints,
+        "route": route
+    }
+
+
+
+
 
 
 def create_app():
