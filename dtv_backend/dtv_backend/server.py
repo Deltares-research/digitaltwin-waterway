@@ -5,6 +5,7 @@ import datetime
 import dtv_backend.simulate
 import dtv_backend.postprocessing
 import dtv_backend.fis
+import networkx as nx
 
 from flask_cors import CORS
 
@@ -45,9 +46,36 @@ def find_route():
     waypoints = body["waypoints"]
     network = dtv_backend.fis.load_fis_network(url)
     route = dtv_backend.fis.calculate_waypoints_route(network, waypoints)
+    length = nx.path_weight(network, route, 'length_m')
+
+    structures = []
+
+    structure_types = {
+        'S': 'Structure',
+        'L': 'Lock',
+        'B': 'Bridge'
+    }
+
+    length_m_sum = 0
+    for e in zip(route[:-1], route[1:]):
+        edge = network.edges[e]
+        length_m_sum += edge['length_m']
+        # we found a structure
+        if e[0][0] == e[1][0] and e[0][0] in ['S', 'B', 'L']:
+            row = {
+                'length_m_sum': length_m_sum,
+                'e': e,
+                'n': e[0],
+                'type': structure_types[e[0][0]]
+            }
+            structures.append(row)
+
+
     return {
         "waypoints": waypoints,
-        "route": route
+        "route": route,
+        "length": length,
+        "structures": structures
     }
 
 
