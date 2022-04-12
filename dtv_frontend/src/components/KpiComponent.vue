@@ -1,13 +1,29 @@
 <template>
 <div>
-  <v-card>
+  <v-card class="mb-3">
+    <v-card-title>
+      Duration
+    </v-card-title>
     <v-card-text>
-      <h2>Duration</h2>
+      <v-chip>Duration: P10D3H</v-chip>
+      <v-sheet
+        color="grey darken-2 mt-3"
+        elevation="5"
+        class="chart"
+        >
+        <v-chart class="chart" :option="durationOption" :init-options="initOptions" />
+      </v-sheet>
     </v-card-text>
   </v-card>
-  <v-card>
+  <v-card class="mb-3">
+    <v-card-title>
+      Trips
+    </v-card-title>
     <v-card-text>
-      <h2># Trips</h2>
+      <v-chip># Trips: 30</v-chip>
+      <v-sheet class="chart">
+        <v-chart class="chart" :option="tripsOption" :init-options="initOptions"></v-chart>
+      </v-sheet>
     </v-card-text>
   </v-card>
   <v-card>
@@ -42,12 +58,27 @@
   </v-card>
 </div>
 </template>
-
 <script>
+import { THEME_KEY } from 'vue-echarts'
 export default {
-  data: () => ({
-  }),
-
+  data () {
+    return {
+      initOptions: {
+        renderer: 'svg'
+      },
+      durationOption: {},
+      tripsOption: {}
+    }
+  },
+  provide: {
+    [THEME_KEY]: 'dark'
+  },
+  async mounted () {
+    const durationResponse = await fetch('data/results/duration.json')
+    this.durationOption = await durationResponse.json()
+    const tripsResponse = await fetch('data/results/trips.json')
+    this.tripsOption = await tripsResponse.json()
+  },
   computed: {
 
   },
@@ -63,4 +94,8 @@ export default {
 </script>
 
 <style>
+  .chart {
+  height: 400px;
+  width: 700px;
+  }
 </style>
