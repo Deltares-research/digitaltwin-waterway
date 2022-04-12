@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getField, updateField } from 'vuex-map-fields'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,22 @@ export default new Vuex.Store({
     route: [],
     currentTime: null,
     progress: 0,
-    play: false
+    play: false,
+    cargoType: ''
+  },
+  getters: {
+    getField,
+    unit (state) {
+      let unit = ''
+      const cargoType = state.cargoType
+      if (cargoType === 'Dry Bulk') {
+        unit = 'Tonne'
+      } else if (cargoType === 'Container') {
+        unit = 'TEU'
+      }
+      return unit
+    }
+
   },
   actions: {
     async fetchResults ({ commit }, config) {
@@ -48,6 +64,7 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateField,
     setResults (state, results) {
       state.results = results
     },
