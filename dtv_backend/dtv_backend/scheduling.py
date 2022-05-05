@@ -42,7 +42,7 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
         """Create a timeboard, a schedule for trips"""
 
         max_trip_duration = 30
-        t_start = self.env.epoch
+        t_start = self.env.epoch.replace(second=0, hour=0, minute=0, microsecond=0)
 
         t_end = t_start + datetime.timedelta(days=max_trip_duration)
 
