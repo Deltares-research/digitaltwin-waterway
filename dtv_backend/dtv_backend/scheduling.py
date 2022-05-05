@@ -5,6 +5,7 @@ import datetime
 import timeboard as tb
 
 import dtv_backend.logbook
+from typing import Optional
 
 
 class HasTimeboard(dtv_backend.logbook.HasLog):
@@ -13,8 +14,8 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
     def __init__(
         self,
         env,
-        shift_start_time: datetime.time = datetime.time(0, 0),
-        shift_end_time: datetime.time = datetime.time(23, 59, 59, 999),
+        shift_start_time: Optional[datetime.time] = None,
+        shift_end_time: Optional[datetime.time] = None,
     ):
         super().__init__(env=env)
         # record the environment because we need the start time
@@ -26,6 +27,11 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
         assert isinstance(
             self.env.epoch, datetime.datetime
         ), "environment should have a datetime epoch, for scheduling"
+
+        if shift_start_time is None:
+            shift_start_time = datetime.time(6, 0)
+        if shift_end_time is None:
+            shift_end_time = datetime.time(22, 0)
 
         self.shift_start_time = shift_start_time
         assert isinstance(
