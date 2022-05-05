@@ -11,7 +11,10 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
     """Add timeboard information (work schedule)"""
 
     def __init__(
-        self, env, shift_start_time: datetime.time, shift_end_time: datetime.time
+        self,
+        env,
+        shift_start_time: datetime.time = datetime.time(0, 0),
+        shift_end_time: datetime.time = datetime.time(23, 59, 59, 999),
     ):
         super().__init__(env=env)
         # record the environment because we need the start time

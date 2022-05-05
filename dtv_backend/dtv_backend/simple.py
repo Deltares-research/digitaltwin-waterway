@@ -156,7 +156,7 @@ class Port(dtv_backend.logbook.HasLog):
             yield self.env.timeout(load_time)
 
 
-class Ship(dtv_backend.logbook.HasLog):
+class Ship(dtv_backend.scheduling.HasTimeboard, dtv_backend.logbook.HasLog):
     def __init__(
         self,
         env,
