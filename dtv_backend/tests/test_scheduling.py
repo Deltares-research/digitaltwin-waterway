@@ -11,7 +11,7 @@ import dtv_backend.scheduling
 @pytest.fixture
 def env():
     t_start = datetime.datetime(2020, 1, 1)
-    env = simpy.Environment()
+    env = simpy.Environment(initial_time=t_start.timestamp())
     env.epoch = t_start
     # run for a day
     env.timeout(3600 * 24)

@@ -69,7 +69,7 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
     @property
     def current_time(self) -> datetime.datetime:
         """get the current time from the environment"""
-        return self.env.epoch + datetime.timedelta(seconds=self.env.now)
+        return datetime.datetime.fromtimestamp(self.env.now)
 
     @property
     def current_shift(self) -> tb.Workshift:
