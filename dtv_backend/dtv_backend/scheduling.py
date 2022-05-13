@@ -85,13 +85,15 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
 
         return self.timeboard.get_workshift(self.current_time)
 
+    @property
     def is_on_duty(self) -> bool:
         """is the ship working"""
-        return self.current_shift.is_on_duty
+        return self.current_shift.is_on_duty()
 
+    @property
     def is_off_duty(self) -> bool:
         """is the ship on a break"""
-        return self.current_shift.is_on_duty
+        return self.current_shift.is_on_duty()
 
     def get_next_shift(self, duty: str) -> tb.Workshift:
         """lookup the next shift given duty ='on' or duty='off'"""
