@@ -13,6 +13,7 @@ from pint import UnitRegistry
 import dtv_backend.fis
 import dtv_backend.logbook
 import dtv_backend.scheduling
+import dtv_backend.berthing
 
 ureg = UnitRegistry()
 
@@ -156,7 +157,10 @@ class Port(dtv_backend.logbook.HasLog):
             yield self.env.timeout(load_time)
 
 
-class Ship(dtv_backend.scheduling.HasTimeboard, dtv_backend.logbook.HasLog):
+class Ship(dtv_backend.scheduling.HasTimeboard,
+           dtv_backend.berthing.CanBerth,
+           dtv_backend.logbook.HasLog,
+           ):
     def __init__(
         self,
         env,
@@ -166,9 +170,10 @@ class Ship(dtv_backend.scheduling.HasTimeboard, dtv_backend.logbook.HasLog):
         capacity=1,
         speed=1,
         climate=None,
+        *args,
         **kwargs,
     ):
-        super().__init__(env=env)
+        super().__init__(env=env, *args, **kwargs)
         self.name = name
         self.geometry = shapely.geometry.shape(geometry)
         self.cargo = simpy.Container(self.env, init=level, capacity=capacity)

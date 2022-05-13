@@ -254,8 +254,6 @@ def determine_max_layers(height):
     return max_layers
 
 
-
-
 def shorted_path_by_dimensions(graph, source, destination, width, height, depth, length):
     """create a new constrained graph, based on dimensions, of the same type as graph and find the shortest path"""
     nodes = []
@@ -294,14 +292,24 @@ def shorted_path_by_dimensions(graph, source, destination, width, height, depth,
     for edge in edges:
         constrained_graph.add_edge(edge[0], edge[1])
 
-    path = nx.dijkstra_path(constrained_graph, source, destination, weight='length_m')
+    path = shorted_path(graph=constrained_graph,
+                        source=source,
+                        destination=destination,
+                        weight='length_m')
     return path
 
-
-def shorted_path(graph, source, destination):
+def shorted_path(graph, source, destination, weight='length_m'):
     """compute shortest path on a graph"""
-    path = nx.dijkstra_path(graph, source, destination, weight='length_m')
+    path = nx.dijkstra_path(graph, source, destination, weight=weight)
     return path
+
+def compute_path_length(graph, path, key='length_m'):
+    """ aux fcn to compute distance of a path """
+    total_distance = 0
+    for e in zip(path[:-1], path[1:]):
+        edge_distance = graph.edges[e][key]
+        total_distance += edge_distance
+    return total_distance
 
 def calculate_waypoints_route(network, waypoints):
     assert len(waypoints) > 0, "there should be at least 1 waypoint"

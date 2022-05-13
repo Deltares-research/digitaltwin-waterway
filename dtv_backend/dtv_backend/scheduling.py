@@ -16,10 +16,12 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
         env,
         shift_start_time: Optional[datetime.time] = None,
         shift_end_time: Optional[datetime.time] = None,
+        *args,
+        **kwargs,
     ):
-        super().__init__(env=env)
+        super().__init__(env=env, *args, **kwargs)
         # record the environment because we need the start time
-        self.env = env
+        #self.env = env
 
         assert hasattr(
             self.env, "epoch"
@@ -123,6 +125,17 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
         time_until_duty = datetime.timedelta(seconds=0)
         if self.is_off_duty:
             time_until_duty = self.next_on_duty - self.current_time
+        seconds_until_duty = time_until_duty.total_seconds()
+        with self.log(message="Sleeping", description=f"Sleeping"):
+            yield self.env.timeout(seconds_until_duty)
+    
+    def sleep_till_next_duty(self):
+        """
+        sleep until we are on duty again, even if we could still be
+        on duty at this moment (i.e. reached a berthing spot right before the
+        end of a shift)
+        """
+        time_until_duty = self.next_on_duty - self.current_time            
         seconds_until_duty = time_until_duty.total_seconds()
         with self.log(message="Sleeping", description=f"Sleeping"):
             yield self.env.timeout(seconds_until_duty)
