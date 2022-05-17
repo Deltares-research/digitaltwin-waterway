@@ -43,11 +43,11 @@ export default {
   },
   computed: {
     ...mapState(['results', 'sites', 'play', 'progress']),
-    features () {
+    features() {
       return _.get(this.results, 'log.features', [])
     }
   },
-  data () {
+  data() {
     return {
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
       map: null
@@ -56,11 +56,11 @@ export default {
   methods: {
     ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
     // TODO: add comment about devtools
-    onProgressChange: _.throttle(function ({ time, progress }) {
+    onProgressChange: _.throttle(function({ time, progress }) {
       this.setCurrentTime(time)
       this.setProgress(progress)
     }, 250),
-    onAnimationEnd () {
+    onAnimationEnd() {
       this.setPlay(false)
     }
   }

@@ -61,7 +61,7 @@ import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
 import { mapFields } from 'vuex-map-fields'
 
 export default {
-  data () {
+  data() {
     return {
       cargoTypes: ['Dry Bulk', 'Container'],
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
@@ -75,14 +75,14 @@ export default {
     ...mapFields([
       'cargoType'
     ]),
-    sitesForCargo () {
+    sitesForCargo() {
       let sites = this.sites.features
       if (this.cargoType) {
         sites = this.sites.features.filter(site => site.properties.cargo === this.cargoType)
       }
       return sites
     },
-    maxCapacity () {
+    maxCapacity() {
       let maxCapacity = 1000
       if (this.unit === 'TEU') {
         maxCapacity = 1e4
@@ -91,7 +91,7 @@ export default {
       }
       return maxCapacity
     },
-    step () {
+    step() {
       let step = 10
       if (this.unit === 'TEU') {
         step = 10
@@ -103,5 +103,4 @@ export default {
 
   }
 }
-
 </script>

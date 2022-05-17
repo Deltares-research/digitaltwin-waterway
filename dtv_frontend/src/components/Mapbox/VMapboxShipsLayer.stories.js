@@ -15,7 +15,7 @@ export default {
 
 const Template = (args) => ({
   components: { VMapboxShipsLayer, VMapboxSiteLayer },
-  data () {
+  data() {
     return {
       ...args,
       play: false,

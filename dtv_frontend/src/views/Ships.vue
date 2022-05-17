@@ -42,7 +42,7 @@ const TONNE_PER_TEU = 20
 
 export default {
   name: 'Ships',
-  data () {
+  data() {
     return {
       cargo: 10,
       shipTypes: ['Bulk', 'Container'],
@@ -50,26 +50,26 @@ export default {
     }
   },
   computed: {
-    shipY () {
+    shipY() {
       const maxY = 25
       const fractionLoaded = this.cargo / this.maxCargo
       return maxY * fractionLoaded
     },
-    shipSvg () {
+    shipSvg() {
       if (this.shipType === 'Bulk') {
         return 'graphics/container-ship_Bulk-short.svg#Bulk-short'
       } else {
         return 'graphics/container-ship_Container-short.svg#Container-short'
       }
     },
-    unit () {
+    unit() {
       if (this.shipType === 'Bulk') {
         return 'Tonne'
       } else {
         return 'TEU'
       }
     },
-    maxCargo () {
+    maxCargo() {
       // Compute max cargo in Tonne
       if (this.shipType === 'Bulk') {
         return 2500
@@ -77,7 +77,7 @@ export default {
         return 400
       }
     },
-    stepCargo () {
+    stepCargo() {
       // Cargo step in Tonne
       if (this.shipType === 'Bulk') {
         return 100
@@ -85,12 +85,12 @@ export default {
         return 10
       }
     },
-    label () {
+    label() {
       return `Cargo [${this.unit}]`
     }
   },
   watch: {
-    shipType (newValue, oldValue) {
+    shipType(newValue, oldValue) {
       if (newValue === 'Bulk' & oldValue === 'Container') {
         this.cargo *= TONNE_PER_TEU
       } else if (newValue === 'Container' & oldValue === 'Bulk') {
@@ -100,7 +100,7 @@ export default {
   },
   components: {
   },
-  created () {
+  created() {
   },
   methods: {
     ...mapActions(['fetchSites'])

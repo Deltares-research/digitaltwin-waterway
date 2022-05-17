@@ -84,7 +84,7 @@ export default {
   name: 'LoadComponent',
   components: {
   },
-  data () {
+  data() {
     return {
       cargo: 10,
       underKeelClearance: 20,
@@ -96,20 +96,20 @@ export default {
     ...mapFields([
       'cargoType'
     ]),
-    shipY () {
+    shipY() {
       const maxY = 15
       const minY = 10
       const fractionLoaded = this.cargo / this.maxCargo
       return minY + maxY * fractionLoaded
     },
-    shipSvg () {
+    shipSvg() {
       if (this.shipType === 'Bulk') {
         return 'graphics/container-ship_Bulk-short.svg#Bulk-short'
       } else {
         return 'graphics/container-ship_Container-short.svg#Container-short'
       }
     },
-    maxCargo () {
+    maxCargo() {
       // Compute max cargo in Tonne
       if (this.cargoType === 'Dry Bulk') {
         return 2500
@@ -117,7 +117,7 @@ export default {
         return 400
       }
     },
-    stepCargo () {
+    stepCargo() {
       // Cargo step in Tonne
       if (this.cargoType === 'Dry Bulk') {
         return 100
@@ -125,7 +125,7 @@ export default {
         return 10
       }
     },
-    label () {
+    label() {
       return `Cargo [${this.unit}]`
     }
   }

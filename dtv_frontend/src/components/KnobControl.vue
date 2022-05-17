@@ -48,7 +48,7 @@ const mapRange = (x, inMin, inMax, outMin, outMax) => {
 }
 
 export default {
-  data () {
+  data() {
     return {
       length: 0,
       animatedValue: 0,
@@ -117,30 +117,30 @@ export default {
     }
   },
   computed: {
-    dashStyle () {
+    dashStyle() {
       return {
         strokeDasharray: this.length,
         strokeDashoffset: this.length
       }
     },
-    style () {
+    style() {
       return {
         height: this.responsive ? this.size + '%' : this.size - 5 + 'px'
       }
     },
-    computedSize () {
+    computedSize() {
       return this.responsive ? this.size + '%' : this.size
     },
-    rangePath () {
+    rangePath() {
       return `M ${this.minX} ${this.minY} A ${RADIUS} ${RADIUS} 0 1 1 ${this.maxX} ${this.maxY}`
     },
-    valuePath () {
+    valuePath() {
       return `M ${this.zeroX} ${this.zeroY} A ${RADIUS} ${RADIUS} 0 ${this.largeArc} ${this.sweep} ${this.valueX} ${this.valueY}`
     },
-    showValue () {
+    showValue() {
       return (this.value >= this.min && this.value <= this.max) && !this.disabled
     },
-    zeroRadians () {
+    zeroRadians() {
       /* this weird little bit of logic below is to handle the fact that usually we
                want the value arc to start drawing from the 'zero' point, but, in the case
                that the minimum and maximum values are both above zero, we set the 'zero point'
@@ -151,40 +151,40 @@ export default {
         return mapRange(0, this.min, this.max, MIN_RADIANS, MAX_RADIANS)
       }
     },
-    valueRadians () {
+    valueRadians() {
       return mapRange(this.value, this.min, this.max, MIN_RADIANS, MAX_RADIANS)
     },
-    minX () {
+    minX() {
       return MID_X + Math.cos(MIN_RADIANS) * RADIUS
     },
-    minY () {
+    minY() {
       return MID_Y - Math.sin(MIN_RADIANS) * RADIUS
     },
-    maxX () {
+    maxX() {
       return MID_X + Math.cos(MAX_RADIANS) * RADIUS
     },
-    maxY () {
+    maxY() {
       return MID_Y - Math.sin(MAX_RADIANS) * RADIUS
     },
-    zeroX () {
+    zeroX() {
       return MID_X + Math.cos(this.zeroRadians) * RADIUS
     },
-    zeroY () {
+    zeroY() {
       return MID_Y - Math.sin(this.zeroRadians) * RADIUS
     },
-    valueX () {
+    valueX() {
       return MID_X + Math.cos(this.valueRadians) * RADIUS
     },
-    valueY () {
+    valueY() {
       return MID_Y - Math.sin(this.valueRadians) * RADIUS
     },
-    largeArc () {
+    largeArc() {
       return Math.abs(this.zeroRadians - this.valueRadians) < Math.PI ? 0 : 1
     },
-    sweep () {
+    sweep() {
       return this.valueRadians > this.zeroRadians ? 0 : 1
     },
-    valueDisplay () {
+    valueDisplay() {
       if (this.animation.animateValue) {
         return this.valueDisplayFunction(this.animatedValue)
       } else {
@@ -193,7 +193,7 @@ export default {
     }
   },
   methods: {
-    updatePosition (offsetX, offsetY) {
+    updatePosition(offsetX, offsetY) {
       const dx = offsetX - this.size / 2
       const dy = this.size / 2 - offsetY
       const angle = Math.atan2(dy, dx)
@@ -210,46 +210,46 @@ export default {
       }
       this.$emit('input', Math.round((v - this.min) / this.stepSize) * this.stepSize + this.min)
     },
-    onClick (e) {
+    onClick(e) {
       if (!this.disabled) {
         this.updatePosition(e.offsetX, e.offsetY)
       }
     },
-    onMouseDown (e) {
+    onMouseDown(e) {
       if (!this.disabled) {
         e.preventDefault()
         window.addEventListener('mousemove', this.onMouseMove)
         window.addEventListener('mouseup', this.onMouseUp)
       }
     },
-    onMouseUp (e) {
+    onMouseUp(e) {
       if (!this.disabled) {
         e.preventDefault()
         window.removeEventListener('mousemove', this.onMouseMove)
         window.removeEventListener('mouseup', this.onMouseUp)
       }
     },
-    onTouchStart (e) {
+    onTouchStart(e) {
       if (!this.disabled) {
         e.preventDefault()
         window.addEventListener('touchmove', this.onTouchMove)
         window.addEventListener('touchend', this.onTouchEnd)
       }
     },
-    onTouchEnd (e) {
+    onTouchEnd(e) {
       if (!this.disabled) {
         e.preventDefault()
         window.removeEventListener('touchmove', this.onTouchMove)
         window.removeEventListener('touchend', this.onTouchEnd)
       }
     },
-    onMouseMove (e) {
+    onMouseMove(e) {
       if (!this.disabled) {
         e.preventDefault()
         this.updatePosition(e.offsetX, e.offsetY)
       }
     },
-    onTouchMove (e) {
+    onTouchMove(e) {
       if (!this.disabled && e.touches.length === 1) {
         const boundingClientRect = this.$el.getBoundingClientRect()
         const touch = e.targetTouches.item(0)
@@ -258,7 +258,7 @@ export default {
         this.updatePosition(offsetX, offsetY)
       }
     },
-    dashLength () {
+    dashLength() {
       const element = this.$refs['path-value']
       const length = element.getTotalLength()
 
@@ -272,7 +272,7 @@ export default {
       this.length = length
     }
   },
-  mounted () {
+  mounted() {
     this.dashLength() // the element should be in the DOM
 
     clearInterval(this.interval)

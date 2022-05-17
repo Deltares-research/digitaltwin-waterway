@@ -19,7 +19,7 @@ export default {
     MapComponent,
     StepperComponent
   },
-  created () {
+  created() {
     this.fetchSites()
     this.fetchRoute()
   },

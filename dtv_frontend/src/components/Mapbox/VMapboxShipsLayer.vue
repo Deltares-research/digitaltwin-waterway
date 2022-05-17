@@ -45,7 +45,7 @@ export default {
       default: 240000
     }
   },
-  data () {
+  data() {
     return {
       markers: {},
       initialized: false,
@@ -55,12 +55,12 @@ export default {
     }
   },
   watch: {
-    play () {
+    play() {
       if (this.play) {
         this.start()
       }
     },
-    progress (value) {
+    progress(value) {
       if (!this.play) {
         this.startTime = 0
         this.persistedProgress = value
@@ -69,12 +69,12 @@ export default {
         this.animate()
       }
     },
-    totalProgress () {
+    totalProgress() {
       this.moveShips()
     }
   },
   computed: {
-    ships () {
+    ships() {
       const ships = _.filter(
         _.get(this.results, 'log.features'),
         feature => (
@@ -84,32 +84,32 @@ export default {
       )
       return ships
     },
-    totalProgress () {
+    totalProgress() {
       return this.persistedProgress + this.internalProgress
     },
-    timeScale () {
+    timeScale() {
       return d3.scaleLinear()
         .domain([0, 1])
         .range([this.tStart, this.tStop])
     }
   },
-  mounted () {
+  mounted() {
     this.map = this.getMap()
     this.addTrajectory()
   },
   methods: {
-    deferredMountedTo () {
+    deferredMountedTo() {
       this.map = this.getMap()
       this.addTrajectory()
     },
-    clearMarkers () {
+    clearMarkers() {
       Object.entries(this.markers).forEach(([key, marker]) => {
         marker.mapboxMarker.remove()
         this.$destroy(marker)
         delete this.markers[key]
       })
     },
-    createMarker (ship) {
+    createMarker(ship) {
       const featId = ship.id
       const el = document.createElement('div')
       const child = document.createElement('div')
@@ -139,7 +139,7 @@ export default {
       mapboxMarker.addTo(this.map)
       this.markers[featId] = marker
     },
-    animate (timestamp) {
+    animate(timestamp) {
       if (!this.play) {
         // add internalProgress to the persistedProgress to make that the new starting point
         // when animation starts again
@@ -170,10 +170,10 @@ export default {
 
       requestAnimationFrame(this.animate)
     },
-    start () {
+    start() {
       requestAnimationFrame(this.animate)
     },
-    addTrajectory (id, coordinates) {
+    addTrajectory(id, coordinates) {
       const sourceId = `trajectory-source-${id}`
       const layerId = `trajectory-layer-${id}`
 
@@ -201,7 +201,7 @@ export default {
         }
       })
     },
-    createShips () {
+    createShips() {
       if (!this.initialized) {
         this.clearMarkers()
 
@@ -213,7 +213,7 @@ export default {
         this.initialized = true
       }
     },
-    moveShips () {
+    moveShips() {
       this.createShips()
 
       // get current progress as time on timescale

@@ -78,7 +78,7 @@
 import _ from 'lodash'
 
 export default {
-  data () {
+  data() {
     return {
       ships: [],
       selectedShips: [],
@@ -117,13 +117,13 @@ export default {
       ]
     }
   },
-  mounted () {
+  mounted() {
     this.fetchShips().then((ships) => {
       this.ships = ships
     })
   },
   watch: {
-    selectedShips (ships) {
+    selectedShips(ships) {
       // update counts
       const notSelectedShips = _.difference(this.ships, ships)
       // reset not selected ship count to 0
@@ -137,7 +137,7 @@ export default {
     }
   },
   methods: {
-    async fetchShips () {
+    async fetchShips() {
       const resp = await fetch('data/DTV_shiptypes_database.json')
       const ships = await resp.json()
       /* add ship count  */

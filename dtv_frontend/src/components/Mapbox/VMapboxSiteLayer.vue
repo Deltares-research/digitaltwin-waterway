@@ -3,22 +3,22 @@ import { mapState } from 'vuex'
 export default {
   inject: ['getMap'],
   props: ['sites'],
-  data () {
+  data() {
     return {
       waypoints: ['8865973', '22638188'],
       waypointHover: null
     }
   },
-  render () {
+  render() {
     return null
   },
   computed: mapState(['route']),
   methods: {
-    deferredMountedTo () {
+    deferredMountedTo() {
       this.map = this.getMap()
       this.addSites()
     },
-    addSites () {
+    addSites() {
       // TODO: get route for sites
       this.map.addSource('dtv-edges', {
         type: 'vector',
@@ -34,8 +34,7 @@ export default {
         type: 'line',
         source: 'dtv-edges',
         'source-layer': 'dtv-edges',
-        layout: {
-        },
+        layout: {},
         paint: {
           'line-color': 'hsla(301, 98%, 46%, 0.8)',
           'line-width': 2
@@ -52,8 +51,7 @@ export default {
         type: 'circle',
         source: 'dtv-nodes',
         'source-layer': 'dtv-nodes',
-        layout: {
-        },
+        layout: {},
         paint: {
           'circle-opacity': 0
         }
@@ -64,8 +62,7 @@ export default {
         type: 'circle',
         source: 'dtv-nodes',
         'source-layer': 'dtv-nodes',
-        layout: {
-        },
+        layout: {},
         paint: {
           'circle-color': 'hsla(301, 98%, 46%, 0.8)',
           'circle-stroke-color': 'white',
@@ -86,7 +83,7 @@ export default {
           'circle-color': 'hsla(301, 98%, 46%, 0.8)'
         }
       })
-      this.map.on('mousemove', 'node-hover', (e) => {
+      this.map.on('mousemove', 'node-hover', e => {
         if (e.features.length > 0) {
           this.map.getCanvas().style.cursor = 'pointer'
           const feature = e.features[0]
@@ -101,6 +98,9 @@ export default {
         this.map.getCanvas().style.cursor = ''
         this.waypointHover = null
         this.map.setFilter('node-highlight', ['in', 'n', ...this.waypoints])
+      })
+      this.map.on('click', 'node-hover', e => {
+        console.log('click', e, e.features, e.features[0].properties.n)
       })
     }
   }

@@ -12,11 +12,12 @@ export default new Vuex.Store({
     currentTime: null,
     progress: 0,
     play: false,
-    cargoType: ''
+    cargoType: '',
+    activeNode: null
   },
   getters: {
     getField,
-    unit (state) {
+    unit(state) {
       let unit = ''
       const cargoType = state.cargoType
       if (cargoType === 'Dry Bulk') {
@@ -26,10 +27,9 @@ export default new Vuex.Store({
       }
       return unit
     }
-
   },
   actions: {
-    async fetchResults ({ commit }, config) {
+    async fetchResults({ commit }, config) {
       console.log('config', config)
       const request = {
         method: 'POST',
@@ -45,19 +45,28 @@ export default new Vuex.Store({
       const results = await resp.json()
       commit('setResults', results)
     },
-    async fetchSites ({ commit }) {
+    async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
       const sites = await resp.json()
       console.log('sites', sites)
-      sites.features = sites.features.map(
-        feature => {
-          return feature
-        }
-      )
+      sites.features = sites.features.map(feature => {
+        return feature
+      })
       commit('setSites', sites)
     },
-    async fetchRoute ({ commit }) {
+    async fetchRoute({ commit }) {
       const resp = await fetch('data/routes.json')
+      const body = await resp.json()
+      console.log('route', body)
+      commit('setRoute', body.route)
+    },
+    async fetchRoutev2({ commit }) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ waypoints: ['A', 'B'] })
+      }
+      const resp = await fetch('get_routes', requestOptions)
       const body = await resp.json()
       console.log('route', body)
       commit('setRoute', body.route)
@@ -65,23 +74,26 @@ export default new Vuex.Store({
   },
   mutations: {
     updateField,
-    setResults (state, results) {
+    setResults(state, results) {
       state.results = results
     },
-    setSites (state, sites) {
+    setSites(state, sites) {
       // TODO: also get routes
       state.sites = sites
     },
-    setPlay (state, play) {
+    setActiveNode(state, node) {
+      state.node = node
+    },
+    setPlay(state, play) {
       state.play = play
     },
-    setCurrentTime (state, time) {
+    setCurrentTime(state, time) {
       state.currentTime = time
     },
-    setProgress (state, progress) {
+    setProgress(state, progress) {
       state.progress = progress
     },
-    setRoute (state, route) {
+    setRoute(state, route) {
       state.route = route
     }
   }

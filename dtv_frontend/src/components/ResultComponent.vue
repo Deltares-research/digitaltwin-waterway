@@ -70,10 +70,10 @@ export default {
   computed: {
     ...mapState(['results', 'currentTime', 'progress', 'play']),
     play: {
-      get () { return this.$store.state.play },
-      set (value) { this.setPlay(value) }
+      get() { return this.$store.state.play },
+      set(value) { this.setPlay(value) }
     },
-    events () {
+    events() {
       const events = _.get(this.results, 'log.features', [])
 
       // add custom events for start & end of simulation
@@ -103,7 +103,7 @@ export default {
         }
       ] : []
     },
-    activeEvent () {
+    activeEvent() {
       const activeEvents = this.events
         .filter(event => {
           return this.currentTime >= event.properties['Start Timestamp'] &&
@@ -117,14 +117,14 @@ export default {
   },
 
   watch: {
-    activeEvent (value) {
+    activeEvent(value) {
       this.scrollEventIntoView(value)
     }
   },
 
   methods: {
     ...mapMutations(['setPlay', 'setProgress']),
-    eventColor (event) {
+    eventColor(event) {
       const colors = {
         Ship: 'blue',
         Port: 'green',
@@ -132,10 +132,10 @@ export default {
       }
       return colors[event.properties.Actor] || 'grey'
     },
-    checkIfActive (event) {
+    checkIfActive(event) {
       return this.currentTime >= event.properties['Start Timestamp']
     },
-    scrollEventIntoView: _.debounce(function (value) {
+    scrollEventIntoView: _.debounce(function(value) {
       const ref = this.$refs[`event-${value}`]
 
       if (ref && ref[0]) {
@@ -147,17 +147,17 @@ export default {
         })
       }
     }, 200),
-    onMousedown () {
+    onMousedown() {
       // store if timeline was playing so we can either start playing
       // or not when dragging ends
       this.wasPlaying = this.play
       this.setPlay(false)
     },
-    onMouseup () {
+    onMouseup() {
       // use stored playing state to start playing or not
       this.setPlay(this.wasPlaying)
     },
-    onInput (value) {
+    onInput(value) {
       this.setProgress(value)
     }
   }

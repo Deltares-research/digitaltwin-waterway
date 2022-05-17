@@ -124,7 +124,7 @@ export default {
   name: 'ClimateComponent',
   components: {
   },
-  data () {
+  data() {
     return {
       lobithDischarge: 2000,
       stPieterDischarge: 300,
@@ -133,42 +133,42 @@ export default {
   },
   computed: {
     nijmegen: {
-      get () {
+      get() {
         return this.lobithDischarge / 70
       },
-      set (val) {
+      set(val) {
 
       }
     },
     kaub: {
-      get () {
+      get() {
         return this.lobithDischarge / 80
       },
-      set (val) {
+      set(val) {
 
       }
     },
     duisburg: {
-      get () {
+      get() {
         return this.lobithDischarge / 50
       },
-      set (val) {
+      set(val) {
 
       }
     },
     venlo: {
-      get () {
+      get() {
         return this.stPieterDischarge / 70
       },
-      set (val) {
+      set(val) {
 
       }
     },
     lith: {
-      get () {
+      get() {
         return this.stPieterDischarge / 80
       },
-      set (val) {
+      set(val) {
 
       }
     }

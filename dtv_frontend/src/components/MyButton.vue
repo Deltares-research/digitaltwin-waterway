@@ -10,7 +10,7 @@ export default {
   name: 'my-button',
 
   methods: {
-    onClick () {
+    onClick() {
       /**
        * Click event
        *

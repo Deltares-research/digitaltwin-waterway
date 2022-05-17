@@ -61,7 +61,7 @@
 <script>
 import { THEME_KEY } from 'vue-echarts'
 export default {
-  data () {
+  data() {
     return {
       initOptions: {
         renderer: 'svg'
@@ -73,7 +73,7 @@ export default {
   provide: {
     [THEME_KEY]: 'dark'
   },
-  async mounted () {
+  async mounted() {
     const durationResponse = await fetch('data/results/duration.json')
     this.durationOption = await durationResponse.json()
     const tripsResponse = await fetch('data/results/trips.json')

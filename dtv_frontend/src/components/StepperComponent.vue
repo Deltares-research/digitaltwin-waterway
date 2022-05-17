@@ -127,7 +127,7 @@ import KpiComponent from './KpiComponent'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
       stepper: 1,
       maxStep: 6
@@ -144,7 +144,7 @@ export default {
   },
   computed: {
     ...mapState(['sites']),
-    config () {
+    config() {
       return {
         sites: this.sites.features,
         fleet: this.fleet,
@@ -152,14 +152,14 @@ export default {
         climate: this.climate
       }
     },
-    climate () {
+    climate() {
       return {
         verticalClearance: this.$refs.climate.verticalClearance,
         discharge: this.$refs.climate.discharge,
         seaLevel: this.$refs.climate.seaLevel
       }
     },
-    fleet () {
+    fleet() {
       const fleet = []
       this.$refs.fleet.ships.forEach(ship => {
         for (var i = 0; i < ship.count; i++) {
@@ -180,7 +180,7 @@ export default {
     }
   },
   watch: {
-    stepper (value) {
+    stepper(value) {
       if (value === 4) {
         this.startSailing()
       }
@@ -188,15 +188,15 @@ export default {
   },
   methods: {
     ...mapActions(['fetchResults']),
-    startSailing () {
+    startSailing() {
       this.fetchResults(this.config)
     },
-    nextStep () {
+    nextStep() {
       if (this.stepper < this.maxStep) {
         this.stepper = this.stepper + 1
       }
     },
-    prevStep () {
+    prevStep() {
       if (this.stepper > 1) {
         this.stepper = this.stepper - 1
       }
