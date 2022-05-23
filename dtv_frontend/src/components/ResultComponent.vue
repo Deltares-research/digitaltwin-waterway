@@ -135,7 +135,7 @@ export default {
     checkIfActive(event) {
       return this.currentTime >= event.properties['Start Timestamp']
     },
-    scrollEventIntoView: _.debounce(function(value) {
+    scrollEventIntoView: _.debounce(function (value) {
       const ref = this.$refs[`event-${value}`]
 
       if (ref && ref[0]) {

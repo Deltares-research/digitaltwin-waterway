@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar class="app-header" app >
-      <v-toolbar-title> Digital Twin - waterways </v-toolbar-title>
+    <v-app-bar class="app-header" app>
+      <v-toolbar-title>Digital Twin - waterways</v-toolbar-title>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
@@ -12,13 +12,11 @@
 <script>
 export default {
   name: 'App',
-  components: {
-  }
+  components: {}
 }
 </script>
 
 <style>
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,5 +31,4 @@ export default {
 .main-row {
   height: 100%;
 }
-
 </style>

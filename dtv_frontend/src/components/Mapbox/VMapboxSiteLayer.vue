@@ -1,19 +1,24 @@
 <script>
-import { mapState } from 'vuex'
+import { mapFields } from 'vuex-map-fields'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   inject: ['getMap'],
   props: ['sites'],
   data() {
     return {
-      waypoints: ['8865973', '22638188'],
-      waypointHover: null
+      // only used for hovering
+      hoverWaypoint: null
     }
   },
   render() {
     return null
   },
-  computed: mapState(['route']),
+  computed: {
+    ...mapFields(['route', 'waypoints']),
+    ...mapGetters(['unit'])
+  },
   methods: {
+    ...mapMutations(['addWaypoint']),
     deferredMountedTo() {
       this.map = this.getMap()
       this.addSites()
@@ -70,37 +75,35 @@ export default {
         },
         filter: ['in', 'n', ...this.waypoints]
       })
-      this.map.addLayer({
-        id: 'sites',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: this.sites
-        },
-        paint: {
-          'circle-opacity': 0.3,
-          'circle-stroke-width': 0,
-          'circle-color': 'hsla(301, 98%, 46%, 0.8)'
-        }
-      })
-      this.map.on('mousemove', 'node-hover', e => {
+      this.map.on('mousemove', 'node-hover', (e) => {
         if (e.features.length > 0) {
           this.map.getCanvas().style.cursor = 'pointer'
           const feature = e.features[0]
-          const n = feature.properties.n
-          this.waypointHover = n
-          const waypoints = [...this.waypoints, this.waypointHover]
-          console.log('waypoints', waypoints)
-          this.map.setFilter('node-highlight', ['in', 'n', ...waypoints])
+          // store as active node
+          this.hoverWaypoint = feature
+          // nover waypoints
+          const waypoints = [...this.waypoints, this.hoverWaypoint]
+          const waypointNodes = waypoints.map((feature) => feature.properties.n)
+          this.map.setFilter('node-highlight', ['in', 'n', ...waypointNodes])
         }
       })
       this.map.on('mouseleave', 'node-hover', () => {
         this.map.getCanvas().style.cursor = ''
-        this.waypointHover = null
-        this.map.setFilter('node-highlight', ['in', 'n', ...this.waypoints])
+        this.hoverWaypoint = null
+        const waypointNodes = this.waypoints.map(
+          (feature) => feature.properties.n
+        )
+
+        this.map.setFilter('node-highlight', ['in', 'n', ...waypointNodes])
       })
-      this.map.on('click', 'node-hover', e => {
-        console.log('click', e, e.features, e.features[0].properties.n)
+      this.map.on('click', 'node-hover', (e) => {
+        if (!e.features || e.features.length < 1) {
+          // no features available
+          return
+        }
+        const feature = e.features[0]
+        // TODO: check if this works
+        this.addWaypoint(feature)
       })
     }
   }

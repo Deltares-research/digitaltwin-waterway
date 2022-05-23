@@ -6,14 +6,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // general cargo type
+    // used to define units and other defaults
+    cargoType: '',
+
     results: {},
-    sites: [],
+    // sites extra information on known locations
+    // current selected node (which can be added to the route)
+    selectedWaypoint: null,
+    // the computed route
     route: [],
+    // the waypoints that the route should go through
+    // list of features
+    waypoints: [],
+
+    // animation type
     currentTime: null,
     progress: 0,
-    play: false,
-    cargoType: '',
-    activeNode: null
+    play: false
   },
   getters: {
     getField,
@@ -74,27 +84,55 @@ export default new Vuex.Store({
   },
   mutations: {
     updateField,
-    setResults(state, results) {
-      state.results = results
+    setRoute(state, payload) {
+      state.route = payload
     },
-    setSites(state, sites) {
-      // TODO: also get routes
-      state.sites = sites
+    setSites(state, payload) {
+      state.sites = payload
     },
-    setActiveNode(state, node) {
-      state.node = node
+    setResults(state, payload) {
+      state.results = payload
     },
-    setPlay(state, play) {
-      state.play = play
+    addWaypoint(state, payload) {
+      const feature = payload
+      if (!feature.properties.n) {
+        return
+      }
+      if (!feature.properties.name) {
+        feature.properties.name = feature.properties.n
+      }
+
+      const defaultProperties = {
+        'Dry Bulk': {
+          level: 10000,
+          loadingRate: 200,
+          loadingRateVariation: 100
+        },
+        Container: {
+          level: 1000,
+          loadingRate: 20,
+          loadingRateVariation: 10
+        }
+      }
+
+      feature.properties = {
+        ...feature.properties,
+        ...defaultProperties[state.cargoType]
+      }
+      console.log('adding waypoint', feature)
+
+      // check if waypoint is already add the end or remove doubles
+      state.waypoints.push(feature)
     },
-    setCurrentTime(state, time) {
-      state.currentTime = time
-    },
-    setProgress(state, progress) {
-      state.progress = progress
-    },
-    setRoute(state, route) {
-      state.route = route
+    removeWaypoint(state, payload) {
+      // do nothing if not the correct item
+      const { waypoint, index } = payload
+      console.log('removing', payload)
+      if (state.waypoints[index] !== waypoint) {
+        console.log('waypoint', state.waypoints[index], waypoint)
+        return
+      }
+      state.waypoints.splice(index, 1)
     }
   }
 })

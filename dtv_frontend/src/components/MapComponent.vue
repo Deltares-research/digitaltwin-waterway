@@ -7,6 +7,7 @@
     :access-token="mapboxAccessToken"
     :preserve-drawing-buffer="true"
     map-style="mapbox://styles/siggyf/cl1tbrgu8000l14pk5x8jgbyg"
+    @mb-load="publishMap"
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
   >
@@ -22,11 +23,8 @@
       @end="onAnimationEnd"
     />
     <!-- :progress="progress" -->
-    <v-mapbox-site-layer v-if="sites.features" :sites="sites" />
-    <v-mapbox-navigation-control
-      :options="{ visualizePitch: true }"
-      position="bottom-right"
-    />
+    <v-mapbox-site-layer />
+    <v-mapbox-navigation-control :options="{ visualizePitch: true }" position="bottom-right" />
   </v-mapbox>
 </template>
 
@@ -37,6 +35,7 @@ import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
 import _ from 'lodash'
 
 export default {
+  inject: ['bus'],
   components: {
     VMapboxSiteLayer,
     VMapboxShipsLayer
@@ -49,19 +48,23 @@ export default {
   },
   data() {
     return {
-      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
-      map: null
+      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN
     }
   },
   methods: {
     ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
     // TODO: add comment about devtools
-    onProgressChange: _.throttle(function({ time, progress }) {
+    onProgressChange: _.throttle(function ({ time, progress }) {
       this.setCurrentTime(time)
       this.setProgress(progress)
     }, 250),
     onAnimationEnd() {
       this.setPlay(false)
+    },
+    publishMap(event) {
+      // emit over the event bus
+      const map = event.target
+      this.bus.emit('map', map)
     }
   }
 }

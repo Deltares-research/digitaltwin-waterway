@@ -1,106 +1,202 @@
 <template>
-<div>
-  <v-card class="mb-4">
-    <v-card-title>
-      Cargo type
-    </v-card-title>
-    <v-card-text>
-      <v-select :items="cargoTypes" v-model="cargoType"></v-select>
-    </v-card-text>
-  </v-card>
-  <div v-if="cargoType">
-    <v-card v-for="site in sitesForCargo" :key="site.id" outlined class="mb-4">
-      <v-card-title class="mb-4">
-        {{ site.properties.name }}
-        <v-spacer />
-        <v-avatar size="20px">
-          <img :src="harborIcon">
-        </v-avatar>
-      </v-card-title>
+  <div>
+    <v-card class="mb-4">
+      <v-card-title>Cargo type</v-card-title>
       <v-card-text>
-        <v-slider
-          v-if="site.properties.name === 'Maasvlakte'"
-
-          :step="step"
-          inverse-label
-          :min="0"
-          :max="maxCapacity"
-          :label="unit"
-          thumb-label="always"
-
-          v-model="site.properties.level"
-          ></v-slider>
-        <v-slider
-          v-if="site.properties.name === 'BCTN'"
-          disabled
-          :step="step"
-          inverse-label
-          :min="0"
-          :max="maxCapacity"
-          :label="unit"
-          thumb-label="always"
-
-          v-model="site.properties.level"
-          ></v-slider>
+        <v-select :items="cargoTypes" v-model="cargoType"></v-select>
       </v-card-text>
-      <v-card-actions>
-        <v-chip v-if="site.properties.loading_rate">Loading rate: {{ site.properties.loading_rate }}</v-chip>
-        <v-chip>Capacity: {{ site.properties.capacity }}</v-chip>
-        <v-chip>Level: {{ site.properties.level }}</v-chip>
-        <v-chip>Cargo: {{ site.properties.cargo }}</v-chip>
-      </v-card-actions>
     </v-card>
-  </div>
+    <div></div>
 
-</div>
+    <div v-if="cargoType">
+      <v-card class="mb-4">
+        <v-card-title>Waypoints</v-card-title>
+        <v-card-text>
+          <div>Select waypoints by clicking on the graph in the map.</div>
+          <v-timeline align-top dense v-show="waypoints.length">
+            <v-timeline-item v-for="(waypoint, $index) in waypoints" :key="waypoint.id" small>
+              <template v-slot:icon>
+                <span>{{$index}}</span>
+              </template>
+              <v-form>
+                <v-container class="pa-0">
+                  <v-row>
+                    <v-col cols="4">
+                      <v-text-field label="id" disabled v-model="waypoint.properties.n"></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field
+                        label="name"
+                        v-model="waypoint.properties.name"
+                        placeholder="name"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn>
+                        <v-icon small @click="removeWaypoint({waypoint, index: $index})">mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <div v-if="cargoType && startSite">
+      <v-card class="mb-4">
+        <v-card-title>
+          Configure start site
+          <v-spacer />
+          <v-avatar size="20px">
+            <img :src="harborIcon" />
+          </v-avatar>
+        </v-card-title>
+        <v-card-subtitle>{{ startSite.properties.name }}</v-card-subtitle>
+        <v-card-text>
+          <v-form>
+            <v-slider
+              :step="capacityStep"
+              :min="0"
+              :max="maxCapacity"
+              persistent-hint
+              :hint="unit"
+              label="Cargo"
+              thumb-label="always"
+              v-model="startSite.properties.level"
+            ></v-slider>
+            <v-slider
+              :step="loadingRateStep"
+              :min="0"
+              :max="maxLoadingRate"
+              :hint="unit + ' / hour'"
+              label="Loading rate"
+              persistent-hint
+              thumb-label="always"
+              v-model="startSite.properties.loadingRate"
+            ></v-slider>
+            <v-slider
+              :step="loadingRateStep"
+              :min="0"
+              :max="maxLoadingRateVariation"
+              label="Loading rate variation"
+              persistent-hint
+              :hint="unit + ' / hour'"
+              thumb-label="always"
+              v-model="startSite.properties.loadingRateVariation"
+            ></v-slider>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <div v-if="cargoType && endSite">
+      <v-card class="mb-4">
+        <v-card-title>
+          Configure end site
+          <v-spacer />
+          <v-avatar size="20px">
+            <img :src="harborIcon" />
+          </v-avatar>
+        </v-card-title>
+        <v-card-subtitle>{{ endSite.properties.name }}</v-card-subtitle>
+        <v-card-text>
+          <v-form>
+            <v-slider
+              :step="loadingRateStep"
+              :min="0"
+              :max="maxLoadingRate"
+              :hint="unit + ' / hour'"
+              label="Loading rate"
+              persistent-hint
+              thumb-label="always"
+              v-model="endSite.properties.loadingRate"
+            ></v-slider>
+            <v-slider
+              :step="loadingRateStep"
+              :min="0"
+              :max="maxLoadingRateVariation"
+              label="Loading rate variation"
+              persistent-hint
+              :hint="unit + ' / hour'"
+              thumb-label="always"
+              v-model="endSite.properties.loadingRateVariation"
+            ></v-slider>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
 import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
 import { mapFields } from 'vuex-map-fields'
+import { mapMutations, mapGetters } from 'vuex'
+import _ from 'lodash'
 
 export default {
+  inject: ['bus'],
   data() {
     return {
       cargoTypes: ['Dry Bulk', 'Container'],
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
       harborIcon,
+      map: null,
       draw: {}
     }
   },
+  methods: {
+    ...mapMutations(['addSelectedWaypoint', 'removeWaypoint'])
+  },
+  created() {
+    this.bus.on('map', (map) => {
+      console.log('got map', map)
+      this.map = map
+    })
+  },
   computed: {
-    ...mapState(['sites']),
-    ...mapGetters(['unit']),
-    ...mapFields([
-      'cargoType'
-    ]),
-    sitesForCargo() {
-      let sites = this.sites.features
-      if (this.cargoType) {
-        sites = this.sites.features.filter(site => site.properties.cargo === this.cargoType)
+    ...mapFields(['cargoType', 'sites', 'waypoints', 'selectedWaypoint']),
+    ...mapGetters(['getWaypointSite', 'unit']),
+    startSite() {
+      return this.waypoints[0]
+    },
+    endSite() {
+      if (this.waypoints.length < 2) {
+        return null
       }
-      return sites
+      return _.last(this.waypoints)
     },
     maxCapacity() {
       let maxCapacity = 1000
       if (this.unit === 'TEU') {
         maxCapacity = 1e4
       } else if (this.unit === 'Tonne') {
-        maxCapacity = 1e3
+        maxCapacity = 1e5
       }
       return maxCapacity
     },
-    step() {
-      let step = 10
+    maxLoadingRate() {
+      let maxLoadingRate = 400
       if (this.unit === 'TEU') {
-        step = 10
-      } else if (this.unit === 'Tonne') {
-        step = 100
+        maxLoadingRate = 60
       }
-      return step
+      if (this.unit === 'Tonne') {
+        maxLoadingRate = 600
+      }
+      return maxLoadingRate
+    },
+    maxLoadingRateVariation() {
+      return this.maxLoadingRate / 2
+    },
+    capacityStep() {
+      return this.maxCapacity / 100
+    },
+    loadingRateStep() {
+      return this.maxLoadingRate / 100
     }
-
   }
 }
 </script>
