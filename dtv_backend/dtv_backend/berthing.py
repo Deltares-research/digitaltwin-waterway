@@ -42,14 +42,17 @@ class CanBerth(dtv_backend.logbook.HasLog):
         is 'length_m'.
 
     """
-    def __init__(self, env, graph, berth_keyword='Berth',
+    def __init__(self, env, graph=None, berth_keyword='Berth',
                  edge_distance='length_m', *args, **kwargs):
         """Initialize with an environment, a graph and keys."""
         super().__init__(env=env)
         
         # process the parameters
         #self.env = env
-        self.graph = graph
+        if graph is None:
+            self.graph = env.FG
+        else:
+            self.graph = graph
         self.berth_keyword = berth_keyword
         self.edge_distance = edge_distance
     
@@ -223,3 +226,32 @@ class CanBerth(dtv_backend.logbook.HasLog):
                                          max_timestamp=max_timestamp)
             
             return berth
+        
+    def move_to_with_berth(self, destination, mean_speed, max_distance, limited=False):
+        """
+        Wrapper around the self.move_to method to move a ship from src
+        to dst, but now with berthing
+        
+        [!] Note: this method assumes that self has a method 'move_to'
+        """
+        current_node = self.node
+        
+        while current_node != destination.node:
+            # if we're not at the dst we must find the next berth (dst included)
+            next_berth = self.find_berth(src_node=current_node,
+                                          dst_node=destination.node,
+                                          max_timestamp=self.next_off_duty,
+                                          max_distance=max_distance,
+                                          mean_speed=mean_speed,
+                                          include_dst=True)
+            
+            # sail from current to next_berth
+            #next_berth_geom = self.graph.nodes[next_berth]
+            yield from self.move_to(destination=next_berth,
+                                    limited=limited)
+            
+            # once the berth is reached, wait until the next duty
+            yield from self.sleep_till_next_duty()
+            
+            # set current to berth to continue
+            current_node = next_berth

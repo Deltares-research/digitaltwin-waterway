@@ -135,6 +135,7 @@ class HasTimeboard(dtv_backend.logbook.HasLog):
         on duty at this moment (i.e. reached a berthing spot right before the
         end of a shift)
         """
+        print(f"sleeping start at {self.current_time }")
         time_until_duty = self.next_on_duty - self.current_time            
         seconds_until_duty = time_until_duty.total_seconds()
         with self.log(message="Sleeping", description=f"Sleeping"):

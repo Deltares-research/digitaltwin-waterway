@@ -295,7 +295,10 @@ class Ship(dtv_backend.scheduling.HasTimeboard,
                 graph, self.node, destination.node, width, height, depth, length
             )
         else:
-            path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
+            if hasattr(destination, 'node'):
+                path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
+            elif isinstance(destination, str):
+                path = dtv_backend.fis.shorted_path(graph, self.node, destination)
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
             distance = graph.edges[edge]["length_m"]
