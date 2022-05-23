@@ -32,8 +32,8 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="1">
-                      <v-btn>
-                        <v-icon small @click="removeWaypoint({waypoint, index: $index})">mdi-delete</v-icon>
+                      <v-btn @click="removeWaypoint({index: $index})">
+                        <v-icon small>mdi-delete</v-icon>
                       </v-btn>
                     </v-col>
                   </v-row>

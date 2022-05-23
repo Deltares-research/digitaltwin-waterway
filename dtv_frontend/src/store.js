@@ -126,12 +126,7 @@ export default new Vuex.Store({
     },
     removeWaypoint(state, payload) {
       // do nothing if not the correct item
-      const { waypoint, index } = payload
-      console.log('removing', payload)
-      if (state.waypoints[index] !== waypoint) {
-        console.log('waypoint', state.waypoints[index], waypoint)
-        return
-      }
+      const { index } = payload
       state.waypoints.splice(index, 1)
     }
   }
