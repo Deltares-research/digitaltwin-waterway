@@ -19,7 +19,7 @@ from dtv_backend.fis import shorted_path, compute_path_length
 
 
 #%%
-class CanBerth(dtv_backend.scheduling.HasTimeboard, dtv_backend.logbook.HasLog):
+class CanBerth(dtv_backend.scheduling.HasTimeboard):
     """
     Class to find berths on a route. The CanBerth class is initiated with
     an environment, and a graph. The parameters berth_keyword and distance are

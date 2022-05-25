@@ -158,9 +158,7 @@ class Port(dtv_backend.logbook.HasLog):
 
 
 class Ship(
-    dtv_backend.scheduling.HasTimeboard,
     dtv_backend.berthing.CanBerth,
-    dtv_backend.logbook.HasLog,
 ):
     def __init__(
         self,
@@ -379,7 +377,7 @@ class Ship(
             ):
                 yield self.env.timeout(total_distance / self.speed)
 
-    def load_move_unload(self, source, destination, max_load=None):
+    def load_move_unload(self, source, destination, max_load=None, with_berth=False):
         """do a full A to B cycle"""
         with self.log(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
@@ -402,10 +400,13 @@ class Ship(
 
             # Don't sail empty
             if self.cargo.level > 0:
-                yield from self.move_to(destination)
+                if not with_berth:
+                    yield from self.move_to(destination)
+                else:
+                    yield from self.move_to_with_berth(destination)
                 yield from self.unload_at(destination)
 
-    def work_for(self, operator):
+    def work_for(self, operator, with_berth=False):
         """Work for an operator by listening to tasks"""
         while True:
             # Get event for message pipe
@@ -420,4 +421,6 @@ class Ship(
             # TODO: consider notifying the operator on progress
             # Notify operator of load changes so extra tasks can be planned
             # operator.send_message() or something...
-            yield from self.load_move_unload(source, destination, max_load)
+            yield from self.load_move_unload(
+                source, destination, max_load, with_berth=with_berth
+            )
