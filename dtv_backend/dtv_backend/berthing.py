@@ -100,7 +100,7 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
             candidate_berths = [n for n in new_graph.nodes if self.__is_berth(n)]
             berths = berths.union(set(candidate_berths))
 
-        return list(berths)
+        return [b for b in list(berths) if not b==src_node]
 
     def __compute_eta_per_berth(self, src_node, dst_node, berth_nodes, mean_speed):
         """
@@ -259,6 +259,7 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
         [!] Note: this method assumes that self has a method 'move_to'
         """
         current_node = self.node
+        print(f"starting trip from {self.node} to {destination.node} with {self.name}")
 
         while current_node != destination.node:
             # if we're not at the dst we must find the next berth (dst included)
@@ -270,6 +271,7 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
                 mean_speed=mean_speed,
                 include_dst=True,
             )
+            print(f"sailing to berth {next_berth} with {self.name}")
 
             # sail from current to next_berth
             # next_berth_geom = self.graph.nodes[next_berth]
@@ -281,6 +283,7 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
             # set current to berth to continue
             current_node = next_berth
 
+        print(f"trip from {self.node} to {destination.node} completed with {self.name}")
     # def pass_berth(self, node):
     #     if node == berth:
     #         yield from self.sleep_till_next_duty()

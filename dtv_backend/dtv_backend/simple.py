@@ -381,30 +381,37 @@ class Ship(
         """do a full A to B cycle"""
         with self.log(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
-            if source.cargo.level > 0:
+            if source.cargo.level <= 0:
+                return
+            
+            if not with_berth:
                 yield from self.move_to(source)
+            else:
+                yield from self.move_to_with_berth(source)
 
-                # determine what the cargo to take
-                # TODO: move to separate function/prop
-                if self.climate:
-                    lobith_discharge = self.climate["discharge"]
-                    max_cargo_for_trip = self.get_max_cargo_for_trip(
-                        source, destination, lobith_discharge
-                    )
-                    # take the minumum of what was requested and what we can take
-                    max_cargo_for_trip = min(max_load, max_cargo_for_trip)
-                else:
-                    #
-                    max_cargo_for_trip = max_load
-                yield from self.load_at(source, max_cargo_for_trip)
+            # determine what the cargo to take
+            # TODO: move to separate function/prop
+            if self.climate:
+                lobith_discharge = self.climate["discharge"]
+                max_cargo_for_trip = self.get_max_cargo_for_trip(
+                    source, destination, lobith_discharge
+                )
+                # take the minumum of what was requested and what we can take
+                max_cargo_for_trip = min(max_load, max_cargo_for_trip)
+            else:
+                #
+                max_cargo_for_trip = max_load
+            yield from self.load_at(source, max_cargo_for_trip)
 
             # Don't sail empty
-            if self.cargo.level > 0:
-                if not with_berth:
-                    yield from self.move_to(destination)
-                else:
-                    yield from self.move_to_with_berth(destination)
-                yield from self.unload_at(destination)
+            if self.cargo.level <= 0:
+                return
+            
+            if not with_berth:
+                yield from self.move_to(destination)
+            else:
+                yield from self.move_to_with_berth(destination)
+            yield from self.unload_at(destination)
 
     def work_for(self, operator, with_berth=False):
         """Work for an operator by listening to tasks"""

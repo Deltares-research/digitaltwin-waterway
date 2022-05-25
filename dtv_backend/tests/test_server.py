@@ -4,6 +4,8 @@ import pathlib
 
 import pytest
 
+import sys
+sys.path.append(r"D:\01. Projecten\[130878] DTV vaarwegen\digitaltwin-waterway\dtv_backend")
 from dtv_backend.server import create_app
 
 
@@ -50,4 +52,14 @@ def test_v2_simulate(client, current_dir_path):
         body = json.load(f)
 
     response = client.post("/v2/simulate", json=body)
-    assert b"Digital" in response.data
+    
+    # check the status
+    assert response.status_code == 200
+    
+    # check if the response can be read as dict
+    try:
+        d = json.loads(response.data)
+        assert isinstance(d, dict), 'data was not returned as a dict'
+    except Exception as e:
+        raise
+    
