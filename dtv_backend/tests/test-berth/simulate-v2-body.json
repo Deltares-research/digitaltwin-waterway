@@ -4628,6 +4628,7 @@
                 "n": "8860852",
                 "name": "8860852",
                 "cargoType": "Dry Bulk",
+                "capacity": 10000,
                 "level": 10000,
                 "loadingRate": 198,
                 "loadingRateVariation": 102
@@ -4663,6 +4664,7 @@
                 "n": "11309119",
                 "name": "11309119",
                 "cargoType": "Dry Bulk",
+                "capacity": 10000,
                 "level": 10000,
                 "loadingRate": 198,
                 "loadingRateVariation": 102
@@ -4701,6 +4703,7 @@
                 "name": "8860852",
                 "cargoType": "Dry Bulk",
                 "level": 10000,
+                "capacity": 10000,
                 "loadingRate": 198,
                 "loadingRateVariation": 102
             },
@@ -4735,6 +4738,7 @@
                 "n": "11309119",
                 "name": "11309119",
                 "cargoType": "Dry Bulk",
+                "capacity": 10000,
                 "level": 10000,
                 "loadingRate": 198,
                 "loadingRateVariation": 102
@@ -4804,7 +4808,8 @@
         "name": "Operator"
     },
     "climate": {
-        "seaLevel": 0
+        "seaLevel": 0,
+        "discharge": 1000
     },
     "options": {
         "has_berth": true
