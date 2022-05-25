@@ -41,6 +41,27 @@ def simulate():
     return flask.jsonify(result)
 
 
+@dtv.route("/v2/simulate", methods=["POST"])
+def v2_simulate():
+    config = flask.request.json
+    # update to new run method
+    result = dtv_backend.simulate.run(config)
+    log_df = pd.DataFrame(result["operator"].logbook)
+    log_json = dtv_backend.postprocessing.log2json(log_df)
+    env = result["env"]
+    result = {
+        "log": log_json,
+        "config": config,
+        "env": {
+            "epoch": env.epoch.timestamp(),
+            "epoch_iso": env.epoch.isoformat(),
+            "now": env.now,
+            "now_iso": datetime.datetime.fromtimestamp(env.now).isoformat(),
+        },
+    }
+    return flask.jsonify(result)
+
+
 @dtv.route("/find_route", methods=["POST"])
 def find_route():
     """return a the route that passes through the `{"waypoints": ["node", "node"]}`"""
