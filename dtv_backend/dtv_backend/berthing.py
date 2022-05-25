@@ -249,7 +249,9 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
 
             return berth
 
-    def move_to_with_berth(self, destination, mean_speed, max_distance, limited=False):
+    def move_to_with_berth(
+        self, destination, mean_speed=3, max_distance=1000, limited=False
+    ):
         """
         Wrapper around the self.move_to method to move a ship from src
         to dst, but now with berthing
