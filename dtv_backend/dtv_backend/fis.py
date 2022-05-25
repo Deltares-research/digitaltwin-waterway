@@ -361,6 +361,7 @@ def make_route_gdf(waypoints, network):
         sub_route = nx.shortest_path(
             network, source=source, target=target, weight="length_m"
         )
+        # TODO: Do we need to add the final point?
         edges = itertools.chain(
             itertools.pairwise(sub_route), [(sub_route[-1], sub_route[-1])]
         )

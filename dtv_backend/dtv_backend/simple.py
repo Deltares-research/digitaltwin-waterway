@@ -157,10 +157,11 @@ class Port(dtv_backend.logbook.HasLog):
             yield self.env.timeout(load_time)
 
 
-class Ship(dtv_backend.scheduling.HasTimeboard,
-           dtv_backend.berthing.CanBerth,
-           dtv_backend.logbook.HasLog,
-           ):
+class Ship(
+    dtv_backend.scheduling.HasTimeboard,
+    dtv_backend.berthing.CanBerth,
+    dtv_backend.logbook.HasLog,
+):
     def __init__(
         self,
         env,
@@ -282,6 +283,46 @@ class Ship(dtv_backend.scheduling.HasTimeboard,
                 # load the cargo
                 yield self.env.process(port.load(self, port))
 
+    # def move_along_waypoints(self, waypoints):
+    #     """move ship over predefined route"""
+    #     # default move to init
+    #     #
+    #     current_node = self.node
+
+    #     route = self.find_route(current_node, waypoints)
+
+    #     while current_node != waypoints[-1]
+    #         n = step["properties"]["n"]
+    #         node = graph.nodes[n]
+    #         # determine if we need to wait at the node
+    #         # with logging?
+    #         yield from self.pass_node(n)
+
+    #         # determine the next edge in a possible new route
+    #         route = self.find_route(current_node, waypoints)
+    #         step = next(route)
+
+    #         e = step["properties"]["e"]
+    #         edge = graph.edges[e]
+    #         # with logging?
+    #         yield from self.pass_edge(edge)
+
+    #         # update node
+    #         # update position
+
+    # def pass_node(self, node):
+    #     for pass_node_gen in self.pass_node_subscribers:
+    #         yield from pass_node_gen(node)
+
+    # def pass_edge(self, edge):
+    #     # pass an edge
+
+    #     for pass_edge_gen in self.pass_edge_subscribers:
+    #         yield from pass_edge_gen(edge)
+
+    # def hasmove_init()
+    #     self.pass_edge_subscribers.append(self.move_to)
+
     def move_to(self, destination, limited=False):
         """Move ship to location"""
         graph = self.env.FG
@@ -295,7 +336,7 @@ class Ship(dtv_backend.scheduling.HasTimeboard,
                 graph, self.node, destination.node, width, height, depth, length
             )
         else:
-            if hasattr(destination, 'node'):
+            if hasattr(destination, "node"):
                 path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
             elif isinstance(destination, str):
                 path = dtv_backend.fis.shorted_path(graph, self.node, destination)
