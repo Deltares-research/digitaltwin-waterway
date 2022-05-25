@@ -9,7 +9,6 @@
   </v-row>
 </template>
 <script>
-import { mapActions } from 'vuex'
 import MapComponent from '@/components/MapComponent'
 import StepperComponent from '@/components/StepperComponent'
 
@@ -24,12 +23,8 @@ export default {
     MapComponent,
     StepperComponent
   },
-  created() {
-    this.fetchSites()
-    this.fetchRoute()
-  },
+  created() {},
   methods: {
-    ...mapActions(['fetchSites', 'fetchRoute']),
     setMap(e) {
       console.log('event', e)
       this.map = e.target

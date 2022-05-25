@@ -1,6 +1,8 @@
 <script>
 import { mapFields } from 'vuex-map-fields'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import _ from 'lodash'
+
 export default {
   inject: ['getMap'],
   props: ['sites'],
@@ -15,10 +17,39 @@ export default {
   },
   computed: {
     ...mapFields(['route', 'waypoints']),
-    ...mapGetters(['unit'])
+    ...mapGetters(['unit']),
+    routeNodes() {
+      // lookup route nodes
+      if (!_.has(this.route, 'features')) {
+        return []
+      }
+      const routeNodes = this.route.features.map((feature) => {
+        return feature.properties.n
+      })
+      return routeNodes
+    }
+  },
+  watch: {
+    route() {
+      const filter = [
+        'all',
+        ['in', 'e_0', ...this.routeNodes],
+        ['in', 'e_1', ...this.routeNodes]
+      ]
+      this.map.setFilter('edge-highlight', filter)
+    },
+    waypoints() {
+      // also update waypoints
+      const waypoints = [...this.waypoints]
+      if (this.hoverWaypoint) {
+        waypoints.push(this.hoverWaypoint)
+      }
+      const waypointNodes = waypoints.map((feature) => feature.properties.n)
+      this.map.setFilter('node-highlight', ['in', 'n', ...waypointNodes])
+    }
   },
   methods: {
-    ...mapMutations(['addWaypoint']),
+    ...mapActions(['addWaypoint']),
     deferredMountedTo() {
       this.map = this.getMap()
       this.addSites()
@@ -46,8 +77,8 @@ export default {
         },
         filter: [
           'all',
-          ['in', 'e_0', ...this.route],
-          ['in', 'e_1', ...this.route]
+          ['in', 'e_0', ...this.routeNodes],
+          ['in', 'e_1', ...this.routeNodes]
         ]
       })
       /* use this layer to capture hovers */

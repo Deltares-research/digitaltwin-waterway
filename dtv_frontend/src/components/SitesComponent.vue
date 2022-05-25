@@ -128,13 +128,27 @@
         </v-card-text>
       </v-card>
     </div>
+
+    <div v-if="cargoType && route.properties">
+      <v-card class="mb-4">
+        <v-card-title>
+          Route information
+          <v-spacer />
+          <v-avatar size="20px">
+            <img :src="markerIcon" />
+          </v-avatar>
+        </v-card-title>
+        <v-card-text>{{route.properties}}</v-card-text>
+      </v-card>
+    </div>
   </div>
 </template>
 
 <script>
 import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
+import markerIcon from '@mapbox/maki/icons/marker-11.svg'
 import { mapFields } from 'vuex-map-fields'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import _ from 'lodash'
 
 export default {
@@ -144,12 +158,13 @@ export default {
       cargoTypes: ['Dry Bulk', 'Container'],
       mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
       harborIcon,
+      markerIcon,
       map: null,
       draw: {}
     }
   },
   methods: {
-    ...mapMutations(['addSelectedWaypoint', 'removeWaypoint'])
+    ...mapActions(['addWaypoint', 'removeWaypoint'])
   },
   created() {
     this.bus.on('map', (map) => {
@@ -158,7 +173,13 @@ export default {
     })
   },
   computed: {
-    ...mapFields(['cargoType', 'sites', 'waypoints', 'selectedWaypoint']),
+    ...mapFields([
+      'cargoType',
+      'sites',
+      'waypoints',
+      'route',
+      'selectedWaypoint'
+    ]),
     ...mapGetters(['getWaypointSite', 'unit']),
     startSite() {
       return this.waypoints[0]

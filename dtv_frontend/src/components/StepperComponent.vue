@@ -113,14 +113,20 @@ export default {
     KpiComponent
   },
   computed: {
-    ...mapState(['sites']),
+    ...mapState(['route', 'waypoints']),
     config() {
-      return {
-        sites: this.sites.features,
+      const config = {
+        route: this.route.features,
+        waypoints: this.waypoints,
         fleet: this.fleet,
         operator: { name: 'Operator' },
-        climate: this.climate
+        climate: this.climate,
+        options: {
+          has_berth: true
+        }
       }
+      console.log('config', config)
+      return config
     },
     climate() {
       return {
@@ -137,7 +143,7 @@ export default {
         }
       })
       const features = fleet.map((ship, i) => {
-        const geometry = this.sites.features[0].geometry
+        const geometry = this.route.features[0].geometry
         const feature = {
           type: 'Feature',
           id: i,
@@ -151,7 +157,7 @@ export default {
   },
   watch: {
     stepper(value) {
-      if (value === 4) {
+      if (value === 5) {
         this.startSailing()
       }
     }

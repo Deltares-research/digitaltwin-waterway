@@ -50,7 +50,8 @@ export default new Vuex.Store({
         body: JSON.stringify(config) // body data type must match "Content-Type" header
       }
       console.log('env', process.env)
-      const apiUrl = process.env.VUE_APP_API_URL
+
+      const apiUrl = process.env.VUE_APP_API_URI
       const resp = await fetch(`${apiUrl}/simulate`, request)
       const results = await resp.json()
       commit('setResults', results)
@@ -70,16 +71,31 @@ export default new Vuex.Store({
       console.log('route', body)
       commit('setRoute', body.route)
     },
-    async fetchRoutev2({ commit }) {
+    async findRoute({ commit }, payload) {
+      const apiUrl = process.env.VUE_APP_API_URI
+
+      // only store the waypoints
+      const waypoints = payload.map(feature => feature.properties.n)
+
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ waypoints: ['A', 'B'] })
+        body: JSON.stringify({ waypoints: waypoints })
       }
-      const resp = await fetch('get_routes', requestOptions)
+      const resp = await fetch(`${apiUrl}/find_route`, requestOptions)
       const body = await resp.json()
       console.log('route', body)
-      commit('setRoute', body.route)
+      commit('setRoute', body)
+    },
+    async addWaypoint({ dispatch, commit, state }, payload) {
+      commit('addWaypoint', payload)
+      if (state.waypoints.length > 1) {
+        dispatch('findRoute', state.waypoints)
+      }
+    },
+    async removeWaypoint({ dispatch, commit, state }, payload) {
+      commit('removeWaypoint', payload)
+      dispatch('findRoute', state.waypoints)
     }
   },
   mutations: {
@@ -98,17 +114,17 @@ export default new Vuex.Store({
       if (!feature.properties.n) {
         return
       }
-      if (!feature.properties.name) {
-        feature.properties.name = feature.properties.n
-      }
-
       const defaultProperties = {
         'Dry Bulk': {
+          name: feature.properties.n,
+          cargoType: 'Dry Bulk',
           level: 10000,
           loadingRate: 200,
           loadingRateVariation: 100
         },
         Container: {
+          name: feature.properties.n,
+          cargoType: 'Container',
           level: 1000,
           loadingRate: 20,
           loadingRateVariation: 10
@@ -128,6 +144,8 @@ export default new Vuex.Store({
       // do nothing if not the correct item
       const { index } = payload
       state.waypoints.splice(index, 1)
+
+      this.dispatch('findRoute', state.waypoints)
     }
   }
 })
