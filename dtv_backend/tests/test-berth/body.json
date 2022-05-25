@@ -77,5 +77,8 @@
     "operator": {
         "name": "Operator",
         "n_margin": 0
+    },
+    "options": {
+        "with_berth": true
     }
 }
