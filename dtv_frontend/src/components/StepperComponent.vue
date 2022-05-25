@@ -93,6 +93,7 @@ import LoadComponent from './LoadComponent'
 import ResultComponent from './ResultComponent'
 import KpiComponent from './KpiComponent'
 import { mapState, mapActions } from 'vuex'
+import _ from 'lodash'
 
 export default {
   props: {
@@ -118,6 +119,7 @@ export default {
       const config = {
         route: this.route.features,
         waypoints: this.waypoints,
+        sites: [_.first(this.waypoints), _.last(this.waypoints)],
         fleet: this.fleet,
         operator: { name: 'Operator' },
         climate: this.climate,
