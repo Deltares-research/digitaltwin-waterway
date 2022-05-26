@@ -47,6 +47,7 @@
 
     <div v-if="cargoType && startSite">
       <v-card class="mb-4">
+        <v-img height="200" :src="siteImg(startSite)" class="site-sat-image"></v-img>
         <v-card-title>
           Configure start site
           <v-spacer />
@@ -94,6 +95,8 @@
 
     <div v-if="cargoType && endSite">
       <v-card class="mb-4">
+        <v-img height="200" :src="siteImg(endSite)" class="site-sat-image"></v-img>
+
         <v-card-title>
           Configure end site
           <v-spacer />
@@ -130,16 +133,7 @@
     </div>
 
     <div v-if="cargoType && route.properties">
-      <v-card class="mb-4">
-        <v-card-title>
-          Route information
-          <v-spacer />
-          <v-avatar size="20px">
-            <img :src="markerIcon" />
-          </v-avatar>
-        </v-card-title>
-        <v-card-text>{{route.properties}}</v-card-text>
-      </v-card>
+      <route-card :route="route"></route-card>
     </div>
   </div>
 </template>
@@ -147,12 +141,16 @@
 <script>
 import harborIcon from '@mapbox/maki/icons/harbor-11.svg'
 import markerIcon from '@mapbox/maki/icons/marker-11.svg'
+import RouteCard from './RouteCard'
 import { mapFields } from 'vuex-map-fields'
 import { mapActions, mapGetters } from 'vuex'
 import _ from 'lodash'
 
 export default {
   inject: ['bus'],
+  components: {
+    RouteCard
+  },
   data() {
     return {
       cargoTypes: ['Dry Bulk', 'Container'],
@@ -164,7 +162,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addWaypoint', 'removeWaypoint'])
+    ...mapActions(['addWaypoint', 'removeWaypoint']),
+    siteImg(site) {
+      const server = 'https://api.mapbox.com'
+      const token = this.mapboxAccessToken
+      const lon = site.geometry.coordinates[0]
+      const lat = site.geometry.coordinates[1]
+      const style = 'satellite-v9'
+      const pin = `pin-s+555555(${lon},${lat})`
+      const url = `${server}/styles/v1/mapbox/${style}/static/${pin}/${lon},${lat},13,0,60/500x200@2x?access_token=${token}`
+      return url
+    }
   },
   created() {
     this.bus.on('map', (map) => {
@@ -180,7 +188,7 @@ export default {
       'route',
       'selectedWaypoint'
     ]),
-    ...mapGetters(['getWaypointSite', 'unit']),
+    ...mapGetters(['unit']),
     startSite() {
       return this.waypoints[0]
     },
@@ -221,3 +229,8 @@ export default {
   }
 }
 </script>
+<style>
+.site-sat-image {
+  filter: saturate(0);
+}
+</style>
