@@ -62,12 +62,16 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <v-card-actions>
+      <v-btn text @click="exportRoute">Export</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
 import markerIcon from '@mapbox/maki/icons/marker-11.svg'
 import markerLock from '@mapbox/maki/icons/ferry-11.svg'
 
+import { saveAs } from 'file-saver'
 import { mapFields } from 'vuex-map-fields'
 
 export default {
@@ -102,6 +106,12 @@ export default {
   methods: {
     formatNumber(number) {
       return Intl.NumberFormat().format(number)
+    },
+    exportRoute() {
+      var blob = new Blob([JSON.stringify(this.route)], {
+        type: 'application/json;charset=utf-8'
+      })
+      saveAs(blob, 'route.geojson')
     }
   }
 }
