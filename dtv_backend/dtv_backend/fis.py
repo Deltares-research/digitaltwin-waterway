@@ -335,7 +335,7 @@ def extract_structure(e):
 
     structure_types = {"S": "Structure", "L": "Lock", "B": "Bridge"}
     source_match = structure_re.match(e[0])
-    target_match = structure_re.match(e[0])
+    target_match = structure_re.match(e[1])
     if not source_match or not target_match:
         return None
 
