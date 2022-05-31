@@ -29,44 +29,20 @@
     </v-row>
     <v-row dense>
       <v-col cols="12" sm="6" xs="12" v-for="(ship, index) in selectedShips" :key="index">
-        <v-card outlined>
-          <v-card-title>
-            {{ ship['Description (Dutch)'] }}
-            <v-spacer />
-            <v-avatar size="50px">
-              <v-icon>mdi-ferry</v-icon>
-            </v-avatar>
-          </v-card-title>
-          <!-- TODO: add color, icon/image -->
-          <v-card-text>
-            <v-slider :min="0" :max="20" label="# ships" thumb-label="always" v-model="ship.count"></v-slider>
-            <v-simple-table dense>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Property</th>
-                    <th class="text-left">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in tableProperties" :key="item">
-                    <td>{{ item }}</td>
-                    <td>{{ ship[item] }}</td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-          </v-card-text>
-        </v-card>
+        <ship-card :ship="ship"></ship-card>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import ShipCard from './ShipCard'
 import _ from 'lodash'
 
 export default {
+  components: {
+    ShipCard
+  },
   data() {
     return {
       ships: [],
@@ -97,13 +73,6 @@ export default {
           text: 'Beam [m]',
           value: 'Beam [m]'
         }
-      ],
-      tableProperties: [
-        'Vessel type',
-        'CEMT-class',
-        'RWS-class',
-        'Length [m]',
-        'Beam [m]'
       ]
     }
   },
