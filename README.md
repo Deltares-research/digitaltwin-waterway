@@ -3,6 +3,12 @@ Code and notebooks for the Digital Twin Waterway
 
 # Topological network of the Dutch Fairway Information System 
 
+## Website
+
+The v1.1 version of the [Digital Twin Waterways](https://v0-1-1--digitwin-waterways.netlify.app/) can be found online. 
+The latest version of the [Digital Twin Waterways](https://digitwin-waterways.netlify.app/) is also up. 
+
+
 ## Files
 
 `network_digital_twin_v0.1.yaml`
