@@ -1,4 +1,8 @@
+# .env is secret
+
 # Don't upload results
+fis_cache
+fis_cache.sqlite
 notebooks/result
 
 # outputs
@@ -137,3 +141,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+example-berth.ipynb

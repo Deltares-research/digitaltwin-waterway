@@ -2,11 +2,12 @@
   <v-mapbox
     id="map"
     ref="map"
-    :zoom="5"
-    :center="[6, 50]"
+    :zoom="8"
+    :center="[4, 52]"
     :access-token="mapboxAccessToken"
     :preserve-drawing-buffer="true"
-    map-style="mapbox://styles/global-data-viewer/cjtss3jfb05w71fmra13u4qqm"
+    map-style="mapbox://styles/siggyf/cl1tbrgu8000l14pk5x8jgbyg"
+    @mb-load="publishMap"
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
   >
@@ -22,11 +23,8 @@
       @end="onAnimationEnd"
     />
     <!-- :progress="progress" -->
-    <v-mapbox-site-layer v-if="sites.features" :sites="sites" />
-    <v-mapbox-navigation-control
-      :options="{ visualizePitch: true }"
-      position="bottom-right"
-    />
+    <v-mapbox-site-layer />
+    <v-mapbox-navigation-control :options="{ visualizePitch: true }" position="bottom-right" />
   </v-mapbox>
 </template>
 
@@ -37,20 +35,20 @@ import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
 import _ from 'lodash'
 
 export default {
+  inject: ['bus'],
   components: {
     VMapboxSiteLayer,
     VMapboxShipsLayer
   },
   computed: {
     ...mapState(['results', 'sites', 'play', 'progress']),
-    features () {
+    features() {
       return _.get(this.results, 'log.features', [])
     }
   },
-  data () {
+  data() {
     return {
-      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
-      map: null
+      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN
     }
   },
   methods: {
@@ -60,8 +58,13 @@ export default {
       this.setCurrentTime(time)
       this.setProgress(progress)
     }, 250),
-    onAnimationEnd () {
+    onAnimationEnd() {
       this.setPlay(false)
+    },
+    publishMap(event) {
+      // emit over the event bus
+      const map = event.target
+      this.bus.emit('map', map)
     }
   }
 }

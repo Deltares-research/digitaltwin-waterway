@@ -16,5 +16,4 @@ simulation_start = datetime.datetime(2020, 10, 27).timestamp()
 my_env = simpy.Environment(initial_time=simulation_start)
 
 #%%
-NPRC_fleet = provideNPRCfleet(my_env)
-
+# NPRC_fleet = provideNPRCfleet(my_env)

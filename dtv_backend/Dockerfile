@@ -34,7 +34,7 @@ COPY . $HOME/app
 
 WORKDIR $HOME/app
 # this is faster
-RUN pip install simpy
+RUN pip install simpy timeboard
 ENV PATH /opt/conda/bin:$PATH
 RUN pip install -e .
 

@@ -1,8 +1,10 @@
 import logging
+import copy
 from typing import Sequence
 
 from shapely.geometry import Point, MultiPoint, LineString
 import numpy as np
+import pandas as pd
 import geopandas as gpd
 
 from tqdm.auto import tqdm
@@ -127,7 +129,7 @@ def update_id_in_dataframe_around_chainage(df: gpd.geodataframe, name_nearest_li
             section_new[node_end_columnname] = new_node_names[ii]
 
         # Update DataFrame
-        df = df.append(section_new)
+        df = pd.concat([df, pd.DataFrame([section_new])])
 
     return df
 
@@ -159,8 +161,8 @@ def update_id_in_dataframe_at_chainage(df: gpd.geodataframe, name_nearest_line, 
 
     # Update DataFrame
     df = df.drop(section_old.name, axis='index')
-    df = df.append(section_new_1)
-    df = df.append(section_new_2)
+    df = pd.concat([df, pd.DataFrame([section_new_1])])
+    df = pd.concat([df, pd.DataFrame([section_new_2])])
 
     return df
 
@@ -451,3 +453,64 @@ def find_crossings_in_branches(branches, max_distance=0.005, prefix='FN', node_s
                     branches = update_id_in_dataframe_at_chainage(branches, name_nearest_line, chainage, node_id)
 
     return branches
+
+
+def rename_keys(network, forward=True):
+    network = copy.deepcopy(network)
+    rename_keys = {
+        'Classification': 'class',
+        'CoupledDepth': 'cpl-depth',
+        'CoupledLength': 'cpl-length',
+        'CoupledWidth': 'cpl-width',
+        'Description': 'descr',
+        'GeneralDepth': 'gen-depth',
+        'GeneralHeight': 'gen-height',
+        'GeneralLength': 'gen-length',
+        'GeneralWidth': 'gen-width',
+        'Id_navigability': 'id-nav',
+        'PushedDepth': 'psh-depth',
+        'PushedLength': 'psh-length',
+        'PushedWidth': 'psh-width',
+        'SeaFairingDepth': 'sea-depth',
+        'SeaFairingHeight': 'sea-height',
+        'SeaFairingLength': 'sea-length',
+        'SeaFairingWidth': 'sea-width',
+        'WidePushedDepth': 'wd-depth',
+        'WidePushedLength': 'wd-length',
+        'WidePushedWidth': 'wd-width',
+        'EndJunctionId': 'end-id',
+        'StartJunctionId': 'start-id'
+    }
+    # which direction
+    if not forward:
+        rename_keys = {
+            value: key
+            for (key, value)
+            in rename_keys.items()
+        }
+
+    for e in network.edges:
+        edge = network.edges[e]
+        for key, new_key in rename_keys.items():
+            edge[new_key] = edge[key]
+            del edge[key]
+    return network
+
+
+def strip_geometries(network):
+    """remove geometry fields from a network"""
+    # write_shp has an internal function that uses the Wkt fields and converts it to gdal/ogr types
+    # it does not support the geometry (shapely type)
+    # so for now we'll remove the geometries
+    # https://networkx.org/documentation/networkx-1.9.1/_modules/networkx/readwrite/nx_shp.html#write_shp
+
+    # we need to copy the network because we have to remove some information for shapefile compatibility (the geometry)
+    shp_network = copy.deepcopy(network)
+    for e in shp_network.edges:
+        edge = shp_network.edges[e]
+        # we can remove the geometry for now
+        del edge['geometry']
+    for n in shp_network.nodes:
+        node = shp_network.nodes[n]
+        del node['geometry']
+    return shp_network

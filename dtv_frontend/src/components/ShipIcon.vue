@@ -40,16 +40,16 @@ export default {
     name: [String, Number]
   },
   computed: {
-    shipStyle () {
+    shipStyle() {
       return {
         width: this.size + 'px',
         height: this.size + 'px'
       }
     },
-    showBadge () {
+    showBadge() {
       return !!this.badge
     },
-    imgUrl () {
+    imgUrl() {
       return this.shipImage || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRvKRniAxUXUWzmByw7CRFYD5fTqOtFTDVkw&usqp=CAU'
     }
   }

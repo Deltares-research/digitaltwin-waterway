@@ -1,0 +1,21 @@
+{
+    "xAxis": {
+        "name": "Duration",
+        "type": "category",
+        "boundaryGap": false,
+        "data": [5, 10, 15, 20]
+    },
+    "yAxis": {
+        "type": "value",
+        "name": "Count"
+    },
+    "legend": {
+        "data": ["Duration [h]"]
+    },
+    "series": [{
+        "name": "Duration [h]",
+        "data": [15, 8, 5, 2],
+        "type": "line",
+        "areaStyle": {}
+    }]
+}

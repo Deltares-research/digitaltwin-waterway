@@ -9,8 +9,6 @@ import simpy
 COUNT = itertools.count()
 
 
-
-
 class LogDecorator(ContextDecorator):
     def __init__(self, env, logbook, message, **kwargs):
         """initialize the logbook"""
@@ -22,7 +20,16 @@ class LogDecorator(ContextDecorator):
 
         self.activity_id = next(COUNT)
 
-    def log_entry(self, message=None, timestamp=None, value=None, geometry=None, activity_id=None, activity_state=None, **kwargs):
+    def log_entry(
+        self,
+        message=None,
+        timestamp=None,
+        value=None,
+        geometry=None,
+        activity_id=None,
+        activity_state=None,
+        **kwargs
+    ):
         entry = {
             "Message": message,
             "Timestamp": datetime.datetime.utcfromtimestamp(timestamp),
@@ -30,7 +37,7 @@ class LogDecorator(ContextDecorator):
             "geometry": geometry,
             "ActivityID": activity_id or next(COUNT),
             "ActivityState": activity_state,
-            "Meta": kwargs
+            "Meta": kwargs,
         }
         self.logbook.append(entry)
 
@@ -42,7 +49,7 @@ class LogDecorator(ContextDecorator):
             message=self.message,
             timestamp=self.env.now,
             activity_id=self.activity_id,
-            state='START',
+            state="START",
             **self._get_meta()
         )
         return self
@@ -53,7 +60,7 @@ class LogDecorator(ContextDecorator):
             message=self.message,
             timestamp=self.env.now,
             activity_id=self.activity_id,
-            state='STOP',
+            state="STOP",
             **self._get_meta()
         )
         return False
@@ -68,24 +75,24 @@ class LogDecorator(ContextDecorator):
         kwargs.update(self.kwargs)
 
         # store source and destination level
-        for key in ('source', 'destination'):
+        for key in ("source", "destination"):
             if key in kwargs:
                 if isinstance(kwargs[key], simpy.resources.container.Container):
-                    kwargs[key + '_level'] = kwargs[key].level
-        if 'value' in kwargs:
-            if isinstance(kwargs['value'], simpy.resources.container.Container):
-                kwargs['value'] = kwargs['value'].level
-        if hasattr(self, 'geometry'):
-            kwargs['geometry'] = self.geometry
+                    kwargs[key + "_level"] = kwargs[key].level
+        if "value" in kwargs:
+            if isinstance(kwargs["value"], simpy.resources.container.Container):
+                kwargs["value"] = kwargs["value"].level
+        if hasattr(self, "geometry"):
+            kwargs["geometry"] = self.geometry
         return kwargs
-
 
 
 class HasLog(object):
     """class that provides a log function for building a logbook"""
+
     # global logbook
     def __init__(self, env, *args, **kwargs):
-        if hasattr(env, 'logbook'):
+        if hasattr(env, "logbook"):
             # get logbook from environment
             self.logbook = env.logbook
         else:
@@ -96,13 +103,8 @@ class HasLog(object):
         self.env = env
         self.id = str(uuid.uuid4())
 
-
     def log(self, **kwargs):
         # already fill in the logbook  and environment
         return LogDecorator(
-            logbook=self.logbook,
-            env=self.env,
-            actor=self,
-            actor_id=self.id,
-            **kwargs
+            logbook=self.logbook, env=self.env, actor=self, actor_id=self.id, **kwargs
         )

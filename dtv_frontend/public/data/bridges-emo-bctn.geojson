@@ -1,0 +1,18 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "bridge_id": "B4705", "Id": 4705, "Name": "Erasmusbrug, vaste overspanning", "NumberOfOpenings": 2.0, "HeightClosed": 12.5, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 4.48540449142456, 51.909619113214497 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B12602", "Id": 12602, "Name": "Willemsbrug, Rotterdam", "NumberOfOpenings": 1.0, "HeightClosed": 12.3, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 4.49576102634618, 51.917133774603002 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B4308", "Id": 4308, "Name": "Van Brienenoordbrug (noord)", "NumberOfOpenings": 2.0, "HeightClosed": 24.3, "CanOpen": "1" }, "geometry": { "type": "Point", "coordinates": [ 4.54283319144299, 51.904022338911197 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B43523", "Id": 43523, "Name": "Alblasserdamsebrug", "NumberOfOpenings": 2.0, "HeightClosed": 13.08, "CanOpen": "1" }, "geometry": { "type": "Point", "coordinates": [ 4.65428704357055, 51.856347106487902 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B47519", "Id": 47519, "Name": "Merwedebrug Papendrecht", "NumberOfOpenings": 2.0, "HeightClosed": 12.93, "CanOpen": "1" }, "geometry": { "type": "Point", "coordinates": [ 4.70580291267025, 51.823381914140903 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B8197", "Id": 8197, "Name": "Baanhoekspoorbrug", "NumberOfOpenings": 3.0, "HeightClosed": 11.5, "CanOpen": "1" }, "geometry": { "type": "Point", "coordinates": [ 4.74170296074098, 51.822251083168702 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B23300", "Id": 23300, "Name": "Merwedebrug Gorinchem", "NumberOfOpenings": 3.0, "HeightClosed": 13.33, "CanOpen": "1" }, "geometry": { "type": "Point", "coordinates": [ 4.94242891154061, 51.827482172710504 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B28687", "Id": 28687, "Name": "Martinus Nijhoffbrug", "NumberOfOpenings": 1.0, "HeightClosed": 17.85, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 5.26006937026977, 51.818361234659903 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B28687", "Id": 28687, "Name": "Martinus Nijhoffbrug", "NumberOfOpenings": 1.0, "HeightClosed": 17.85, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 5.26006937026977, 51.818361234659903 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B21116", "Id": 21116, "Name": "spoorbrug Dr. Ir. W. Hupkes", "NumberOfOpenings": 2.0, "HeightClosed": 17.4, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 5.26142841201823, 51.818478623127703 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B20540", "Id": 20540, "Name": "Prins Willem-Alexanderbrug, Beneden-Leeuwen", "NumberOfOpenings": 1.0, "HeightClosed": 19.6, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 5.49759964844592, 51.889038412817698 ] } },
+{ "type": "Feature", "properties": { "bridge_id": "B55481", "Id": 55481, "Name": "Tacitusbrug, brug in de A-50", "NumberOfOpenings": 1.0, "HeightClosed": 23.39, "CanOpen": "0" }, "geometry": { "type": "Point", "coordinates": [ 5.73787068177528, 51.885286042016602 ] } }
+]
+}
