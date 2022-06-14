@@ -73,6 +73,17 @@ def find_route():
     return route
 
 
+@dtv.route("/ships", methods=["GET"])
+def ships():
+    """return a the list of ships"""
+    ships = pd.read_json(
+        dtv_backend.get_src_path() / "data" / "DTV_shiptypes_database.json"
+    )
+    ships = ships[ships.Included.astype("bool")]
+    result = ships.to_dict(orient="records")
+    return result
+
+
 def create_app():
     """Serve"""
     app = flask.Flask("Digital Twin Fairways")

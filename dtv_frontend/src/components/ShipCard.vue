@@ -25,6 +25,12 @@
                 <v-text-field v-model="ship[item]" :disabled="!editable.includes(item)"></v-text-field>
               </td>
             </tr>
+            <tr>
+              <td>Energy carrier</td>
+              <td>
+                <v-select :items="energyCarriers" v-model="energyCarrier" disabled></v-select>
+              </td>
+            </tr>
           </tbody>
         </template>
       </v-simple-table>
@@ -38,14 +44,18 @@ export default {
   },
   data() {
     return {
-      editable: ['name', 'Length [m]', 'Beam [m]'],
+      editable: ['name', 'Length [m]', 'Beam [m]', 'Engine power maximum [kW]'],
+      // hard coded (not available yet)
+      energyCarrier: 'Diesel',
+      energyCarriers: ['Diesel', 'LPG', 'LNG', 'H2'],
       tableProperties: [
         'name',
         'Vessel type',
         'CEMT-class',
         'RWS-class',
         'Length [m]',
-        'Beam [m]'
+        'Beam [m]',
+        'Engine power maximum [kW]'
       ]
     }
   }

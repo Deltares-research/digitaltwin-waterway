@@ -37,6 +37,7 @@ export default {
         ['in', 'e_1', ...this.routeNodes]
       ]
       this.map.setFilter('edge-highlight', filter)
+      this.map.setFilter('edge-highlight-white', filter)
     },
     waypoints() {
       // also update waypoints
@@ -72,8 +73,24 @@ export default {
         'source-layer': 'dtv-edges',
         layout: {},
         paint: {
-          'line-color': 'hsla(301, 98%, 46%, 0.8)',
-          'line-width': 2
+          'line-color': 'hsla(320, 80%, 50%, 0.5)',
+          'line-width': 4
+        },
+        filter: [
+          'all',
+          ['in', 'e_0', ...this.routeNodes],
+          ['in', 'e_1', ...this.routeNodes]
+        ]
+      })
+      this.map.addLayer({
+        id: 'edge-highlight-white',
+        type: 'line',
+        source: 'dtv-edges',
+        'source-layer': 'dtv-edges',
+        layout: {},
+        paint: {
+          'line-color': 'hsla(320, 100%, 100%, 1)',
+          'line-width': 0.5
         },
         filter: [
           'all',
@@ -100,9 +117,9 @@ export default {
         'source-layer': 'dtv-nodes',
         layout: {},
         paint: {
-          'circle-color': 'hsla(301, 98%, 46%, 0.8)',
+          'circle-color': 'hsla(320, 80%, 50%, 0.5)',
           'circle-stroke-color': 'white',
-          'circle-stroke-width': 2
+          'circle-stroke-width': 1
         },
         filter: ['in', 'n', ...this.waypoints]
       })
