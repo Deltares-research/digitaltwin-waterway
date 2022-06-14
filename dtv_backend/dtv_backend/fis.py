@@ -442,3 +442,12 @@ def get_route(waypoints, network):
     route_properties.update(metadata)
     route["properties"] = route_properties
     return route
+
+
+@functools.lru_cache(maxsize=100)
+def get_edge_gdf(graph, epsg):
+    """convert graph to edge list of geodataframes"""
+    edges_df = nx.to_pandas_edgelist(graph)
+    edges_gdf = gpd.GeoDataFrame(edges_df, geometry="geometry", crs=4326)
+    edges_gdf_transformed = edges_gdf.to_crs(epsg)
+    return edges_gdf_transformed

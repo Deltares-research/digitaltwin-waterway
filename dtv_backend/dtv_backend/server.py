@@ -1,3 +1,5 @@
+import pathlib
+
 import flask
 import pandas as pd
 import datetime
@@ -5,6 +7,8 @@ import datetime
 import dtv_backend.simulate
 import dtv_backend.postprocessing
 import dtv_backend.fis
+import geopandas as gpd
+
 import networkx as nx
 
 from flask_cors import CORS
@@ -82,6 +86,27 @@ def ships():
     ships = ships[ships.Included.astype("bool")]
     result = ships.to_dict(orient="records")
     return result
+
+
+@dtv.route("/waterlevels", methods=["POST"])
+def waterlevels():
+    body = flask.request.json
+    climate = body["climate"]
+    network = dtv_backend.fis.load_fis_network(url)
+
+    river_with_discharges_gdf = dtv_backend.climate.get_river_with_discharges_gdf()
+    river_interpolator_gdf = dtv_backend.climate.create_river_interpolator_gdf(
+        river_with_discharges_gdf
+    )
+
+    result = dtv_backend.climate.interpolated_waterlevels_for_climate(
+        climate=climate,
+        graph=network,
+        river_interpolator_gdf=river_interpolator_gdf,
+        epsg=epsg_utm31n,
+    )
+    response = result._to_geo()
+    return response
 
 
 def create_app():
