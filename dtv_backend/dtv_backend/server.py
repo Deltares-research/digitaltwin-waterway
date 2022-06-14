@@ -7,6 +7,7 @@ import datetime
 import dtv_backend.simulate
 import dtv_backend.postprocessing
 import dtv_backend.fis
+import dtv_backend.climate
 import geopandas as gpd
 
 import networkx as nx
@@ -98,6 +99,8 @@ def waterlevels():
     river_interpolator_gdf = dtv_backend.climate.create_river_interpolator_gdf(
         river_with_discharges_gdf
     )
+
+    epsg_utm31n = 32631
 
     result = dtv_backend.climate.interpolated_waterlevels_for_climate(
         climate=climate,
