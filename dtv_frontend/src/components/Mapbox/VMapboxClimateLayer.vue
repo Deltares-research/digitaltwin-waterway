@@ -13,7 +13,7 @@ export default {
     return null
   },
   computed: {
-    ...mapFields(['waterlevels', 'velocities'])
+    ...mapFields(['waterlevels', 'waterlevelBuffers', 'velocities'])
   },
   watch: {
     waterlevels() {
@@ -21,6 +21,11 @@ export default {
       console.log('updatting', this.waterlevels, this.getMap())
       const waterlevelSource = map.getSource('dtv-waterlevels')
       waterlevelSource.setData(this.waterlevels)
+    },
+    waterlevelBuffers() {
+      const map = this.getMap()
+      const waterlevelBufferSource = map.getSource('dtv-waterlevel-buffers')
+      waterlevelBufferSource.setData(this.waterlevelBuffers)
     }
   },
   methods: {
@@ -34,14 +39,45 @@ export default {
         type: 'geojson',
         data: this.waterlevels
       })
+      map.addSource('dtv-waterlevel-buffers', {
+        type: 'geojson',
+        data: this.waterlevelBuffers
+      })
       map.addLayer({
         id: 'edge-waterlevels',
         type: 'line',
         source: 'dtv-waterlevels',
         layout: {},
         paint: {
-          'line-color': 'hsla(320, 80%, 50%, 0.5)',
-          'line-width': ['get', 'waterlevel']
+          'line-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'waterlevel'],
+            0,
+            'hsla(320, 80%, 50%, 0.5)',
+            20,
+            'hsla(180, 80%, 50%, 0.5)'
+          ],
+          'line-width': 5
+        }
+      })
+      map.addLayer({
+        id: 'edge-waterlevel-buffers',
+        type: 'fill-extrusion',
+        source: 'dtv-waterlevel-buffers',
+        layout: {},
+        paint: {
+          'fill-extrusion-height': ['*', ['get', 'waterlevel'], 100],
+          'fill-extrusion-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'waterlevel'],
+            0,
+            'hsla(320, 80%, 50%, 0.5)',
+            20,
+            'hsla(180, 80%, 50%, 0.5)'
+          ],
+          'fill-extrusion-opacity': 0.3
         }
       })
     }

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { getField, updateField } from 'vuex-map-fields'
 
+import buffer from '@turf/buffer'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -22,6 +24,7 @@ export default new Vuex.Store({
 
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
+    waterlevelBuffers: { type: 'FeatureCollection', features: [] },
 
     // animation type
     currentTime: null,
@@ -124,6 +127,9 @@ export default new Vuex.Store({
     },
     setWaterlevels(state, payload) {
       state.waterlevels = payload
+      state.waterlevelBuffers = buffer(state.waterlevels, 500, {
+        units: 'meters'
+      })
     },
     setSites(state, payload) {
       state.sites = payload
