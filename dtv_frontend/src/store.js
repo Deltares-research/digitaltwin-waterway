@@ -20,6 +20,9 @@ export default new Vuex.Store({
     // list of features
     waypoints: [],
 
+    // feature collection with water levels
+    waterlevels: { type: 'FeatureCollection', features: [] },
+
     // animation type
     currentTime: null,
     progress: 0,
@@ -87,6 +90,22 @@ export default new Vuex.Store({
       console.log('route', body)
       commit('setRoute', body)
     },
+    async computeWaterlevels({ commit }, payload) {
+      const apiUrl = process.env.VUE_APP_API_URI
+
+      // only store the waypoints
+      const climate = payload
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ climate })
+      }
+      const resp = await fetch(`${apiUrl}/waterlevels`, requestOptions)
+      const body = await resp.json()
+      console.log('waterlevels', body)
+      commit('setWaterlevels', body)
+    },
     async addWaypoint({ dispatch, commit, state }, payload) {
       commit('addWaypoint', payload)
       if (state.waypoints.length > 1) {
@@ -102,6 +121,9 @@ export default new Vuex.Store({
     updateField,
     setRoute(state, payload) {
       state.route = payload
+    },
+    setWaterlevels(state, payload) {
+      state.waterlevels = payload
     },
     setSites(state, payload) {
       state.sites = payload

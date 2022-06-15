@@ -24,6 +24,7 @@
     />
     <!-- :progress="progress" -->
     <v-mapbox-site-layer />
+    <v-mapbox-climate-layer />
     <v-mapbox-navigation-control :options="{ visualizePitch: true }" position="bottom-right" />
   </v-mapbox>
 </template>
@@ -32,13 +33,15 @@
 import { mapState, mapMutations } from 'vuex'
 import VMapboxSiteLayer from './Mapbox/VMapboxSiteLayer'
 import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
+import VMapboxClimateLayer from './Mapbox/VMapboxClimateLayer'
 import _ from 'lodash'
 
 export default {
   inject: ['bus'],
   components: {
     VMapboxSiteLayer,
-    VMapboxShipsLayer
+    VMapboxShipsLayer,
+    VMapboxClimateLayer
   },
   computed: {
     ...mapState(['results', 'sites', 'play', 'progress']),
