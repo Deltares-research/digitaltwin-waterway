@@ -96,9 +96,12 @@ def create_river_interpolator_gdf(river_with_discharges_gdf):
 
 
 def interpolated_waterlevels_for_climate(
-    climate, graph, river_interpolator_gdf, epsg=epsg_utm31n, max_distance=200
+    climate, graph, river_interpolator_gdf, epsg=epsg_utm31n, max_distance=1500
 ):
     """compute waterlevels and interpolate onto graph"""
+
+    # use 1500 as max distance because we have a 1km input
+
     waterlevel_gdf = waterlevel_for_climate(river_interpolator_gdf, climate)
     waterlevel_gdf_utm = waterlevel_gdf.to_crs(epsg)
     edges_gdf_utm = dtv_backend.fis.get_edge_gdf(graph, epsg=epsg)
