@@ -102,12 +102,14 @@ def waterlevels():
 
     epsg_utm31n = 32631
 
+    # compute in utm zone
     result = dtv_backend.climate.interpolated_waterlevels_for_climate(
         climate=climate,
         graph=network,
         river_interpolator_gdf=river_interpolator_gdf,
         epsg=epsg_utm31n,
     )
+    result = result.to_crs(4326)
     response = result._to_geo()
     return response
 
