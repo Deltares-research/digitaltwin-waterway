@@ -33,47 +33,47 @@ group_columns = [
     "km_markering_int",
     "discharge_location",
 ]
-value_columns = ["discharge", "waterlevel"]
+value_columns = ["discharge"]
 columns = location_columns + value_columns
 
 
-def waterlevel_for_climate(river_interpolator_gdf, climate):
+def value_for_climate(river_interpolator_gdf, climate, value_column="waterlevel"):
     """use the grouped interpolation dataframe and the climate parameters to generate a waterlevel for the points"""
 
     lobith_gdf = river_interpolator_gdf.query('discharge_location == "Lobith"')
-    lobith_waterlevels = lobith_gdf["interpolate"].apply(
+    lobith_values = lobith_gdf["interpolate"].apply(
         lambda x: x(climate["discharge_lobith"])
     )
     # drop interpolate for performance / compatibility
     lobith_result = lobith_gdf.drop(columns=["interpolate"])
-    lobith_result["waterlevel"] = lobith_waterlevels
+    lobith_result[value_column] = lobith_values
 
     maas_gdf = river_interpolator_gdf.query('discharge_location == "st Pieter"')
-    maas_waterlevels = maas_gdf["interpolate"].apply(
+    maas_values = maas_gdf["interpolate"].apply(
         lambda x: x(climate["discharge_st_pieter"])
     )
     # drop interpolate for performance / compatibility
     maas_result = maas_gdf.drop(columns=["interpolate"])
-    maas_result["waterlevel"] = maas_waterlevels
+    maas_result[value_column] = maas_values
 
     result = pd.concat([lobith_result, maas_result])
     result = result.set_crs(epsg_wgs84)
     return result
 
 
-def create_river_interpolator_gdf(river_with_discharges_gdf):
+def create_river_interpolator_gdf(river_with_discharges_gdf, value_column="waterlevel"):
     """create interpolation functions per point in the river"""
 
     # define interpolation function that interpolates between discharge and waterlevel, extrpolate if needed
     def interpolate(df_i):
         interpolator = scipy.interpolate.interp1d(
-            df_i["discharge"], df_i["waterlevel"], fill_value="extrapolate"
+            df_i["discharge"], df_i[value_column], fill_value="extrapolate"
         )
         return pd.Series({"interpolate": interpolator})
 
     # group by the group columns and apply the interpolation function
     grouped_interpolator = (
-        river_with_discharges_gdf[columns]
+        river_with_discharges_gdf[columns + [value_column]]
         .groupby(group_columns)
         .apply(interpolate)
         .reset_index()
@@ -95,20 +95,27 @@ def create_river_interpolator_gdf(river_with_discharges_gdf):
     return river_interpolator_gdf
 
 
-def interpolated_waterlevels_for_climate(
-    climate, graph, river_interpolator_gdf, epsg=epsg_utm31n, max_distance=1500
+def interpolated_values_for_climate(
+    climate,
+    graph,
+    river_interpolator_gdf,
+    epsg=epsg_utm31n,
+    max_distance=1500,
+    value_column="waterlevel",
 ):
     """compute waterlevels and interpolate onto graph"""
 
     # use 1500 as max distance because we have a 1km input
 
-    waterlevel_gdf = waterlevel_for_climate(river_interpolator_gdf, climate)
-    waterlevel_gdf_utm = waterlevel_gdf.to_crs(epsg)
+    value_gdf = value_for_climate(
+        river_interpolator_gdf, climate, value_column=value_column
+    )
+    value_gdf_utm = value_gdf.to_crs(epsg)
     edges_gdf_utm = dtv_backend.fis.get_edge_gdf(graph, epsg=epsg)
 
     edges_merged = gpd.sjoin_nearest(
         left_df=edges_gdf_utm,
-        right_df=waterlevel_gdf_utm,
+        right_df=value_gdf_utm,
         how="left",
         max_distance=max_distance,
         lsuffix="left",
@@ -123,24 +130,23 @@ def interpolated_waterlevels_for_climate(
         "km_markering",
         "km_markering_int",
         "discharge_location",
-        "waterlevel",
         "distance",
-    ]
+    ] + [value_column]
     result = edges_merged.loc[:, columns].dropna()
     return result
 
 
 @functools.lru_cache(maxsize=128)
-def get_river_with_discharges_gdf():
+def get_river_with_discharges_gdf(value_column="waterlevel"):
     river_with_discharges_gdf = gpd.read_file(
-        src_dir / "data" / "river_discharges.geojson"
+        src_dir / "data" / f"river_{value_column}.geojson"
     )
     return river_with_discharges_gdf
 
 
 @functools.lru_cache(maxsize=128)
-def get_river_interpolator_gdf():
+def get_river_interpolator_gdf(value_column="waterlevel"):
     river_with_discharges_gdf = pd.read_pickle(
-        src_dir / "data" / "river_interpolator_gdf.pickle"
+        src_dir / "data" / f"river_{value_column}_interpolator_gdf.pickle"
     )
     return river_with_discharges_gdf
