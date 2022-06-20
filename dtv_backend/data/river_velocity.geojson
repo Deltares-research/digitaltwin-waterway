@@ -1,5 +1,6 @@
 {
 "type": "FeatureCollection",
+"name": "river_velocity",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "X": 212075, "Y": 427009, "MODELKILOM": "854.00_BR", "KENMERK": "01 BR 854.00", "km_markering": 854, "discharge": 1020.0, "velocity": 1.11, "river": "BR", "km_markering_int": 854, "discharge_location": "Lobith", "index_right": 3659, "vrt_code": "101", "vwk_id": 5640 }, "geometry": { "type": "Point", "coordinates": [ 6.215178701736684, 51.828757861417358 ] } },
