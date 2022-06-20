@@ -18,8 +18,6 @@ epsg_rd = 28992
 # we need these columns for interpolations
 location_columns = [
     "river",
-    "vrt_code",
-    "vwk_id",
     "km_markering",
     "km_markering_int",
     "discharge_location",
@@ -27,8 +25,6 @@ location_columns = [
 ]
 group_columns = [
     "river",
-    "vrt_code",
-    "vwk_id",
     "km_markering",
     "km_markering_int",
     "discharge_location",
