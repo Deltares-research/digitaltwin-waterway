@@ -122,7 +122,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['computeWaterlevels']),
+    ...mapActions(['computeWaterlevels', 'computeClimate']),
     updateClimate() {
       const climate = {
         // TODO: naming
@@ -130,7 +130,7 @@ export default {
         discharge_st_pieter: this.stPieterDischarge,
         sealevel: this.sealevel
       }
-      this.computeWaterlevels(climate)
+      this.computeClimate(climate)
     }
   },
   computed: {

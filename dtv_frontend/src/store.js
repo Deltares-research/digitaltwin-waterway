@@ -25,7 +25,9 @@ export default new Vuex.Store({
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
     waterlevelBuffers: { type: 'FeatureCollection', features: [] },
-
+    bathymetry: { type: 'FeatureCollection', features: [] },
+    bathymetryBuffers: { type: 'FeatureCollection', features: [] },
+    velocities: { type: 'FeatureCollection', features: [] },
     // animation type
     currentTime: null,
     progress: 0,
@@ -109,6 +111,22 @@ export default new Vuex.Store({
       console.log('waterlevels', body)
       commit('setWaterlevels', body)
     },
+    async computeClimate({ commit }, payload) {
+      const apiUrl = process.env.VUE_APP_API_URI
+
+      // only store the waypoints
+      const climate = payload
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ climate })
+      }
+      const resp = await fetch(`${apiUrl}/climate`, requestOptions)
+      const body = await resp.json()
+      console.log('climateResults', body)
+      commit('setClimateResults', body)
+    },
     async addWaypoint({ dispatch, commit, state }, payload) {
       commit('addWaypoint', payload)
       if (state.waypoints.length > 1) {
@@ -130,6 +148,31 @@ export default new Vuex.Store({
       state.waterlevelBuffers = buffer(state.waterlevels, 500, {
         units: 'meters'
       })
+    },
+    setClimateResults(state, payload) {
+      const waterlevels = { ...payload }
+      waterlevels.features = waterlevels.features.filter(
+        feature => feature.properties.waterlevel
+      )
+      state.waterlevels = waterlevels
+      state.waterlevelBuffers = buffer(state.waterlevels, 500, {
+        units: 'meters'
+      })
+
+      const bathymetry = { ...payload }
+      bathymetry.features = bathymetry.features.filter(
+        feature => feature.properties.nap_p50
+      )
+      state.bathymetry = bathymetry
+      state.bathymetryBuffers = buffer(state.bathymetry, 500, {
+        units: 'meters'
+      })
+
+      const velocities = { ...payload }
+      velocities.features = velocities.features.filter(
+        feature => feature.properties.velocity
+      )
+      state.velocities = velocities
     },
     setSites(state, payload) {
       state.sites = payload

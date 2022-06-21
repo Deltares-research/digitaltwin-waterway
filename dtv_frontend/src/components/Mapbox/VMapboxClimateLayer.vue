@@ -13,12 +13,18 @@ export default {
     return null
   },
   computed: {
-    ...mapFields(['waterlevels', 'waterlevelBuffers', 'velocities'])
+    ...mapFields([
+      'waterlevels',
+      'waterlevelBuffers',
+      'bathymetry',
+      'bathymetryBuffers',
+      'velocities'
+    ])
   },
   watch: {
+    // update sources when data changes
     waterlevels() {
       const map = this.getMap()
-      console.log('updatting', this.waterlevels, this.getMap())
       const waterlevelSource = map.getSource('dtv-waterlevels')
       waterlevelSource.setData(this.waterlevels)
     },
@@ -26,15 +32,29 @@ export default {
       const map = this.getMap()
       const waterlevelBufferSource = map.getSource('dtv-waterlevel-buffers')
       waterlevelBufferSource.setData(this.waterlevelBuffers)
+    },
+    bathymetry() {
+      const map = this.getMap()
+      const bathymetrySource = map.getSource('dtv-bathymetry')
+      bathymetrySource.setData(this.bathymetry)
+    },
+    bathymetryBuffers() {
+      const map = this.getMap()
+      const bathymetryBufferSource = map.getSource('dtv-bathymetry-buffers')
+      bathymetryBufferSource.setData(this.bathymetryBuffers)
+    },
+    velocities() {
+      const map = this.getMap()
+      const velocitySource = map.getSource('dtv-velocities')
+      velocitySource.setData(this.velocities)
     }
   },
   methods: {
     deferredMountedTo() {
-      this.addWaterlevels()
+      this.addClimate()
       // this.addVelocites()
     },
-    addWaterlevels() {
-      const map = this.getMap()
+    addSources(map) {
       map.addSource('dtv-waterlevels', {
         type: 'geojson',
         data: this.waterlevels
@@ -43,43 +63,62 @@ export default {
         type: 'geojson',
         data: this.waterlevelBuffers
       })
+      map.addSource('dtv-bathymetry', {
+        type: 'geojson',
+        data: this.bathymetry
+      })
+      map.addSource('dtv-bathymetry-buffers', {
+        type: 'geojson',
+        data: this.bathymetryBuffers
+      })
+      map.addSource('dtv-velocities', {
+        type: 'geojson',
+        data: this.velocities
+      })
+    },
+    addLayers(map) {
+      const velocityMultiplier = 3
       map.addLayer({
-        id: 'edge-waterlevels',
+        id: 'edge-velocities',
         type: 'line',
-        source: 'dtv-waterlevels',
+        source: 'dtv-velocities',
         layout: {},
         paint: {
           'line-color': [
             'interpolate',
             ['linear'],
-            ['get', 'waterlevel'],
+            ['get', 'velocity'],
             0,
             'hsla(320, 80%, 50%, 0.5)',
-            20,
+            2,
             'hsla(180, 80%, 50%, 0.5)'
           ],
-          'line-width': 5
+          'line-width': ['*', ['get', 'velocity'], velocityMultiplier]
         }
       })
+
+      // const elevationBase = 1000
+      const elevationMultiplier = 100
       map.addLayer({
-        id: 'edge-waterlevel-buffers',
+        id: 'edge-waterdepth-buffers',
         type: 'fill-extrusion',
         source: 'dtv-waterlevel-buffers',
         layout: {},
         paint: {
-          'fill-extrusion-height': ['*', ['get', 'waterlevel'], 100],
-          'fill-extrusion-color': [
-            'interpolate',
-            ['linear'],
-            ['get', 'waterlevel'],
-            0,
-            'hsla(320, 80%, 50%, 0.5)',
-            20,
-            'hsla(180, 80%, 50%, 0.5)'
+          'fill-extrusion-height': [
+            '-',
+            ['*', ['get', 'waterlevel'], elevationMultiplier],
+            ['*', ['get', 'nap_p5'], elevationMultiplier]
           ],
+          'fill-extrusion-color': 'hsl(180, 0%, 50%)',
           'fill-extrusion-opacity': 0.3
         }
       })
+    },
+    addClimate() {
+      const map = this.getMap()
+      this.addSources(map)
+      this.addLayers(map)
     }
   }
 }
