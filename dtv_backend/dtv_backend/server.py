@@ -1,4 +1,5 @@
 import pathlib
+import logging
 
 import flask
 import pandas as pd
@@ -15,6 +16,7 @@ import networkx as nx
 from flask_cors import CORS
 
 
+logger = logging.getLogger(__name__)
 dtv = flask.Blueprint("dtv", __name__)
 
 # TODO: add swaggerui_blueprint
@@ -116,15 +118,19 @@ def waterlevels():
     return response
 
 
-@dtv.route("/quantities", methods=["POST"])
-def quantities():
+@dtv.route("/climate", methods=["POST"])
+def climate():
     """compute all climate related quantities"""
     body = flask.request.json
     climate = body["climate"]
+    logger.info("Getting network")
     graph = dtv_backend.fis.load_fis_network(url)
-
+    logger.info("Getting interpolators")
     interpolators = dtv_backend.climate.get_interpolators()
+    logger.info("Getting edges")
     edges_gdf = dtv_backend.fis.get_edges_gdf(graph=graph)
+    logger.info("Getting climate")
+
     result = dtv_backend.climate.get_variables_for_climate(
         climate=climate, interpolators=interpolators, edges_gdf=edges_gdf
     )
@@ -142,3 +148,4 @@ def create_app():
 
 
 app = create_app()
+logger = app.logger
