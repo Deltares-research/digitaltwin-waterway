@@ -144,8 +144,9 @@ export default {
           fleet.push(ship)
         }
       })
+      const route = this.route
       const features = fleet.map((ship, i) => {
-        const geometry = this.route.features[0].geometry
+        const geometry = route.features[0].geometry
         const feature = {
           type: 'Feature',
           id: i,

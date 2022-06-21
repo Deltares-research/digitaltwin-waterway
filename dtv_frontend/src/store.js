@@ -60,7 +60,7 @@ export default new Vuex.Store({
       console.log('env', process.env)
 
       const apiUrl = process.env.VUE_APP_API_URI
-      const resp = await fetch(`${apiUrl}/simulate`, request)
+      const resp = await fetch(`${apiUrl}/v2/simulate`, request)
       const results = await resp.json()
       commit('setResults', results)
     },
@@ -189,6 +189,7 @@ export default new Vuex.Store({
         'Dry Bulk': {
           name: feature.properties.n,
           cargoType: 'Dry Bulk',
+          capacity: 10000,
           level: 10000,
           loadingRate: 200,
           loadingRateVariation: 100
@@ -196,6 +197,7 @@ export default new Vuex.Store({
         Container: {
           name: feature.properties.n,
           cargoType: 'Container',
+          capacity: 1000,
           level: 1000,
           loadingRate: 20,
           loadingRateVariation: 10

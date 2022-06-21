@@ -44,7 +44,13 @@ export default {
   },
   data() {
     return {
-      editable: ['name', 'Length [m]', 'Beam [m]', 'Engine power maximum [kW]'],
+      editable: [
+        'name',
+        'Length [m]',
+        'Beam [m]',
+        'Engine power maximum [kW]',
+        'Velocity [m/s]'
+      ],
       // hard coded (not available yet)
       energyCarrier: 'Diesel',
       energyCarriers: ['Diesel', 'LPG', 'LNG', 'H2'],
@@ -55,6 +61,7 @@ export default {
         'RWS-class',
         'Length [m]',
         'Beam [m]',
+        'Velocity [m/s]',
         'Engine power maximum [kW]'
       ]
     }

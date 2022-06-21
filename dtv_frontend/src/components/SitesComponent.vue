@@ -64,7 +64,17 @@
               :max="maxCapacity"
               persistent-hint
               :hint="unit"
-              label="Cargo"
+              label="Cargo capacity"
+              thumb-label="always"
+              v-model="startSite.properties.capacity"
+            ></v-slider>
+            <v-slider
+              :step="capacityStep"
+              :min="0"
+              :max="startSite.properties.capacity"
+              persistent-hint
+              :hint="unit"
+              label="Cargo level"
               thumb-label="always"
               v-model="startSite.properties.level"
             ></v-slider>

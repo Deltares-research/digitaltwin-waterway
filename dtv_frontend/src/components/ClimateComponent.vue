@@ -121,6 +121,9 @@ export default {
       sealevel: 0.0
     }
   },
+  mounted() {
+    this.updateClimate()
+  },
   methods: {
     ...mapActions(['computeWaterlevels', 'computeClimate']),
     updateClimate() {
