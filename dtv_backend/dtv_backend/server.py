@@ -19,6 +19,7 @@ dtv = flask.Blueprint("dtv", __name__)
 
 # TODO: add swaggerui_blueprint
 url = "https://zenodo.org/record/4578289/files/network_digital_twin_v0.2.pickle?download=1"
+url = "https://zenodo.org/record/6673604/files/network_digital_twin_v0.3.pickle?download=1"
 
 
 @dtv.route("/")
@@ -103,13 +104,30 @@ def waterlevels():
     epsg_utm31n = 32631
 
     # compute in utm zone
-    result = dtv_backend.climate.interpolated_waterlevels_for_climate(
+    result = dtv_backend.climate.interpolated_values_for_climate(
         climate=climate,
         graph=network,
         river_interpolator_gdf=river_interpolator_gdf,
         epsg=epsg_utm31n,
+        value_column="waterlevel",
     )
     result = result.to_crs(4326)
+    response = result._to_geo()
+    return response
+
+
+@dtv.route("/quantities", methods=["POST"])
+def quantities():
+    """compute all climate related quantities"""
+    body = flask.request.json
+    climate = body["climate"]
+    graph = dtv_backend.fis.load_fis_network(url)
+
+    interpolators = dtv_backend.climate.get_interpolators()
+    edges_gdf = dtv_backend.fis.get_edges_gdf(graph=graph)
+    result = dtv_backend.climate.get_variables_for_climate(
+        climate=climate, interpolators=interpolators, edges_gdf=edges_gdf
+    )
     response = result._to_geo()
     return response
 

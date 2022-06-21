@@ -37,16 +37,20 @@ def value_for_climate(river_interpolator_gdf, climate, value_column="waterlevel"
     """use the grouped interpolation dataframe and the climate parameters to generate a waterlevel for the points"""
 
     lobith_gdf = river_interpolator_gdf.query('discharge_location == "Lobith"')
-    lobith_values = lobith_gdf["interpolate"].apply(
-        lambda x: x(climate["discharge_lobith"])
+    lobith_values = (
+        lobith_gdf["interpolate"]
+        .apply(lambda x: x(climate["discharge_lobith"]))
+        .astype("float")
     )
     # drop interpolate for performance / compatibility
     lobith_result = lobith_gdf.drop(columns=["interpolate"])
     lobith_result[value_column] = lobith_values
 
     maas_gdf = river_interpolator_gdf.query('discharge_location == "st Pieter"')
-    maas_values = maas_gdf["interpolate"].apply(
-        lambda x: x(climate["discharge_st_pieter"])
+    maas_values = (
+        maas_gdf["interpolate"]
+        .apply(lambda x: x(climate["discharge_st_pieter"]))
+        .astype("float")
     )
     # drop interpolate for performance / compatibility
     maas_result = maas_gdf.drop(columns=["interpolate"])
@@ -107,7 +111,7 @@ def interpolated_values_for_climate(
         river_interpolator_gdf, climate, value_column=value_column
     )
     value_gdf_utm = value_gdf.to_crs(epsg)
-    edges_gdf_utm = dtv_backend.fis.get_edge_gdf(graph, epsg=epsg)
+    edges_gdf_utm = dtv_backend.fis.get_edges_gdf(graph).to_crs(epsg)
 
     edges_merged = gpd.sjoin_nearest(
         left_df=edges_gdf_utm,
@@ -146,3 +150,75 @@ def get_river_interpolator_gdf(value_column="waterlevel"):
         src_dir / "data" / f"river_{value_column}_interpolator_gdf.pickle"
     )
     return river_with_discharges_gdf
+
+
+@functools.lru_cache(maxsize=128)
+def get_interpolators():
+    """return a dictionary of quantity: interpolator"""
+    value_columns = ["velocity", "waterlevel"]
+    interpolators = {}
+
+    src_path = dtv_backend.get_src_path()
+
+    for value_column in value_columns:
+        river_gdf = gpd.read_file(src_path / "data" / f"river_{value_column}.geojson")
+        interpolator_gdf = dtv_backend.climate.create_river_interpolator_gdf(
+            river_gdf, value_column=value_column
+        )
+        interpolators[value_column] = interpolator_gdf
+    return interpolators
+
+
+def get_variables_for_climate(climate, interpolators, edges_gdf, max_distance=1500):
+    """use the climate interpolators to get waterlevels, velocities and bathymetry for the network"""
+    # TODO: filter by route first
+
+    # Interpolate values
+    values_utm = {}
+    for value_column, interpolator_gdf in interpolators.items():
+        value_gdf = value_for_climate(
+            interpolator_gdf, climate, value_column=value_column
+        )
+        values_utm[value_column] = value_gdf.to_crs(epsg_utm31n)
+
+    # conver to utm for spatial matching
+    edges_gdf_with_variables_gdf = edges_gdf.to_crs(epsg_utm31n)
+
+    # merge computed variables with graph
+    for variable in ["velocity", "waterlevel"]:
+        edges_gdf_with_variables_gdf = gpd.sjoin_nearest(
+            left_df=edges_gdf_with_variables_gdf,
+            right_df=values_utm[variable][["geometry", variable]],
+            how="left",
+            max_distance=max_distance,
+            lsuffix="left",
+            rsuffix="right",
+        )
+        # remove created index columns
+        if "index_right" in edges_gdf_with_variables_gdf.columns:
+            edges_gdf_with_variables_gdf.drop(columns=["index_right"], inplace=True)
+        if "index_left" in edges_gdf_with_variables_gdf.columns:
+            edges_gdf_with_variables_gdf.drop(columns=["index_left"], inplace=True)
+
+    columns = [
+        "source",
+        "target",
+        "length_m",
+        "geometry",
+        "velocity",
+        "waterlevel",
+        "nap_p5",
+        "nap_p50",
+        "nap_p95",
+        "lat_p5",
+        "lat_p50",
+        "lat_p95",
+    ]
+    result_utm = edges_gdf_with_variables_gdf[columns]
+    # if none of these variables are available, drop the row
+
+    result_utm = result_utm.dropna(
+        subset=["nap_p50", "velocity", "waterlevel"], how="all"
+    )
+    result = result_utm.to_crs(4326)
+    return result
