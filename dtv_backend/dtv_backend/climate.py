@@ -149,6 +149,10 @@ def get_river_interpolator_gdf(value_column="waterlevel"):
     river_with_discharges_gdf = pd.read_pickle(
         src_dir / "data" / f"river_{value_column}_interpolator_gdf.pickle"
     )
+    # ensure we have a geodataframe
+    river_with_discharges_gdf = gpd.GeoDataFrame(
+        river_with_discharges_gdf, geometry=river_with_discharges_gdf["geometry"]
+    )
     return river_with_discharges_gdf
 
 
