@@ -26,7 +26,7 @@ RUN conda update -n base -c defaults conda
 RUN conda install mamba -c conda-forge
 
 
-RUN mamba install -y -c conda-forge git  pip diskcache click geojson geopandas networkx numpy pandas pyproj requests scipy setuptools shapely geos pygeos tqdm jupyter notebook jupyterlab ipython flask flask-cors
+RUN mamba install -y -c conda-forge git  pip diskcache click geojson geopandas networkx numpy pandas pyproj requests scipy setuptools shapely geos pygeos tqdm jupyter notebook jupyterlab ipython flask flask-cors requests-cache
 RUN mamba install -y -c conda-forge pint plotly gunicorn pyyaml
 
 # # The rest with pip
