@@ -10,10 +10,10 @@
             <h2>Rhine discharge</h2>
             <p>In/decrease the discharge at Lobith. This influences water depths and currents over the whole river.</p>
             <v-slider
-              :step="1000"
+              :step="500"
               inverse-label
-              :min="1000"
-              :max="12000"
+              :min="500"
+              :max="10000"
               label="Rhine discharge [m3/s]"
               thumb-label="always"
               @change="updateClimate"
@@ -56,8 +56,8 @@
             <v-slider
               :step="100"
               inverse-label
-              :min="100"
-              :max="4000"
+              :min="0"
+              :max="3000"
               label="st Pieter discharge [m3/s]"
               thumb-label="always"
               @change="updateClimate"

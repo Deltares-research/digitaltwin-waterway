@@ -92,6 +92,11 @@ def create_river_interpolator_gdf(river_with_discharges_gdf, value_column="water
         left_on=group_columns,
         right_on=group_columns,
     )
+
+    # ensure we have a geopandas data frame
+    river_interpolator_gdf = gpd.GeoDataFrame(
+        river_interpolator_gdf, geometry="geometry"
+    )
     return river_interpolator_gdf
 
 
