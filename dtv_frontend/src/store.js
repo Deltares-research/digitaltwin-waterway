@@ -242,19 +242,19 @@ export default new Vuex.Store({
       const defaultProperties = {
         'Dry Bulk': {
           name: feature.properties.n,
-          cargoType: 'Dry Bulk',
+          cargo_type: 'Dry Bulk',
           capacity: 10000,
           level: 10000,
-          loadingRate: 200,
-          loadingRateVariation: 100
+          loading_rate: 200,
+          loading_rate_variation: 100
         },
         Container: {
           name: feature.properties.n,
-          cargoType: 'Container',
+          cargo_type: 'Container',
           capacity: 1000,
           level: 1000,
-          loadingRate: 20,
-          loadingRateVariation: 10
+          loading_rate: 20,
+          loading_rate_variation: 10
         }
       }
 
