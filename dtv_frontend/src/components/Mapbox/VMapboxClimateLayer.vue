@@ -25,27 +25,57 @@ export default {
     // update sources when data changes
     waterlevels() {
       const map = this.getMap()
+      if (!map) {
+        return
+      }
       const waterlevelSource = map.getSource('dtv-waterlevels')
+      if (!waterlevelSource) {
+        return
+      }
       waterlevelSource.setData(this.waterlevels)
     },
     waterlevelBuffers() {
       const map = this.getMap()
+      if (!map) {
+        return
+      }
       const waterlevelBufferSource = map.getSource('dtv-waterlevel-buffers')
+      if (!waterlevelBufferSource) {
+        return
+      }
       waterlevelBufferSource.setData(this.waterlevelBuffers)
     },
     bathymetry() {
       const map = this.getMap()
+      if (!map) {
+        return
+      }
       const bathymetrySource = map.getSource('dtv-bathymetry')
+      if (!bathymetrySource) {
+        return
+      }
       bathymetrySource.setData(this.bathymetry)
     },
     bathymetryBuffers() {
       const map = this.getMap()
+      if (!map) {
+        return
+      }
       const bathymetryBufferSource = map.getSource('dtv-bathymetry-buffers')
+      if (!bathymetryBufferSource) {
+        return
+      }
       bathymetryBufferSource.setData(this.bathymetryBuffers)
     },
     velocities() {
       const map = this.getMap()
+      if (!map) {
+        return
+      }
       const velocitySource = map.getSource('dtv-velocities')
+      if (!velocitySource) {
+        return
+      }
       velocitySource.setData(this.velocities)
     }
   },

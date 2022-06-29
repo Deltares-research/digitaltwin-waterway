@@ -68,7 +68,7 @@
       <v-stepper-content step="5">
         <h2 class="text-h4 mb-5">Animation</h2>
         <v-divider class="mb-2" />
-        <result-component />
+        <result-component :config="config" />
       </v-stepper-content>
 
       <v-stepper-content step="6">
@@ -131,14 +131,21 @@ export default {
       return config
     },
     climate() {
-      return {
-        verticalClearance: this.$refs.climate.verticalClearance,
-        discharge: this.$refs.climate.discharge,
-        seaLevel: this.$refs.climate.seaLevel
+      // use defaults if climate is not available yet
+      const climate = {}
+      if (this.$refs.climate) {
+        climate.discharge = this.$refs.climate.discharge
+        climate.seaLevel = this.$refs.climate.seaLevel
       }
+      return climate
     },
     fleet() {
       const fleet = []
+      // fleet is not available yet
+      if (!this.$refs.fleet) {
+        return fleet
+      }
+
       this.$refs.fleet.ships.forEach((ship) => {
         for (var i = 0; i < ship.count; i++) {
           fleet.push(ship)
