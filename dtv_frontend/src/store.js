@@ -59,6 +59,12 @@ export default new Vuex.Store({
         fleet: state.fleet,
         operator: { name: 'Operator' },
         climate: state.climate,
+        // get the list of quantities
+        quantities: {
+          bathymetry: state.bathymetry,
+          waterlevels: state.waterlevels,
+          velocities: state.velocities
+        },
         options: {
           has_berth: true
         }
