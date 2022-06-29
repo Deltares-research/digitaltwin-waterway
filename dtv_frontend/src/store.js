@@ -209,7 +209,9 @@ export default new Vuex.Store({
       // fleet is not available yet
       const route = state.route
       // convert fleet to geojson object
-      const features = ships.map((ship, i) => {
+      const fleet = []
+      // repeat for count of each ship
+      ships.forEach((ship, i) => {
         const geometry = route.features[0].geometry
         const feature = {
           type: 'Feature',
@@ -217,9 +219,11 @@ export default new Vuex.Store({
           geometry: geometry,
           properties: ship
         }
-        return feature
+        for (i; i < ship.count; i++) {
+          fleet.push(feature)
+        }
       })
-      state.fleet = features
+      state.fleet = fleet
     },
     setResults(state, payload) {
       state.results = payload

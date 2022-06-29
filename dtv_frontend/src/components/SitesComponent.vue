@@ -208,6 +208,9 @@ export default {
       }
       return _.last(this.waypoints)
     },
+    valid() {
+      return this.waypoints.length >= 2
+    },
     maxCapacity() {
       let maxCapacity = 1000
       if (this.unit === 'TEU') {
