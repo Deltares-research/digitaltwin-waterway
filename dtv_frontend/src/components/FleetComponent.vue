@@ -39,6 +39,8 @@
 import ShipCard from './ShipCard'
 import _ from 'lodash'
 
+import { mapMutations } from 'vuex'
+
 export default {
   components: {
     ShipCard
@@ -95,9 +97,11 @@ export default {
           ship.count = 1
         }
       })
+      this.setFleet(ships)
     }
   },
   methods: {
+    ...mapMutations(['setFleet']),
     async fetchShips() {
       const resp = await fetch('data/DTV_shiptypes_database.json')
       const ships = await resp.json()

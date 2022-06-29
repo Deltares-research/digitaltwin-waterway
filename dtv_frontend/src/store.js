@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+import _ from 'lodash'
+
 import { getField, updateField } from 'vuex-map-fields'
 
 import buffer from '@turf/buffer'
@@ -22,6 +25,8 @@ export default new Vuex.Store({
     // list of features
     waypoints: [],
 
+    fleet: [],
+
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
     waterlevelBuffers: { type: 'FeatureCollection', features: [] },
@@ -31,7 +36,8 @@ export default new Vuex.Store({
     // animation type
     currentTime: null,
     progress: 0,
-    play: false
+    play: false,
+    climate: {}
   },
   getters: {
     getField,
@@ -44,6 +50,21 @@ export default new Vuex.Store({
         unit = 'TEU'
       }
       return unit
+    },
+    config(state) {
+      const config = {
+        route: state.route.features,
+        waypoints: state.waypoints,
+        sites: [_.first(state.waypoints), _.last(state.waypoints)],
+        fleet: state.fleet,
+        operator: { name: 'Operator' },
+        climate: state.climate,
+        options: {
+          has_berth: true
+        }
+      }
+      console.log('config', config)
+      return config
     }
   },
   actions: {
@@ -116,6 +137,7 @@ export default new Vuex.Store({
 
       // only store the waypoints
       const climate = payload
+      commit('setClimate', payload)
 
       const requestOptions = {
         method: 'POST',
@@ -149,6 +171,9 @@ export default new Vuex.Store({
         units: 'meters'
       })
     },
+    setClimate(state, payload) {
+      state.climate = payload
+    },
     setClimateResults(state, payload) {
       const waterlevels = { ...payload }
       waterlevels.features = waterlevels.features.filter(
@@ -176,6 +201,25 @@ export default new Vuex.Store({
     },
     setSites(state, payload) {
       state.sites = payload
+    },
+    setFleet(state, payload) {
+      // expects a list of ships
+      // converts them to feature collection called a fleet
+      const ships = [...payload]
+      // fleet is not available yet
+      const route = state.route
+      // convert fleet to geojson object
+      const features = ships.map((ship, i) => {
+        const geometry = route.features[0].geometry
+        const feature = {
+          type: 'Feature',
+          id: i,
+          geometry: geometry,
+          properties: ship
+        }
+        return feature
+      })
+      state.fleet = features
     },
     setResults(state, payload) {
       state.results = payload

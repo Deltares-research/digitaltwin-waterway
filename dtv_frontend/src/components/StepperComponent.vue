@@ -92,8 +92,7 @@ import ClimateComponent from './ClimateComponent'
 import LoadComponent from './LoadComponent'
 import ResultComponent from './ResultComponent'
 import KpiComponent from './KpiComponent'
-import { mapState, mapActions } from 'vuex'
-import _ from 'lodash'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -115,55 +114,7 @@ export default {
   },
   computed: {
     ...mapState(['route', 'waypoints']),
-    config() {
-      const config = {
-        route: this.route.features,
-        waypoints: this.waypoints,
-        sites: [_.first(this.waypoints), _.last(this.waypoints)],
-        fleet: this.fleet,
-        operator: { name: 'Operator' },
-        climate: this.climate,
-        options: {
-          has_berth: true
-        }
-      }
-      console.log('config', config)
-      return config
-    },
-    climate() {
-      // use defaults if climate is not available yet
-      const climate = {}
-      if (this.$refs.climate) {
-        climate.discharge = this.$refs.climate.discharge
-        climate.seaLevel = this.$refs.climate.seaLevel
-      }
-      return climate
-    },
-    fleet() {
-      const fleet = []
-      // fleet is not available yet
-      if (!this.$refs.fleet) {
-        return fleet
-      }
-
-      this.$refs.fleet.ships.forEach((ship) => {
-        for (var i = 0; i < ship.count; i++) {
-          fleet.push(ship)
-        }
-      })
-      const route = this.route
-      const features = fleet.map((ship, i) => {
-        const geometry = route.features[0].geometry
-        const feature = {
-          type: 'Feature',
-          id: i,
-          geometry: geometry,
-          properties: ship
-        }
-        return feature
-      })
-      return features
-    }
+    ...mapGetters(['config', 'fleet', 'climate'])
   },
   watch: {
     stepper(value) {
