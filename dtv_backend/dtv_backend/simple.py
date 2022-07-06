@@ -112,7 +112,8 @@ class Port(dtv_backend.logbook.HasLog):
 
     @property
     def node(self):
-        node, dist = dtv_backend.fis.find_closest_node(self.env.FG, self.geometry)
+        node, dist = dtv_backend.fis.find_closest_node(
+            self.env.FG, self.geometry)
         return node
 
     @property
@@ -236,7 +237,8 @@ class Ship(
 
     @property
     def node(self):
-        node, dist = dtv_backend.fis.find_closest_node(self.env.FG, self.geometry)
+        node, dist = dtv_backend.fis.find_closest_node(
+            self.env.FG, self.geometry)
         return node
 
     def load_at(self, port, max_load=None):
@@ -335,9 +337,11 @@ class Ship(
             )
         else:
             if hasattr(destination, "node"):
-                path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
+                path = dtv_backend.fis.shorted_path(
+                    graph, self.node, destination.node)
             elif isinstance(destination, str):
-                path = dtv_backend.fis.shorted_path(graph, self.node, destination)
+                path = dtv_backend.fis.shorted_path(
+                    graph, self.node, destination)
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
             distance = graph.edges[edge]["length_m"]
@@ -352,13 +356,19 @@ class Ship(
                 path_geometry = self.geometry
             else:
                 # extrect the geometry
-                path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
-                # convert to single linestring
-                path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
+                path_df = dtv_backend.network.network_utilities.path2gdf(
+                    path, graph)
 
-                start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
-                end_point = graph.nodes[path_df.iloc[1]["end_node"]]["geometry"]
-                first_path_point = shapely.geometry.Point(path_geometry.coords[0])
+                # convert to single linestring
+                path_geometry = shapely.ops.linemerge(
+                    path_df["geometry"].values)
+
+                start_point = graph.nodes[path_df.iloc[0]
+                                          ["start_node"]]["geometry"]
+                end_point = graph.nodes[path_df.iloc[-1]
+                                        ["end_node"]]["geometry"]
+                first_path_point = shapely.geometry.Point(
+                    path_geometry.coords[0])
                 start_distance = start_point.distance(first_path_point)
                 end_distance = end_point.distance(first_path_point)
                 if start_distance > end_distance:
@@ -383,30 +393,20 @@ class Ship(
             # Don't sail to empty source
             if source.cargo.level <= 0:
                 return
-            
+
             if not with_berth:
                 yield from self.move_to(source)
             else:
                 yield from self.move_to_with_berth(source)
 
             # determine what the cargo to take
-            # TODO: move to separate function/prop
-            if self.climate:
-                lobith_discharge = self.climate["discharge"]
-                max_cargo_for_trip = self.get_max_cargo_for_trip(
-                    source, destination, lobith_discharge
-                )
-                # take the minumum of what was requested and what we can take
-                max_cargo_for_trip = min(max_load, max_cargo_for_trip)
-            else:
-                #
-                max_cargo_for_trip = max_load
-            yield from self.load_at(source, max_cargo_for_trip)
+            cargo_for_trip = self.cargo.capacity
+            yield from self.load_at(source, cargo_for_trip)
 
             # Don't sail empty
             if self.cargo.level <= 0:
                 return
-            
+
             if not with_berth:
                 yield from self.move_to(destination)
             else:

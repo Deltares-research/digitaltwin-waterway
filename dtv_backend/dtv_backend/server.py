@@ -53,7 +53,7 @@ def simulate():
 def v2_simulate():
     config = flask.request.json
     # update to new run method
-    result = dtv_backend.simulate.run(config)
+    result = dtv_backend.simulate.v2_run(config)
     log_df = pd.DataFrame(result["operator"].logbook)
     log_json = dtv_backend.postprocessing.log2json(log_df)
     env = result["env"]

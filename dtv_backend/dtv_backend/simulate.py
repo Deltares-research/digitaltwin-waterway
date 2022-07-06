@@ -54,7 +54,8 @@ def run(config):
 
     logger.info("Loadig operator 👩‍💼")
     # Setup and start the simulation
-    operator = dtv_backend.simple.Operator(env, ships=ships, **config["operator"])
+    operator = dtv_backend.simple.Operator(
+        env, ships=ships, **config["operator"])
     # The ships do work for the operator
     for ship in ships:
         env.process(ship.work_for(operator, with_berth=with_berth))
@@ -86,8 +87,7 @@ def v2_run(config):
     with_berth = config.get("options", {}).get("with_berth", False)
 
     # read the network from google for performance reasons
-    url = "https://storage.googleapis.com/et-data-science/dtv/network_digital_twin_v0.1.yaml"
-    url = "https://zenodo.org/record/4578289/files/network_digital_twin_v0.2.pickle?download=1"
+    url = "https://zenodo.org/record/6673604/files/network_digital_twin_v0.3.pickle?download=1"
     G = dtv_backend.fis.load_fis_network(url)
     env.FG = G
 
@@ -111,7 +111,8 @@ def v2_run(config):
 
     logger.info("Loadig operator 👩‍💼")
     # Setup and start the simulation
-    operator = dtv_backend.simple.Operator(env, ships=ships, **config["operator"])
+    operator = dtv_backend.simple.Operator(
+        env, ships=ships, **config["operator"])
     # The ships do work for the operator
     for ship in ships:
         env.process(ship.work_for(operator, with_berth=with_berth))
