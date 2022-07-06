@@ -29,7 +29,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12" sm="6" xs="12" v-for="(ship, index) in selectedShips" :key="index">
-        <ship-card :ship="ship"></ship-card>
+        <ship-card :ship="ship" @change="updateFleet"></ship-card>
       </v-col>
     </v-row>
   </div>
@@ -38,6 +38,8 @@
 <script>
 import ShipCard from './ShipCard'
 import _ from 'lodash'
+
+import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -83,6 +85,7 @@ export default {
   },
   watch: {
     selectedShips(ships) {
+      // if a ship is added, update count to default to 1
       // update counts
       const notSelectedShips = _.difference(this.ships, ships)
       // reset not selected ship count to 0
@@ -95,9 +98,14 @@ export default {
           ship.count = 1
         }
       })
+      this.setFleet(ships)
     }
   },
   methods: {
+    ...mapMutations(['setFleet']),
+    updateFleet() {
+      this.setFleet(this.selectedShips)
+    },
     async fetchShips() {
       const resp = await fetch('data/DTV_shiptypes_database.json')
       const ships = await resp.json()

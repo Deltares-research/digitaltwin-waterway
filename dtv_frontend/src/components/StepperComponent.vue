@@ -68,7 +68,7 @@
       <v-stepper-content step="5">
         <h2 class="text-h4 mb-5">Animation</h2>
         <v-divider class="mb-2" />
-        <result-component />
+        <result-component :config="config" />
       </v-stepper-content>
 
       <v-stepper-content step="6">
@@ -92,8 +92,7 @@ import ClimateComponent from './ClimateComponent'
 import LoadComponent from './LoadComponent'
 import ResultComponent from './ResultComponent'
 import KpiComponent from './KpiComponent'
-import { mapState, mapActions } from 'vuex'
-import _ from 'lodash'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -115,48 +114,7 @@ export default {
   },
   computed: {
     ...mapState(['route', 'waypoints']),
-    config() {
-      const config = {
-        route: this.route.features,
-        waypoints: this.waypoints,
-        sites: [_.first(this.waypoints), _.last(this.waypoints)],
-        fleet: this.fleet,
-        operator: { name: 'Operator' },
-        climate: this.climate,
-        options: {
-          has_berth: true
-        }
-      }
-      console.log('config', config)
-      return config
-    },
-    climate() {
-      return {
-        verticalClearance: this.$refs.climate.verticalClearance,
-        discharge: this.$refs.climate.discharge,
-        seaLevel: this.$refs.climate.seaLevel
-      }
-    },
-    fleet() {
-      const fleet = []
-      this.$refs.fleet.ships.forEach((ship) => {
-        for (var i = 0; i < ship.count; i++) {
-          fleet.push(ship)
-        }
-      })
-      const route = this.route
-      const features = fleet.map((ship, i) => {
-        const geometry = route.features[0].geometry
-        const feature = {
-          type: 'Feature',
-          id: i,
-          geometry: geometry,
-          properties: ship
-        }
-        return feature
-      })
-      return features
-    }
+    ...mapGetters(['config', 'fleet', 'climate'])
   },
   watch: {
     stepper(value) {
