@@ -66,6 +66,8 @@ class Operator(dtv_backend.logbook.HasLog):
                     message="Task",
                     description=f"Sending task ({self.name})",
                     max_load=max_load,
+                    source=source,
+                    destination=destination,
                 ):
                     # Time it takes to send an assignment (1 hour)
                     yield self.env.timeout(3600)
@@ -111,8 +113,7 @@ class Port(dtv_backend.logbook.HasLog):
 
     @property
     def node(self):
-        node, dist = dtv_backend.fis.find_closest_node(
-            self.env.FG, self.geometry)
+        node, dist = dtv_backend.fis.find_closest_node(self.env.FG, self.geometry)
         return node
 
     @property
@@ -236,8 +237,7 @@ class Ship(
 
     @property
     def node(self):
-        node, dist = dtv_backend.fis.find_closest_node(
-            self.env.FG, self.geometry)
+        node, dist = dtv_backend.fis.find_closest_node(self.env.FG, self.geometry)
         return node
 
     def load_at(self, port, max_load=None):
@@ -336,11 +336,9 @@ class Ship(
             )
         else:
             if hasattr(destination, "node"):
-                path = dtv_backend.fis.shorted_path(
-                    graph, self.node, destination.node)
+                path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
             elif isinstance(destination, str):
-                path = dtv_backend.fis.shorted_path(
-                    graph, self.node, destination)
+                path = dtv_backend.fis.shorted_path(graph, self.node, destination)
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
             distance = graph.edges[edge]["length_m"]
@@ -355,19 +353,14 @@ class Ship(
                 path_geometry = self.geometry
             else:
                 # extrect the geometry
-                path_df = dtv_backend.network.network_utilities.path2gdf(
-                    path, graph)
+                path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
 
                 # convert to single linestring
-                path_geometry = shapely.ops.linemerge(
-                    path_df["geometry"].values)
+                path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
 
-                start_point = graph.nodes[path_df.iloc[0]
-                                          ["start_node"]]["geometry"]
-                end_point = graph.nodes[path_df.iloc[-1]
-                                        ["end_node"]]["geometry"]
-                first_path_point = shapely.geometry.Point(
-                    path_geometry.coords[0])
+                start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
+                end_point = graph.nodes[path_df.iloc[-1]["end_node"]]["geometry"]
+                first_path_point = shapely.geometry.Point(path_geometry.coords[0])
                 start_distance = start_point.distance(first_path_point)
                 end_distance = end_point.distance(first_path_point)
                 if start_distance > end_distance:
