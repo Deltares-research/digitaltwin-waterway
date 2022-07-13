@@ -19,9 +19,6 @@ class HasTimeboard(dtv_backend.logbook.HasLog, core.SimpyObject):
         *args,
         **kwargs,
     ):
-        print(args)
-        print(kwargs)
-        print(super().__init__)
         super().__init__(*args, **kwargs)
         # record the environment because we need the start time
         #self.env = env

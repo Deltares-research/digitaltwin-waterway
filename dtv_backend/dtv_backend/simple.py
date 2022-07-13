@@ -21,15 +21,14 @@ ureg = UnitRegistry()
 class Operator(dtv_backend.logbook.HasLog):
     """This class represents a fleet operator."""
 
-    def __init__(self, env, name="Operator", ships=None, n_margin=0):
-        super().__init__(env=env)
-        self.name = name
+    def __init__(self, ships=None, n_margin=0, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if not ships:
             raise ValueError("Non empty list of ships is required")
 
-        self.fleet = simpy.Store(env, capacity=len(ships))
+        self.fleet = simpy.Store(self.env, capacity=len(ships))
         # create list of tasks, any ship can pick them up
-        self.tasks = simpy.Store(env, capacity=len(ships))
+        self.tasks = simpy.Store(self.env, capacity=len(ships))
         for ship in ships:
             self.fleet.put(ship)
         # number of extra tasks to send as a safety margin
@@ -46,7 +45,7 @@ class Operator(dtv_backend.logbook.HasLog):
 
     def plan(self, source, destination):
         """A process which prepares tasks."""
-        with self.log(message="Plan", description=f"Plan ({self.name})"):
+        with self.log_context(message="Plan", description=f"Plan ({self.name})"):
             total_work = source.container.level
             # estimate max_load per task
             # TODO: implement smarter planning
@@ -63,7 +62,7 @@ class Operator(dtv_backend.logbook.HasLog):
                     # source port is empty, we're  done
                     break
                 # Send out tasks
-                with self.log(
+                with self.log_context(
                     message="Task",
                     description=f"Sending task ({self.name})",
                     max_load=max_load,
@@ -143,7 +142,7 @@ class Port(dtv_backend.logbook.HasLog):
         load_time = load_time.to(ureg.second).magnitude
 
         # log cargo levels before/after
-        with self.log(
+        with self.log_context(
             message="Load",
             description=f"Loading ({source.name}) -> ({destination.name})",
             destination=destination.container,
@@ -249,7 +248,7 @@ class Ship(
         It waits for this to finish and then releases the crane.
 
         """
-        with self.log(
+        with self.log_context(
             message="Load request",
             description=f"Load request ({port.name})",
             ship=self,
@@ -270,7 +269,7 @@ class Ship(
         It waits for this to finish and then releases the crane.
 
         """
-        with self.log(
+        with self.log_context(
             message="Unload request",
             description=f"Unload request ({port.name})",
             ship=self,
@@ -377,7 +376,7 @@ class Ship(
                         path_geometry.coords[::-1]
                     )
 
-            with self.log(
+            with self.log_context(
                 message="Sailing",
                 description=f"Sailing ({self.name})",
                 ship=self,
@@ -389,7 +388,7 @@ class Ship(
 
     def load_move_unload(self, source, destination, max_load=None, with_berth=False):
         """do a full A to B cycle"""
-        with self.log(message="Cycle", description="Load move unload cycle"):
+        with self.log_context(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
             if source.container.level <= 0:
                 return

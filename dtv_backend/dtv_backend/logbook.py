@@ -94,7 +94,6 @@ class HasLog(core.Identifiable, core.SimpyObject):
 
     # global logbook
     def __init__(self, *args, **kwargs):
-        print(super().__init__)
         super().__init__(*args, **kwargs)
         if hasattr(self.env, "logbook"):
             # get logbook from environment
@@ -105,7 +104,7 @@ class HasLog(core.Identifiable, core.SimpyObject):
             self.env.logbook = self.logbook
 
 
-    def log(self, **kwargs):
+    def log_context(self, **kwargs):
         # already fill in the logbook  and environment
         return LogDecorator(
             logbook=self.logbook, env=self.env, actor=self, actor_id=self.id, **kwargs
