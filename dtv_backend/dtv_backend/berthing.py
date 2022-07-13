@@ -13,13 +13,15 @@ import datetime
 import pandas as pd
 import networkx as nx
 
+from opentnsim import core
+
 import dtv_backend.logbook
 import dtv_backend.scheduling
 from dtv_backend.fis import shorted_path, compute_path_length
 
 
 #%%
-class CanBerth(dtv_backend.scheduling.HasTimeboard):
+class CanBerth(core.SimpyObject, dtv_backend.scheduling.HasTimeboard):
     """
     Class to find berths on a route. The CanBerth class is initiated with
     an environment, and a graph. The parameters berth_keyword and distance are
@@ -28,8 +30,6 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
 
     Parameters
     ----------
-    env : simpy environment
-        The simpy environment applicable.
     graph : networkx graph
         The graph in which to travel. Note: the graph may also be part of the
         environment, but that is not the case by default.
@@ -45,7 +45,6 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
 
     def __init__(
         self,
-        env,
         graph=None,
         berth_keyword="Berth",
         edge_distance="length_m",
@@ -53,12 +52,11 @@ class CanBerth(dtv_backend.scheduling.HasTimeboard):
         **kwargs,
     ):
         """Initialize with an environment, a graph and keys."""
-        super().__init__(env=env)
+        super().__init__(*args, **kwargs)
 
         # process the parameters
-        # self.env = env
         if graph is None:
-            self.graph = env.FG
+            self.graph = self.env.FG
         else:
             self.graph = graph
         self.berth_keyword = berth_keyword

@@ -47,11 +47,11 @@ class Operator(dtv_backend.logbook.HasLog):
     def plan(self, source, destination):
         """A process which prepares tasks."""
         with self.log(message="Plan", description=f"Plan ({self.name})"):
-            total_work = source.cargo.level
+            total_work = source.container.level
             # estimate max_load per task
             # TODO: implement smarter planning
             max_load = min(
-                max(ship.max_load for ship in self.fleet.items), source.cargo.level
+                max(ship.max_load for ship in self.fleet.items), source.container.level
             )
             min_load = min(ship.max_load for ship in self.fleet.items)
             # estimate n tasks + 1 reserve
@@ -59,7 +59,7 @@ class Operator(dtv_backend.logbook.HasLog):
             # safety margin
             n_tasks += self.n_margin
             for i in range(n_tasks):
-                if source.cargo.level <= 0:
+                if source.container.level <= 0:
                     # source port is empty, we're  done
                     break
                 # Send out tasks
@@ -106,7 +106,7 @@ class Port(dtv_backend.logbook.HasLog):
         self.name = name
         self.crane = simpy.Resource(env, num_cranes)
         self.loading_rate = loading_rate
-        self.cargo = simpy.Container(env, init=level, capacity=capacity)
+        self.container = simpy.Container(env, init=level, capacity=capacity)
         self.geometry = shapely.geometry.shape(geometry)
         self.metadata = kwargs
 
@@ -119,11 +119,11 @@ class Port(dtv_backend.logbook.HasLog):
     @property
     def max_load(self):
         """return the maximum cargo to load"""
-        return self.cargo.capacity - self.cargo.level
+        return self.container.capacity - self.container.level
 
     def load(self, source, destination, max_load=None):
         """The loading processes. It takes a ``ship`` and loads it with maximal (max_load)."""
-        available = source.cargo.level
+        available = source.container.level
         # check how much load we can maximally transfer based on the  we are requested to load max_load, but
         if max_load is not None:
             max_load = min(max_load, destination.max_load)
@@ -146,14 +146,14 @@ class Port(dtv_backend.logbook.HasLog):
         with self.log(
             message="Load",
             description=f"Loading ({source.name}) -> ({destination.name})",
-            destination=destination.cargo,
-            source=source.cargo,
+            destination=destination.container,
+            source=source.container,
             geometry=self.geometry,
             value=cargo_to_move,
         ):
-            source.cargo.get(cargo_to_move)
+            source.container.get(cargo_to_move)
             # move it to the destination
-            destination.cargo.put(cargo_to_move)
+            destination.container.put(cargo_to_move)
             # how long did this take
             yield self.env.timeout(load_time)
 
@@ -176,7 +176,7 @@ class Ship(
         super().__init__(env=env, *args, **kwargs)
         self.name = name
         self.geometry = shapely.geometry.shape(geometry)
-        self.cargo = simpy.Container(self.env, init=level, capacity=capacity)
+        self.container = simpy.Container(self.env, init=level, capacity=capacity)
         self.speed = speed
         # TODO: where to put this...
         self.climate = climate
@@ -186,7 +186,7 @@ class Ship(
     def max_load(self):
         """return the maximum cargo to load"""
         # independent of trip
-        return self.cargo.capacity - self.cargo.level
+        return self.container.capacity - self.container.level
 
     def get_max_cargo_for_trip(self, origin, destination, lobith_discharge):
         """determin max cargo to take on a trip, given the discharge at lobith"""
@@ -199,7 +199,7 @@ class Ship(
         draught_empty = self.metadata["Draught empty [m]"]
         try:
             if max_draught > draught_full:
-                return self.cargo.capacity
+                return self.container.capacity
             if max_draught < draught_empty:
                 return 0
         except:
@@ -212,7 +212,7 @@ class Ship(
         max_layers = dtv_backend.fis.determine_max_layers(max_height)
 
         # TODO: separate function for container vs bulk ship
-        capacity = self.cargo.capacity
+        capacity = self.container.capacity
         containers_per_layer = self.metadata.get("containers_per_layer", 87)
 
         # max cargo under height limitation
@@ -225,7 +225,7 @@ class Ship(
             draught_full - draught_empty
         )
 
-        max_cargo_draught = self.cargo.capacity * load_frac_draught
+        max_cargo_draught = self.container.capacity * load_frac_draught
 
         try:
             max_cargo = min(max_cargo_height, max_cargo_draught)
@@ -391,7 +391,7 @@ class Ship(
         """do a full A to B cycle"""
         with self.log(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
-            if source.cargo.level <= 0:
+            if source.container.level <= 0:
                 return
 
             if not with_berth:
@@ -400,11 +400,11 @@ class Ship(
                 yield from self.move_to_with_berth(source)
 
             # determine what the cargo to take
-            cargo_for_trip = self.cargo.capacity
+            cargo_for_trip = self.container.capacity
             yield from self.load_at(source, cargo_for_trip)
 
             # Don't sail empty
-            if self.cargo.level <= 0:
+            if self.container.level <= 0:
                 return
 
             if not with_berth:

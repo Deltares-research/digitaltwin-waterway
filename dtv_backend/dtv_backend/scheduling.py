@@ -1,25 +1,28 @@
 """This module implements scheduling functionality using the python timeboard module"""
 
 import datetime
-
 import timeboard as tb
+
+from opentnsim import core
 
 import dtv_backend.logbook
 from typing import Optional
 
 
-class HasTimeboard(dtv_backend.logbook.HasLog):
+class HasTimeboard(dtv_backend.logbook.HasLog, core.SimpyObject):
     """Add timeboard information (work schedule)"""
 
     def __init__(
         self,
-        env,
         shift_start_time: Optional[datetime.time] = None,
         shift_end_time: Optional[datetime.time] = None,
         *args,
         **kwargs,
     ):
-        super().__init__(env=env, *args, **kwargs)
+        print(args)
+        print(kwargs)
+        print(super().__init__)
+        super().__init__(*args, **kwargs)
         # record the environment because we need the start time
         #self.env = env
 
