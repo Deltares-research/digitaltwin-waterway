@@ -70,6 +70,26 @@ def v2_simulate():
     return flask.jsonify(result)
 
 
+@dtv.route("/v3/simulate", methods=["POST"])
+def v3_simulate():
+    """generate response for a simulation with the opentnsim compatible kernel"""
+    config = flask.request.json
+    result = dtv_backend.simulate.v3_run(config)
+    env = result["env"]
+    logbook = result["operator"].logbook
+    response = {
+        "log": logbook,
+        "config": config,
+        "env": {
+            "epoch": env.epoch.timestamp(),
+            "epoch_iso": env.epoch.isoformat(),
+            "now": env.epoch,
+            "now_iso": datetime.datetime.fromtimestamp(env.now).isoformat(),
+        },
+    }
+    return response
+
+
 @dtv.route("/find_route", methods=["POST"])
 def find_route():
     """return a the route that passes through the `{"waypoints": ["node", "node"]}`"""

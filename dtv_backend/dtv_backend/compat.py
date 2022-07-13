@@ -2,6 +2,7 @@
 import opentnsim.core
 import shapely.geometry
 from pint import UnitRegistry
+import opentnsim.core
 
 import dtv_backend.berthing
 
@@ -216,3 +217,32 @@ class Processor(dtv_backend.logbook.HasLog):
             destination.container.put(cargo_to_move)
             # how long did this take
             yield self.env.timeout(load_time)
+
+
+Port = type(
+    "Port",
+    (
+        Processor,
+        opentnsim.core.Identifiable,
+        opentnsim.core.Locatable,
+        opentnsim.core.HasResource,
+        opentnsim.core.HasContainer,
+        opentnsim.core.ExtraMetadata,
+    ),
+    {},
+)
+
+
+Ship = type(
+    "Ship",
+    (
+        CanWork,
+        dtv_backend.berthing.CanBerth,
+        opentnsim.core.Identifiable,
+        opentnsim.core.HasContainer,
+        opentnsim.core.Movable,
+        opentnsim.core.Locatable,
+        opentnsim.core.ExtraMetadata,
+    ),
+    {},
+)
