@@ -75,10 +75,13 @@ def v3_simulate():
     """generate response for a simulation with the opentnsim compatible kernel"""
     config = flask.request.json
     result = dtv_backend.simulate.v3_run(config)
+
     env = result["env"]
-    logbook = result["operator"].logbook
+    log_df = pd.DataFrame(result["operator"].logbook)
+    log_json = dtv_backend.postprocessing.log2json(log_df)
+
     response = {
-        "log": logbook,
+        "log": log_json,
         "config": config,
         "env": {
             "epoch": env.epoch.timestamp(),

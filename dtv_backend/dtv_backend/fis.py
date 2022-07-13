@@ -20,7 +20,6 @@ import numpy as np
 import pandas as pd
 import pyproj
 import requests
-import requests
 import requests_cache
 import scipy.interpolate
 import shapely
@@ -95,7 +94,7 @@ def load_fis_network(url):
     n_bytes = len(resp.content)
     msg = """Loaded network from {url} file size {mb:.2f}MB. Network has {n_nodes} nodes and {n_edges} edges."""
     summary = msg.format(
-        url=url, mb=n_bytes / 1000 ** 2, n_edges=len(G.edges), n_nodes=len(G.nodes)
+        url=url, mb=n_bytes / 1000**2, n_edges=len(G.edges), n_nodes=len(G.nodes)
     )
     logger.info(summary)
 

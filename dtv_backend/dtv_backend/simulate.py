@@ -13,6 +13,7 @@ import shapely.geometry
 import dtv_backend.fis
 
 # the simpy processes and objects
+import dtv_backend.compat
 import dtv_backend.simple
 import dtv_backend.network.network_utilities
 
