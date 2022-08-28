@@ -6,6 +6,15 @@ import _ from 'lodash'
 import { getField, updateField } from 'vuex-map-fields'
 
 import buffer from '@turf/buffer'
+// hardcode the prototype ships so we can build our per shipstype properties
+import prototypeShips from '../public/data/DTV_shiptypes_database.json'
+
+// cleanup prototype ships
+_.forEach(prototypeShips, ship => {
+  ship.capacity = ship['Load Weight average [ton]']
+  ship.name = ship['Description (English)']
+  ship.count = 0
+})
 
 Vue.use(Vuex)
 
@@ -25,7 +34,10 @@ export default new Vuex.Store({
     // list of features
     waypoints: [],
 
+    // selected ships
     fleet: [],
+    // prototype ships
+    prototypeShips: prototypeShips,
 
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
@@ -51,12 +63,40 @@ export default new Vuex.Store({
       }
       return unit
     },
-    config(state) {
+    expandedFleet(state) {
+      // converts them to feature collection called a fleet
+      // fleet is not available yet
+      const route = state.route
+      // convert fleet to geojson object
+      const fleet = []
+      // repeat for count of each ship
+      state.fleet.forEach((ship, i) => {
+        let geometry = null
+        if (route.features?.length) {
+          geometry = route.features[0].geometry
+        }
+        const feature = {
+          type: 'Feature',
+          id: i,
+          geometry: geometry,
+          properties: ship
+        }
+        for (i; i < ship.count; i++) {
+          fleet.push(feature)
+        }
+      })
+      return fleet
+    },
+    config(state, getters) {
+      let sites = []
+      if (state.waypoints?.length >= 1) {
+        sites = [_.first(state.waypoints), _.last(state.waypoints)]
+      }
       const config = {
         route: state.route.features,
         waypoints: state.waypoints,
-        sites: [_.first(state.waypoints), _.last(state.waypoints)],
-        fleet: state.fleet,
+        sites: sites,
+        fleet: getters.expandedFleet,
         operator: { name: 'Operator' },
         climate: state.climate,
         // get the list of quantities
@@ -209,27 +249,8 @@ export default new Vuex.Store({
       state.sites = payload
     },
     setFleet(state, payload) {
-      // expects a list of ships
-      // converts them to feature collection called a fleet
-      const ships = [...payload]
-      // fleet is not available yet
-      const route = state.route
-      // convert fleet to geojson object
-      const fleet = []
-      // repeat for count of each ship
-      ships.forEach((ship, i) => {
-        const geometry = route.features[0].geometry
-        const feature = {
-          type: 'Feature',
-          id: i,
-          geometry: geometry,
-          properties: ship
-        }
-        for (i; i < ship.count; i++) {
-          fleet.push(feature)
-        }
-      })
-      state.fleet = fleet
+      // expects a list of selected ships
+      state.fleet = payload
     },
     setResults(state, payload) {
       state.results = payload

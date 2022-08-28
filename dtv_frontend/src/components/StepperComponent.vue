@@ -80,7 +80,13 @@
     <div class="pa-4 mt-auto d-flex stepper-footer">
       <v-btn v-if="stepper > 1" text @click="prevStep">Back</v-btn>
 
-      <v-btn v-if="stepper < maxStep" color="primary" class="ml-auto" @click="nextStep">Continue</v-btn>
+      <v-btn
+        v-if="stepper < maxStep "
+        :disabled="!stepOk(stepper)"
+        color="primary"
+        class="ml-auto"
+        @click="nextStep"
+      >Continue</v-btn>
     </div>
   </v-stepper>
 </template>
@@ -125,6 +131,19 @@ export default {
   },
   methods: {
     ...mapActions(['fetchResults']),
+    stepOk(step) {
+      if (step === 1) {
+        // make sure we have sites selected before we procede
+        if (!(this.config?.sites?.length >= 2)) {
+          return false
+        }
+      } else if (step === 2) {
+        if (!(this.config?.fleet?.length >= 1)) {
+          return false
+        }
+      }
+      return true
+    },
     startSailing() {
       this.fetchResults(this.config)
     },
