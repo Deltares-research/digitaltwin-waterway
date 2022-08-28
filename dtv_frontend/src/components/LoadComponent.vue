@@ -98,6 +98,16 @@
           <template v-slot:default>
             <tbody>
               <tr>
+                <td>Underkeel margin [m]:</td>
+                <td class="text-right" >
+                  <v-alert
+                    :type="(ukc(ship) - underKeelClearanceMargin) > 0 ? 'success' : 'warning' "
+                    >
+                    {{ (ukc(ship) - underKeelClearanceMargin).toFixed(2) }}
+                  </v-alert>
+                </td>
+              </tr>
+              <tr>
                 <td>Draught empty [m]:</td>
                 <td class="text-right">{{ ship['Draught empty [m]'] }}</td>
               </tr>
@@ -116,16 +126,6 @@
               <tr>
                 <td>Underkeel clearance [m]:</td>
                 <td class="text-right">{{ ukc(ship).toFixed(2) }}</td>
-              </tr>
-              <tr>
-                <td>Underkeel margin [m]:</td>
-                <td class="text-right" >
-                  <v-alert
-                    :type="(ukc(ship) - underKeelClearanceMargin) > 0 ? 'success' : 'warning' "
-                    >
-                    {{ (ukc(ship) - underKeelClearanceMargin).toFixed(2) }}
-                  </v-alert>
-                </td>
               </tr>
             </tbody>
           </template>
