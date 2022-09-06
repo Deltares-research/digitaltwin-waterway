@@ -35,6 +35,7 @@ COPY . $HOME/app
 WORKDIR $HOME/app
 # this is faster
 RUN pip install simpy timeboard
+RUN pip install 'git+https://github.com/TUDelft-CITG/OpenTNSim.git@v1.2.0#egg=opentnsim'
 ENV PATH /opt/conda/bin:$PATH
 RUN pip install -e .
 
