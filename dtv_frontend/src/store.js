@@ -127,7 +127,7 @@ export default new Vuex.Store({
       console.log('env', process.env)
 
       const apiUrl = process.env.VUE_APP_API_URI
-      const resp = await fetch(`${apiUrl}/v2/simulate`, request)
+      const resp = await fetch(`${apiUrl}/v3/simulate`, request)
       const results = await resp.json()
       commit('setResults', results)
     },
