@@ -22,6 +22,11 @@ class CanWork(
         # print(super().__init__)
         super().__init__(*args, **kwargs)
 
+    @property
+    def max_load(self):
+        """return the maximum cargo to load"""
+        return self.container.capacity - self.container.level
+
     def work_for(self, operator, with_berth=False):
         """Work for an operator by listening to tasks"""
         while True:
@@ -176,6 +181,11 @@ class Processor(dtv_backend.logbook.HasLog):
         super().__init__(*args, **kwargs)
         self.loading_rate = loading_rate
         self.loading_rate_variation = loading_rate_variation
+
+    @property
+    def max_load(self):
+        """return the maximum cargo to load"""
+        return self.container.capacity - self.container.level
 
     def load(
         self,

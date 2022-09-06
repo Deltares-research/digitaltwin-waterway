@@ -157,16 +157,7 @@ def create_ports(env, config):
     for site in config["sites"]:
         # port = dtv_backend.simple.Port(env, **site["properties"], **site)
         node = site["properties"]["n"]
-        loading_rate = site["properties"]["loadingRate"]
-        loading_rate_variation = site["properties"]["loadingRateVariation"]
-        port = dtv_backend.compat.Port(
-            env=env,
-            node=node,
-            loading_rate=loading_rate,
-            loading_rate_variation=loading_rate_variation,
-            **site["properties"],
-            **site
-        )
+        port = dtv_backend.compat.Port(env=env, node=node, **site["properties"], **site)
         ports.append(port)
     return ports
 
@@ -184,12 +175,14 @@ def create_ships(env, config):
         kwargs["route"] = route
         geometry = shapely.geometry.shape(ship["geometry"])
         node, dist = dtv_backend.fis.find_closest_node(env.FG, geometry)
+        print(node)
         kwargs["node"] = node
         # the ship needs to know about the climate
         if "climate" in config:
             kwargs["climate"] = config["climate"]
         # ship = dtv_backend.simple.Ship(env, **kwargs)
         ship = dtv_backend.compat.Ship(env=env, **kwargs)
+        print(ship.node)
         ships.append(ship)
     return ships
 
