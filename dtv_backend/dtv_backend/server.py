@@ -86,7 +86,7 @@ def v3_simulate():
         "env": {
             "epoch": env.epoch.timestamp(),
             "epoch_iso": env.epoch.isoformat(),
-            "now": env.epoch,
+            "now": env.now,
             "now_iso": datetime.datetime.fromtimestamp(env.now).isoformat(),
         },
     }
