@@ -208,6 +208,15 @@ export default new Vuex.Store({
   },
   mutations: {
     updateField,
+    setPlay(state, payload) {
+      state.play = payload
+    },
+    setCurrentTime(state, payload) {
+      state.currentTime = payload
+    },
+    setProgress(state, payload) {
+      state.progress = payload
+    },
     setRoute(state, payload) {
       state.route = payload
     },
