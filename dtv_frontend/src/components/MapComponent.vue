@@ -62,7 +62,7 @@ export default {
       this.setProgress(progress)
     }, 250),
     onAnimationEnd() {
-      this.setPlay(true)
+      this.setPlay(false)
     },
     publishMap(event) {
       // emit over the event bus
