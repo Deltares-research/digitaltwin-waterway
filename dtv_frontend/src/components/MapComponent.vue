@@ -13,10 +13,10 @@
   >
     <v-mapbox-ships-layer
       v-if="features.length > 0"
+      ref="shipsLayer"
       :tStart="results.env.epoch"
       :tStop="results.env.now"
       :results="results"
-      :sites="sites"
       :play="play"
       :progress="progress"
       @progressChange="onProgressChange"
@@ -55,14 +55,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
+    ...mapMutations(['setCurrentTime', 'setProgress', 'setPlay']),
     // TODO: add comment about devtools
     onProgressChange: _.throttle(function ({ time, progress }) {
       this.setCurrentTime(time)
       this.setProgress(progress)
     }, 250),
     onAnimationEnd() {
-      this.setPlay(false)
+      this.setPlay(true)
     },
     publishMap(event) {
       // emit over the event bus
