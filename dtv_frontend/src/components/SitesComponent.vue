@@ -61,20 +61,10 @@
             <v-slider
               :step="capacityStep"
               :min="0"
-              :max="maxCapacity"
-              persistent-hint
-              :hint="unit"
-              label="Cargo capacity"
-              thumb-label="always"
-              v-model="startSite.properties.capacity"
-            ></v-slider>
-            <v-slider
-              :step="capacityStep"
-              :min="0"
               :max="startSite.properties.capacity"
               persistent-hint
               :hint="unit"
-              label="Cargo level"
+              label="Cargo to transport"
               thumb-label="always"
               v-model="startSite.properties.level"
             ></v-slider>
