@@ -27,10 +27,6 @@ export default {
       type: Object,
       required: true
     },
-    sites: {
-      type: Object,
-      required: true
-    },
     play: {
       type: Boolean,
       required: true
@@ -77,10 +73,11 @@ export default {
     ships() {
       const ships = _.filter(
         _.get(this.results, 'log.features'),
-        feature => (
+        (feature) =>
           feature.properties['Actor type'] === 'Ship' &&
-          ['Load request', 'Unload request', 'Sailing'].includes(feature.properties.Name)
-        )
+          ['Load request', 'Unload request', 'Sailing'].includes(
+            feature.properties.Name
+          )
       )
       return ships
     },
@@ -88,9 +85,22 @@ export default {
       return this.persistedProgress + this.internalProgress
     },
     timeScale() {
-      return d3.scaleLinear()
-        .domain([0, 1])
-        .range([this.tStart, this.tStop])
+      return d3.scaleLinear().domain([0, 1]).range([this.tStart, this.tStop])
+    },
+    throttledProgressChange() {
+      // bubble progress at most once every 250ms
+      const throttledProgressChange = _.throttle(
+        (tNow) => {
+          // emit progress & tNow when ships animate
+          this.$emit('progressChange', {
+            progress: this.totalProgress,
+            time: tNow
+          })
+        },
+        250,
+        { trailing: true, leading: true }
+      )
+      return throttledProgressChange
     }
   },
   mounted() {
@@ -117,7 +127,9 @@ export default {
       el.appendChild(child)
 
       const mapboxMarker = new mapboxgl.Marker(el)
-      const shipInfo = this.results.config.fleet.find(({ properties }) => properties.name === ship.properties.Actor)
+      const shipInfo = this.results.config.fleet.find(
+        ({ properties }) => properties.name === ship.properties.Actor
+      )
 
       // create Vue component & mount to div
       const marker = new ShipIconClass({
@@ -133,7 +145,10 @@ export default {
       marker.$mount(child)
 
       // set to starting location
-      const start = ship.geometry.type === 'Point' ? ship.geometry.coordinates : ship.geometry.coordinates[0]
+      const start =
+        ship.geometry.type === 'Point'
+          ? ship.geometry.coordinates
+          : ship.geometry.coordinates[0]
 
       mapboxMarker.setLngLat(start)
       mapboxMarker.addTo(this.map)
@@ -205,7 +220,7 @@ export default {
       if (!this.initialized) {
         this.clearMarkers()
 
-        this.ships.forEach(ship => {
+        this.ships.forEach((ship) => {
           /* create and remember marker */
           this.createMarker(ship)
         })
@@ -219,37 +234,39 @@ export default {
       // get current progress as time on timescale
       const tNow = this.timeScale(this.totalProgress)
 
-      // emit progress & tNow when ships animate
-      this.$emit('progressChange', {
-        progress: this.totalProgress,
-        time: tNow
-      })
+      this.throttledProgressChange(tNow)
 
       // lookup ships
       // set state to what it should be
-      this.ships.forEach(ship => {
+      this.ships.forEach((ship) => {
         if (
           tNow >= ship.properties['Start Timestamp'] &&
           tNow < ship.properties['Stop Timestamp']
         ) {
           // animate ship
-          const fraction = (
+          const fraction =
             (tNow - ship.properties['Start Timestamp']) /
-            (ship.properties['Stop Timestamp'] - ship.properties['Start Timestamp'])
-          )
+            (ship.properties['Stop Timestamp'] -
+              ship.properties['Start Timestamp'])
           if (ship.properties.Name === 'Sailing') {
             const options = { units: 'kilometers' }
             const length = turf.length(ship.geometry, options)
             const along = turf.along(ship.geometry, length * fraction, options)
-            this.markers[ship.id].mapboxMarker.setLngLat(along.geometry.coordinates)
+            this.markers[ship.id].mapboxMarker.setLngLat(
+              along.geometry.coordinates
+            )
             this.markers[ship.id].mapboxMarker.addTo(this.map)
           } else if (ship.properties.Name === 'Load request') {
-            this.markers[ship.id].mapboxMarker.setLngLat(ship.geometry.coordinates)
+            this.markers[ship.id].mapboxMarker.setLngLat(
+              ship.geometry.coordinates
+            )
             this.markers[ship.id].progress = fraction * 100
             this.markers[ship.id].mapboxMarker.addTo(this.map)
           } else if (ship.properties.Name === 'Unload request') {
-            this.markers[ship.id].mapboxMarker.setLngLat(ship.geometry.coordinates)
-            this.markers[ship.id].progress = 100 - (fraction * 100)
+            this.markers[ship.id].mapboxMarker.setLngLat(
+              ship.geometry.coordinates
+            )
+            this.markers[ship.id].progress = 100 - fraction * 100
             this.markers[ship.id].mapboxMarker.addTo(this.map)
           }
 

@@ -1,0 +1,6 @@
+FROM continuumio/miniconda3
+LABEL maintainer="Cindy.vandeVriesSafaviNic@deltares.nl"
+COPY . $HOME/app
+RUN pip install -e .
+EXPOSE 5000
+CMD dtv_backend run --port 5000 --host 0.0.0.0 --no-debugger

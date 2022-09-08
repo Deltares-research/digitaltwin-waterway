@@ -14,58 +14,79 @@ import plotly.express as px
 
 def log2gantt(log_df):
     """convert log data frame to a gantt chart"""
-    log_df['actor_name'] = log_df['Meta'].apply(lambda x:x['actor'].name)
-    log_df['state'] = log_df['Meta'].apply(lambda x:x['state'])
+    log_df["actor_name"] = log_df["Meta"].apply(lambda x: x["actor"].name)
+    log_df["state"] = log_df["Meta"].apply(lambda x: x["state"])
     gantt_df = pd.DataFrame(
-        log_df.pivot(index='ActivityID', columns='state')[
-            [('Timestamp', 'START'), ('Timestamp', 'STOP'), ('Message', 'START'), ('actor_name', 'START')]
+        log_df.pivot(index="ActivityID", columns="state")[
+            [
+                ("Timestamp", "START"),
+                ("Timestamp", "STOP"),
+                ("Message", "START"),
+                ("actor_name", "START"),
+            ]
         ].values,
-        columns=['Start', 'Stop', 'Name', 'Actor']
+        columns=["Start", "Stop", "Name", "Actor"],
     )
     # TODO: check why operator cycle ends with NaN
     gantt_df = gantt_df.dropna()
     # add proper gantt chart headers
     gantt_df = gantt_df.query('Name != "Cycle"')
-    gantt_df = gantt_df.sort_values(['Start', 'Name'])
-    fig = px.timeline(gantt_df, x_start="Start", x_end="Stop", y="Name", color="Actor", opacity=0.3)
+    gantt_df = gantt_df.sort_values(["Start", "Name"])
+    fig = px.timeline(
+        gantt_df, x_start="Start", x_end="Stop", y="Name", color="Actor", opacity=0.3
+    )
     fig.update_yaxes(autorange="reversed")
     return fig
 
+
 def log2json(log_df):
     """convert a log dataframe to a pivoted geojson"""
-    log_df['actor_name'] = log_df['Meta'].apply(lambda x:x['actor'].name)
-    log_df['actor_type'] = log_df['Meta'].apply(
-        lambda x:type(x['actor']).__name__
-    )
-    log_df['state'] = log_df['Meta'].apply(lambda x:x['state'])
-    log_df['description'] = log_df['Meta'].apply(lambda x:x['description'])
+    log_df["actor_name"] = log_df["Meta"].apply(lambda x: x["actor"].name)
+    log_df["actor_type"] = log_df["Meta"].apply(lambda x: type(x["actor"]).__name__)
+    log_df["state"] = log_df["Meta"].apply(lambda x: x["state"])
+    log_df["description"] = log_df["Meta"].apply(lambda x: x["description"])
 
     # rename to these columns
-    columns = ['Start', 'Stop', 'Name', 'Description', 'Actor', 'Actor type', 'Geometry']
+    columns = [
+        "Start",
+        "Stop",
+        "Name",
+        "Description",
+        "Actor",
+        "Actor type",
+        "Geometry",
+    ]
     pivot_df = pd.DataFrame(
         # the pivot creates a multi-index, pick to create a single index
-        log_df.pivot(index='ActivityID', columns='state')[
+        log_df.pivot(index="ActivityID", columns="state")[
             [
-                ('Timestamp', 'START'),
-                ('Timestamp', 'STOP'),
-                ('Message', 'START'),
-                ('description', 'START'),
-                ('actor_name', 'START'),
-                ('actor_type', 'START'),
-                ('geometry', 'START')
+                ("Timestamp", "START"),
+                ("Timestamp", "STOP"),
+                ("Message", "START"),
+                ("description", "START"),
+                ("actor_name", "START"),
+                ("actor_type", "START"),
+                ("geometry", "START"),
             ]
         ].values,
-        columns=columns
+        columns=columns,
     )
 
+    pivot_df["Start Timestamp"] = pivot_df["Start"].values.astype(np.int64) // 10**9
+    pivot_df["Stop Timestamp"] = pivot_df["Stop"].values.astype(np.int64) // 10**9
 
-    pivot_df['Start Timestamp'] = pivot_df['Start'].values.astype(np.int64) // 10 ** 9
-    pivot_df['Stop Timestamp'] = pivot_df['Stop'].values.astype(np.int64) // 10 ** 9
+    export_columns = [*columns, "Start Timestamp", "Stop Timestamp"]
+    pivot_df["Start"] = pivot_df["Start"].dt.strftime("%Y-%m-%d %H:%M:%S")
+    pivot_df["Stop"] = pivot_df["Stop"].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    export_columns = [*columns, 'Start Timestamp', 'Stop Timestamp']
-    pivot_df['Start'] = pivot_df['Start'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    pivot_df['Stop'] = pivot_df['Stop'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    pivot_df = gpd.GeoDataFrame(pivot_df[export_columns], geometry='Geometry')
+    # make geometry consistent
+    geometry = pivot_df["Geometry"].apply(
+        lambda x: shapely.geometry.shape(x)
+        if (hasattr(x, "geom_type") or isinstance(x, dict))
+        else None
+    )
+    pivot_df["Geometry"] = geometry
+    pivot_df = gpd.GeoDataFrame(pivot_df[export_columns], geometry="Geometry")
     json_str = pivot_df.to_json()
     return json.loads(json_str)
 

@@ -20,11 +20,17 @@ import numpy as np
 import pandas as pd
 import pyproj
 import requests
+import requests_cache
 import scipy.interpolate
 import shapely
 import shapely.geometry
 import shapely.wkt
-from diskcache import Cache
+
+import dtv_backend
+
+
+# cache all http requests for stability and performance
+requests_cache.install_cache("requests_cache")
 
 # add pairwise to itertools for python < 3.10
 if not hasattr(itertools, "pairwise"):
@@ -38,27 +44,12 @@ if not hasattr(itertools, "pairwise"):
     itertools.pairwise = pairwise
 
 
-try:
-    cache = Cache(directory="./cache")
-except:
-    cache = {}
-
-
 logger = logging.getLogger(__name__)
 
 package_path = pathlib.Path(__file__).parent.parent
 
 # define the coorinate system
 geod = pyproj.Geod(ellps="WGS84")
-
-
-def memoize(*args, **kwargs):
-    """decorate with caching"""
-    try:
-        f = cache.memoize(*args, **kwargs)
-    except AttributeError:
-        f = functools.lru_cache
-    return f
 
 
 # The network version 0.1 contains the lat/lon distance in a length property.
@@ -77,11 +68,9 @@ def edge_length(edge):
 # now create the function can load the network
 
 # store the result so it will immediately give a result
-@memoize(expire=3600 * 24)
+@functools.lru_cache(maxsize=100)
 def load_fis_network(url):
     """load the topological fairway information system network"""
-
-    logger.info(f"storing results in {cache}")
 
     # get the data from the url
     resp = requests.get(url)
@@ -105,7 +94,7 @@ def load_fis_network(url):
     n_bytes = len(resp.content)
     msg = """Loaded network from {url} file size {mb:.2f}MB. Network has {n_nodes} nodes and {n_edges} edges."""
     summary = msg.format(
-        url=url, mb=n_bytes / 1000 ** 2, n_edges=len(G.edges), n_nodes=len(G.nodes)
+        url=url, mb=n_bytes / 1000**2, n_edges=len(G.edges), n_nodes=len(G.nodes)
     )
     logger.info(summary)
 
@@ -442,3 +431,39 @@ def get_route(waypoints, network):
     route_properties.update(metadata)
     route["properties"] = route_properties
     return route
+
+
+@functools.lru_cache(maxsize=100)
+def get_edges_gdf(graph):
+    """convert graph to edge list of geodataframes, also add bathymetry info. Transform to utm for spatial matching purposes"""
+    edges_df = nx.to_pandas_edgelist(graph)
+    edges_gdf = gpd.GeoDataFrame(edges_df, geometry="geometry", crs=4326)
+
+    src_path = dtv_backend.get_src_path()
+
+    version = "0.3"
+
+    bathy_gdf = gpd.read_file(src_path / "data" / f"edges_{version}_with_bathy.geojson")
+    bathy_graph = nx.from_pandas_edgelist(
+        bathy_gdf, source="start-id", target="end-id", edge_attr=True
+    )
+
+    # lookup corresponding values for each row
+    def get_bathy(row):
+        edge = bathy_graph.edges[row["source"], row["target"]]
+        result = pd.Series(
+            {
+                "nap_p5": edge["nap_p5"],
+                "nap_p50": edge["nap_p50"],
+                "nap_p95": edge["nap_p95"],
+                "lat_p5": edge["lat_p5"],
+                "lat_p50": edge["lat_p50"],
+                "lat_p95": edge["lat_p95"],
+            }
+        )
+        return result
+
+    bathy_columns = edges_gdf.apply(get_bathy, axis=1)
+    # add bathymetry columns
+    edges_gdf = pd.merge(edges_gdf, bathy_columns, left_index=True, right_index=True)
+    return edges_gdf

@@ -61,10 +61,10 @@
             <v-slider
               :step="capacityStep"
               :min="0"
-              :max="maxCapacity"
+              :max="startSite.properties.capacity"
               persistent-hint
               :hint="unit"
-              label="Cargo"
+              label="Cargo to transport"
               thumb-label="always"
               v-model="startSite.properties.level"
             ></v-slider>
@@ -76,7 +76,7 @@
               label="Loading rate"
               persistent-hint
               thumb-label="always"
-              v-model="startSite.properties.loadingRate"
+              v-model="startSite.properties.loading_rate"
             ></v-slider>
             <v-slider
               :step="loadingRateStep"
@@ -86,7 +86,7 @@
               persistent-hint
               :hint="unit + ' / hour'"
               thumb-label="always"
-              v-model="startSite.properties.loadingRateVariation"
+              v-model="startSite.properties.loading_rate_variation"
             ></v-slider>
           </v-form>
         </v-card-text>
@@ -115,7 +115,7 @@
               label="Loading rate"
               persistent-hint
               thumb-label="always"
-              v-model="endSite.properties.loadingRate"
+              v-model="endSite.properties.loading_rate"
             ></v-slider>
             <v-slider
               :step="loadingRateStep"
@@ -125,7 +125,7 @@
               persistent-hint
               :hint="unit + ' / hour'"
               thumb-label="always"
-              v-model="endSite.properties.loadingRateVariation"
+              v-model="endSite.properties.loading_rate_variation"
             ></v-slider>
           </v-form>
         </v-card-text>
@@ -197,6 +197,9 @@ export default {
         return null
       }
       return _.last(this.waypoints)
+    },
+    valid() {
+      return this.waypoints.length >= 2
     },
     maxCapacity() {
       let maxCapacity = 1000

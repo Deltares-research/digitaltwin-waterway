@@ -5,6 +5,8 @@ import uuid
 
 import simpy
 
+from opentnsim import core
+
 # global counter that you can iterate over
 COUNT = itertools.count()
 
@@ -87,23 +89,22 @@ class LogDecorator(ContextDecorator):
         return kwargs
 
 
-class HasLog(object):
+class HasLog(core.Identifiable, core.SimpyObject):
     """class that provides a log function for building a logbook"""
 
     # global logbook
-    def __init__(self, env, *args, **kwargs):
-        if hasattr(env, "logbook"):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(self.env, "logbook"):
             # get logbook from environment
-            self.logbook = env.logbook
+            self.logbook = self.env.logbook
         else:
             # share logbook with environment
             self.logbook = []
-            env.logbook = self.logbook
+            self.env.logbook = self.logbook
 
-        self.env = env
-        self.id = str(uuid.uuid4())
 
-    def log(self, **kwargs):
+    def log_context(self, **kwargs):
         # already fill in the logbook  and environment
         return LogDecorator(
             logbook=self.logbook, env=self.env, actor=self, actor_id=self.id, **kwargs

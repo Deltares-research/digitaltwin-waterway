@@ -68,7 +68,7 @@
       <v-stepper-content step="5">
         <h2 class="text-h4 mb-5">Animation</h2>
         <v-divider class="mb-2" />
-        <result-component />
+        <result-component :config="config" />
       </v-stepper-content>
 
       <v-stepper-content step="6">
@@ -80,7 +80,13 @@
     <div class="pa-4 mt-auto d-flex stepper-footer">
       <v-btn v-if="stepper > 1" text @click="prevStep">Back</v-btn>
 
-      <v-btn v-if="stepper < maxStep" color="primary" class="ml-auto" @click="nextStep">Continue</v-btn>
+      <v-btn
+        v-if="stepper < maxStep "
+        :disabled="!stepOk(stepper)"
+        color="primary"
+        class="ml-auto"
+        @click="nextStep"
+      >Continue</v-btn>
     </div>
   </v-stepper>
 </template>
@@ -92,8 +98,7 @@ import ClimateComponent from './ClimateComponent'
 import LoadComponent from './LoadComponent'
 import ResultComponent from './ResultComponent'
 import KpiComponent from './KpiComponent'
-import { mapState, mapActions } from 'vuex'
-import _ from 'lodash'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -115,47 +120,7 @@ export default {
   },
   computed: {
     ...mapState(['route', 'waypoints']),
-    config() {
-      const config = {
-        route: this.route.features,
-        waypoints: this.waypoints,
-        sites: [_.first(this.waypoints), _.last(this.waypoints)],
-        fleet: this.fleet,
-        operator: { name: 'Operator' },
-        climate: this.climate,
-        options: {
-          has_berth: true
-        }
-      }
-      console.log('config', config)
-      return config
-    },
-    climate() {
-      return {
-        verticalClearance: this.$refs.climate.verticalClearance,
-        discharge: this.$refs.climate.discharge,
-        seaLevel: this.$refs.climate.seaLevel
-      }
-    },
-    fleet() {
-      const fleet = []
-      this.$refs.fleet.ships.forEach((ship) => {
-        for (var i = 0; i < ship.count; i++) {
-          fleet.push(ship)
-        }
-      })
-      const features = fleet.map((ship, i) => {
-        const geometry = this.route.features[0].geometry
-        const feature = {
-          type: 'Feature',
-          id: i,
-          geometry: geometry,
-          properties: ship
-        }
-        return feature
-      })
-      return features
-    }
+    ...mapGetters(['config', 'fleet', 'climate'])
   },
   watch: {
     stepper(value) {
@@ -166,6 +131,19 @@ export default {
   },
   methods: {
     ...mapActions(['fetchResults']),
+    stepOk(step) {
+      if (step === 1) {
+        // make sure we have sites selected before we procede
+        if (!(this.config?.sites?.length >= 2)) {
+          return false
+        }
+      } else if (step === 2) {
+        if (!(this.config?.fleet?.length >= 1)) {
+          return false
+        }
+      }
+      return true
+    },
     startSailing() {
       this.fetchResults(this.config)
     },

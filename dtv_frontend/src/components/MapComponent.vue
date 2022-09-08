@@ -13,10 +13,10 @@
   >
     <v-mapbox-ships-layer
       v-if="features.length > 0"
+      ref="shipsLayer"
       :tStart="results.env.epoch"
       :tStop="results.env.now"
       :results="results"
-      :sites="sites"
       :play="play"
       :progress="progress"
       @progressChange="onProgressChange"
@@ -24,6 +24,7 @@
     />
     <!-- :progress="progress" -->
     <v-mapbox-site-layer />
+    <v-mapbox-climate-layer />
     <v-mapbox-navigation-control :options="{ visualizePitch: true }" position="bottom-right" />
   </v-mapbox>
 </template>
@@ -32,13 +33,15 @@
 import { mapState, mapMutations } from 'vuex'
 import VMapboxSiteLayer from './Mapbox/VMapboxSiteLayer'
 import VMapboxShipsLayer from './Mapbox/VMapboxShipsLayer'
+import VMapboxClimateLayer from './Mapbox/VMapboxClimateLayer'
 import _ from 'lodash'
 
 export default {
   inject: ['bus'],
   components: {
     VMapboxSiteLayer,
-    VMapboxShipsLayer
+    VMapboxShipsLayer,
+    VMapboxClimateLayer
   },
   computed: {
     ...mapState(['results', 'sites', 'play', 'progress']),
@@ -52,7 +55,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setPlay', 'setCurrentTime', 'setProgress']),
+    ...mapMutations(['setCurrentTime', 'setProgress', 'setPlay']),
     // TODO: add comment about devtools
     onProgressChange: _.throttle(function ({ time, progress }) {
       this.setCurrentTime(time)

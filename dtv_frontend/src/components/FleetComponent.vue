@@ -16,7 +16,7 @@
         <v-card-text>
           <v-data-table
             :headers="headers"
-            :items="ships"
+            :items="prototypeShips"
             :items-per-page="10"
             class="elevation-1"
             item-key="name"
@@ -29,7 +29,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12" sm="6" xs="12" v-for="(ship, index) in selectedShips" :key="index">
-        <ship-card :ship="ship"></ship-card>
+        <ship-card :ship="ship" @change="updateFleet"></ship-card>
       </v-col>
     </v-row>
   </div>
@@ -39,13 +39,15 @@
 import ShipCard from './ShipCard'
 import _ from 'lodash'
 
+import { mapMutations } from 'vuex'
+import { mapFields } from 'vuex-map-fields'
+
 export default {
   components: {
     ShipCard
   },
   data() {
     return {
-      ships: [],
       selectedShips: [],
       search: '',
       headers: [
@@ -76,15 +78,11 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.fetchShips().then((ships) => {
-      this.ships = ships
-    })
-  },
   watch: {
     selectedShips(ships) {
+      // if a ship is added, update count to default to 1
       // update counts
-      const notSelectedShips = _.difference(this.ships, ships)
+      const notSelectedShips = _.difference(this.prototypeShips, ships)
       // reset not selected ship count to 0
       notSelectedShips.forEach((ship) => {
         ship.count = 0
@@ -95,19 +93,16 @@ export default {
           ship.count = 1
         }
       })
+      this.setFleet(ships)
     }
   },
+  computed: {
+    ...mapFields(['prototypeShips'])
+  },
   methods: {
-    async fetchShips() {
-      const resp = await fetch('data/DTV_shiptypes_database.json')
-      const ships = await resp.json()
-      /* add ship count  */
-      ships.forEach((ship) => {
-        ship.capacity = ship['Load Weight average [ton]']
-        ship.name = ship['Description (English)']
-        ship.count = 0
-      })
-      return ships
+    ...mapMutations(['setFleet']),
+    updateFleet() {
+      this.setFleet(this.selectedShips)
     }
   }
 }

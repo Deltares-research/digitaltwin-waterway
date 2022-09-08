@@ -9,7 +9,14 @@
     </v-card-title>
     <!-- TODO: add color, icon/image -->
     <v-card-text>
-      <v-slider :min="0" :max="20" label="# ships" thumb-label="always" v-model="ship.count"></v-slider>
+      <v-slider
+        :min="0"
+        :max="20"
+        label="# ships"
+        thumb-label="always"
+        v-model="ship.count"
+        @change="updateShip(ship)"
+      ></v-slider>
       <v-simple-table dense>
         <template v-slot:default>
           <thead>
@@ -22,7 +29,22 @@
             <tr v-for="item in tableProperties" :key="item">
               <td>{{ item }}</td>
               <td>
-                <v-text-field v-model="ship[item]" :disabled="!editable.includes(item)"></v-text-field>
+                <v-text-field
+                  v-model="ship[item]"
+                  :disabled="!editable.includes(item)"
+                  @change="updateShip(ship)"
+                ></v-text-field>
+              </td>
+            </tr>
+            <tr>
+              <td>Energy carrier</td>
+              <td>
+                <v-select
+                  :items="energyCarriers"
+                  v-model="energyCarrier"
+                  disabled
+                  @change="updateShip(ship)"
+                ></v-select>
               </td>
             </tr>
           </tbody>
@@ -38,15 +60,31 @@ export default {
   },
   data() {
     return {
-      editable: ['name', 'Length [m]', 'Beam [m]'],
+      editable: [
+        'name',
+        'Length [m]',
+        'Beam [m]',
+        'Engine power maximum [kW]',
+        'Velocity [m/s]'
+      ],
+      // hard coded (not available yet)
+      energyCarrier: 'Diesel',
+      energyCarriers: ['Diesel', 'LPG', 'LNG', 'H2'],
       tableProperties: [
         'name',
         'Vessel type',
         'CEMT-class',
         'RWS-class',
         'Length [m]',
-        'Beam [m]'
+        'Beam [m]',
+        'Velocity [m/s]',
+        'Engine power maximum [kW]'
       ]
+    }
+  },
+  methods: {
+    updateShip(ship) {
+      this.$emit('change', ship)
     }
   }
 }
