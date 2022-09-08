@@ -49,7 +49,8 @@ export default new Vuex.Store({
     currentTime: null,
     progress: 0,
     play: false,
-    climate: {}
+    climate: {},
+    chartTripDuration: {}
   },
   getters: {
     getField,
@@ -114,7 +115,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchResults({ commit }, config) {
+    async fetchResults({ commit, dispatch }, config) {
       console.log('config', config)
       const request = {
         method: 'POST',
@@ -130,6 +131,22 @@ export default new Vuex.Store({
       const resp = await fetch(`${apiUrl}/v3/simulate`, request)
       const results = await resp.json()
       commit('setResults', results)
+      dispatch('fetchKPIs', results)
+    },
+    async fetchKPIs({ commit }, results) {
+      console.log('fetching KPI for ', results)
+      const request = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(results)
+      }
+      const apiUrl = process.env.VUE_APP_API_URI
+      const resp = await fetch(`${apiUrl}/charts/trip_duration`, request)
+      const tripDuration = await resp.json()
+      commit('setChartTripDuration', tripDuration)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -253,6 +270,9 @@ export default new Vuex.Store({
         feature => feature.properties.velocity
       )
       state.velocities = velocities
+    },
+    setChartTripDuration(state, payload) {
+      state.chartTripDuration = payload
     },
     setSites(state, payload) {
       state.sites = payload
