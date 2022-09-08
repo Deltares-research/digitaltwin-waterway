@@ -91,30 +91,30 @@ export default {
       // add custom events for start & end of simulation
       return events.length
         ? [
-            {
-              id: 'start',
-              properties: {
-                Description: 'Start simulation',
-                Name: 'Start',
-                Start: this.results.env.epoch_iso,
-                'Start Timestamp': this.results.env.epoch,
-                Stop: this.results.env.epoch_iso,
-                'Stop Timestamp': this.results.env.epoch
-              }
-            },
-            ...events,
-            {
-              id: 'stop',
-              properties: {
-                Description: 'Stop simulation',
-                Name: 'Stop',
-                Start: this.results.env.now_iso,
-                'Start Timestamp': this.results.env.now,
-                Stop: this.results.env.now_iso,
-                'Stop Timestamp': this.results.env.now
-              }
+          {
+            id: 'start',
+            properties: {
+              Description: 'Start simulation',
+              Name: 'Start',
+              Start: this.results.env.epoch_iso,
+              'Start Timestamp': this.results.env.epoch,
+              Stop: this.results.env.epoch_iso,
+              'Stop Timestamp': this.results.env.epoch
             }
-          ]
+          },
+          ...events,
+          {
+            id: 'stop',
+            properties: {
+              Description: 'Stop simulation',
+              Name: 'Stop',
+              Start: this.results.env.now_iso,
+              'Start Timestamp': this.results.env.now,
+              Stop: this.results.env.now_iso,
+              'Stop Timestamp': this.results.env.now
+            }
+          }
+        ]
         : []
     },
     activeEvent() {
