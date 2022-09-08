@@ -182,18 +182,22 @@ def get_variables_for_climate(climate, interpolators, edges_gdf, max_distance=15
     """use the climate interpolators to get waterlevels, velocities and bathymetry for the network"""
     # TODO: filter by route first
 
-    # Interpolate values
+    # Interpolate values for the current variable (for example for discharge 1000 @ Lobith)
     values_utm = {}
     for value_column, interpolator_gdf in interpolators.items():
+        # these are the variables for the current climate (for example waterlevels at each location)
         value_gdf = value_for_climate(
             interpolator_gdf, climate, value_column=value_column
         )
+        # We need to interpolate spatial. We'll do it in meters.
+        # For EU or other country networks, we need to this on the sphere
         values_utm[value_column] = value_gdf.to_crs(epsg_utm31n)
 
     # conver to utm for spatial matching
     edges_gdf_with_variables_gdf = edges_gdf.to_crs(epsg_utm31n)
 
     # merge computed variables with graph
+    # lookup the nearest waterlevel
     for variable in ["velocity", "waterlevel"]:
         edges_gdf_with_variables_gdf = gpd.sjoin_nearest(
             left_df=edges_gdf_with_variables_gdf,
@@ -229,5 +233,7 @@ def get_variables_for_climate(climate, interpolators, edges_gdf, max_distance=15
     result_utm = result_utm.dropna(
         subset=["nap_p50", "velocity", "waterlevel"], how="all"
     )
+
+    # project back to wgs84 and return
     result = result_utm.to_crs(4326)
     return result
