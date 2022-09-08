@@ -36,9 +36,9 @@
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@storybook/addon-actions": "^6.3.10",
-    "@storybook/addon-essentials": "^6.3.10",
+    "@storybook/addon-essentials": "^6.5.10",
     "@storybook/addon-links": "^6.3.10",
-    "@storybook/vue": "^6.3.10",
+    "@storybook/vue": "^6.5.10",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
