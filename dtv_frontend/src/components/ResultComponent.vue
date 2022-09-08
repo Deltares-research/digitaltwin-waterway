@@ -47,11 +47,14 @@
     </v-card>
     <v-card class="mb-4">
       <v-card-title>Model input</v-card-title>
-      <!-- <v-card-text> -->
-      <!--   <pre><code>{{config}}</code></pre> -->
-      <!-- </v-card-text> -->
       <v-card-actions>
         <v-btn text @click="exportConfig">Export</v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-card class="mb-4">
+      <v-card-title>Model output</v-card-title>
+      <v-card-actions>
+        <v-btn text @click="exportResult">Export</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -88,30 +91,30 @@ export default {
       // add custom events for start & end of simulation
       return events.length
         ? [
-          {
-            id: 'start',
-            properties: {
-              Description: 'Start simulation',
-              Name: 'Start',
-              Start: this.results.env.epoch_iso,
-              'Start Timestamp': this.results.env.epoch,
-              Stop: this.results.env.epoch_iso,
-              'Stop Timestamp': this.results.env.epoch
+            {
+              id: 'start',
+              properties: {
+                Description: 'Start simulation',
+                Name: 'Start',
+                Start: this.results.env.epoch_iso,
+                'Start Timestamp': this.results.env.epoch,
+                Stop: this.results.env.epoch_iso,
+                'Stop Timestamp': this.results.env.epoch
+              }
+            },
+            ...events,
+            {
+              id: 'stop',
+              properties: {
+                Description: 'Stop simulation',
+                Name: 'Stop',
+                Start: this.results.env.now_iso,
+                'Start Timestamp': this.results.env.now,
+                Stop: this.results.env.now_iso,
+                'Stop Timestamp': this.results.env.now
+              }
             }
-          },
-          ...events,
-          {
-            id: 'stop',
-            properties: {
-              Description: 'Stop simulation',
-              Name: 'Stop',
-              Start: this.results.env.now_iso,
-              'Start Timestamp': this.results.env.now,
-              Stop: this.results.env.now_iso,
-              'Stop Timestamp': this.results.env.now
-            }
-          }
-        ]
+          ]
         : []
     },
     activeEvent() {
@@ -178,6 +181,12 @@ export default {
         type: 'application/json;charset=utf-8'
       })
       saveAs(blob, 'config.geojson')
+    },
+    exportResult() {
+      var blob = new Blob([JSON.stringify(this.results)], {
+        type: 'application/json;charset=utf-8'
+      })
+      saveAs(blob, 'result.json')
     }
   }
 }
