@@ -45,6 +45,7 @@ def duration_breakdown(results):
     # read log features
     gdf = gpd.GeoDataFrame.from_features(results["log"]["features"])
 
+    # TODO: fix correct filter, waiting, and mixes between logging of vessel and port
     cycle_idx = np.logical_and(
         gdf["Actor type"] == "Ship", gdf["Name"] != "Cycle"
     )
