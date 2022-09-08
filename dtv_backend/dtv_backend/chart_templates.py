@@ -17,3 +17,30 @@ trip_duration_template = {
     },
     "series": [{"name": "Trip duration", "type": "scatter", "data": []}],
 }
+
+
+duration_breakdown_template = {
+    "tooltip": {
+        "trigger": "item",
+        "formatter": "{b} : {c}h ({d}%)"
+    },
+    "legend": {
+        "orient": "vertical",
+        "left": "left",
+        "data": [],  # data categories
+    },
+    "series": [{
+        "name": "Duration breakdown",
+        "type": "pie",
+        "radius": "80%",
+        "center": ["50%", "50%"],
+        "data": [],  # dict value:name (i.e. total duration:category),
+        "emphasis": {
+            "itemStyle": {
+                "shadowBlur": 10,
+                "shadowOffsetX": 0,
+                "shadowColor": "rgba(0, 0, 0, 0.5)"
+            }
+        }
+    }]
+}
