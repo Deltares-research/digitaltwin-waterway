@@ -24,6 +24,17 @@ Data is processed to be topological connected and to be used for (water) transpo
 
 Source data for the network is available at https://www.vaarweginformatie.nl/.
 
+
+## Add a KPI
+- Go to notebooks/kpi/chart_generation.ipynb
+- Add and test a new KPI. Make a function that takes results as input and generates an echart as output
+- Add the function to server.py as a new url
+- Test the new api in postman
+- Add the new api call in the store, in the fetchKPI action
+- Add the new variable to the store using a mutation to the state
+- Map the state to the KPI component
+- Add the chart to the KPI component.
+
 ## Sharing and Access information
 
 CC BY-SA 4.0 license applies: https://creativecommons.org/licenses/by-sa/4.0/.
