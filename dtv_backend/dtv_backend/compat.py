@@ -2,7 +2,9 @@
 import opentnsim.core
 import shapely.geometry
 from pint import UnitRegistry
+
 import opentnsim.core
+import opentnsim.energy
 
 import dtv_backend.berthing
 
@@ -116,6 +118,12 @@ class CanWork(
 
     def move_to(self, destination, limited=False):
         """Move ship to location"""
+
+        # TODO: should not use the path from the config
+        # TODO: check if we're using this move or the movable move
+        # TODO: add energy consumption calculation per on_pass_edge
+        # TODO: log energy consumption
+
         graph = self.env.FG
         if limited:
             width = self.metadata["Beam [m]"]
@@ -135,45 +143,52 @@ class CanWork(
                 raise ValueError(
                     f"destination has no node and is not a string: {destination}"
                 )
+        if not path:
+            raise ValueError("no path found")
+
         total_distance = 0
         for edge in zip(path[:-1], path[1:]):
             distance = graph.edges[edge]["length_m"]
             total_distance += distance
 
-        if path:
-            # move to destination
-            end_node = graph.nodes[path[-1]]
-            self.geometry = end_node["geometry"]
+        # move to destination
+        end_node = graph.nodes[path[-1]]
+        self.geometry = end_node["geometry"]
 
-            if len(path) < 2:
-                path_geometry = self.geometry
-            else:
-                # extrect the geometry
-                path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
+        if len(path) < 2:
+            path_geometry = self.geometry
+        else:
+            # extrect the geometry
+            path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
 
-                # convert to single linestring
-                path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
+            # convert to single linestring
+            path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
 
-                start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
-                end_point = graph.nodes[path_df.iloc[-1]["end_node"]]["geometry"]
-                first_path_point = shapely.geometry.Point(path_geometry.coords[0])
-                start_distance = start_point.distance(first_path_point)
-                end_distance = end_point.distance(first_path_point)
-                if start_distance > end_distance:
-                    # invert geometry
-                    path_geometry = shapely.geometry.LineString(
-                        path_geometry.coords[::-1]
-                    )
+            # TODO: Check which way we are sailing? Is that what wer do here.
+            start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
+            end_point = graph.nodes[path_df.iloc[-1]["end_node"]]["geometry"]
+            first_path_point = shapely.geometry.Point(path_geometry.coords[0])
+            start_distance = start_point.distance(first_path_point)
+            end_distance = end_point.distance(first_path_point)
+            if start_distance > end_distance:
+                # invert geometry
+                path_geometry = shapely.geometry.LineString(path_geometry.coords[::-1])
 
-            with self.log_context(
-                message="Sailing",
-                description=f"Sailing ({self.name})",
-                ship=self,
-                geometry=path_geometry,
-                value=total_distance,
-                path=path,
-            ):
-                yield self.env.timeout(total_distance / self.v)
+        # Aftter sailing log the following energy_consumption in a table format:
+        # [
+        #   {edge: [0, 1], duration: 180s, distance: 100, energy: 10kWh, co2: 10, nox: 10}
+        # ]
+        # {"total_distance": 1231, "energy_table": [{}, {}, {...}]}
+
+        with self.log_context(
+            message="Sailing",
+            description=f"Sailing ({self.name})",
+            ship=self,
+            geometry=path_geometry,
+            value=total_distance,
+            path=path,
+        ):
+            yield self.env.timeout(total_distance / self.v)
 
 
 class Processor(dtv_backend.logbook.HasLog):
@@ -248,6 +263,7 @@ Ship = type(
     (
         CanWork,
         dtv_backend.berthing.CanBerth,
+        opentnsim.energy.ConsumesEnergy,
         opentnsim.core.Identifiable,
         opentnsim.core.HasContainer,
         opentnsim.core.Movable,

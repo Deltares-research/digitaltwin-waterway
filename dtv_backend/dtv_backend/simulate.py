@@ -171,6 +171,12 @@ def create_ships(env, config):
         kwargs.update(ship)
         kwargs.update(ship["properties"])
         kwargs["v"] = 3
+
+        kwargs["P_installed"] = float(
+            ship["properties"].get("Engine power maximum [kW]", 1100)
+        )
+        kwargs["L_w"] = 3
+        kwargs["C_year"] = 2010
         route = [feature["properties"]["n"] for feature in config["route"]]
         kwargs["route"] = route
         geometry = shapely.geometry.shape(ship["geometry"])
@@ -181,7 +187,6 @@ def create_ships(env, config):
             kwargs["climate"] = config["climate"]
         # ship = dtv_backend.simple.Ship(env, **kwargs)
         ship = dtv_backend.compat.Ship(env=env, **kwargs)
-        print(ship.node)
         ships.append(ship)
     return ships
 
