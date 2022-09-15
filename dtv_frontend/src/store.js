@@ -50,7 +50,9 @@ export default new Vuex.Store({
     progress: 0,
     play: false,
     climate: {},
-    chartTripDuration: {}
+    chartTripDuration: {},
+    chartDurationBreakdown: {},
+    chartTrips: {}
   },
   getters: {
     getField,
@@ -147,6 +149,12 @@ export default new Vuex.Store({
       const resp = await fetch(`${apiUrl}/charts/trip_duration`, request)
       const tripDuration = await resp.json()
       commit('setChartTripDuration', tripDuration)
+      const resp = await fetch(`${apiUrl}/charts/duration_breakdown`, request)
+      const durationBreakdown = await resp.json()
+      commit('setChartDurationBreakdown', durationBreakdown)
+      const resp = await fetch(`${apiUrl}/charts/trips`, request)
+      const trips = await resp.json()
+      commit('setChartTrips', trips)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -273,6 +281,12 @@ export default new Vuex.Store({
     },
     setChartTripDuration(state, payload) {
       state.chartTripDuration = payload
+    },
+    setChartDurationBreakdown(state, payload) {
+      state.chartDurationBreakdown = payload
+    },
+    setChartTrips(state, payload) {
+      state.chartTrips = payload
     },
     setSites(state, payload) {
       state.sites = payload

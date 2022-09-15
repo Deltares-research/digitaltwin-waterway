@@ -15,7 +15,7 @@
       <v-card-text>
         <v-chip>Duration: 10 days 3 hours</v-chip>
         <v-sheet color="grey darken-2 mt-3" elevation="5" class="chart">
-          <v-chart class="chart" :option="durationOption" :init-options="initOptions" />
+          <v-chart class="chart" :option="chartDurationBreakdown" :init-options="initOptions" />
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -24,7 +24,7 @@
       <v-card-text>
         <v-chip># Trips: 30</v-chip>
         <v-sheet class="chart">
-          <v-chart class="chart" :option="tripsOption" :init-options="initOptions"></v-chart>
+          <v-chart class="chart" :option="chartTrips" :init-options="initOptions"></v-chart>
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -98,7 +98,7 @@ export default {
     this.tripsOption = await tripsResponse.json()
   },
   computed: {
-    ...mapState(['chartTripDuration'])
+    ...mapState(['chartTripDuration', 'chartDurationBreakdown', 'chartTrips'])
   },
 
   watch: {},
