@@ -92,9 +92,17 @@ export default new Vuex.Store({
     },
     config(state, getters) {
       let sites = []
-      if (state.waypoints?.length >= 1) {
-        sites = [_.first(state.waypoints), _.last(state.waypoints)]
+      const startSite = _.first(state.waypoints)
+      const endSite = _.cloneDeep(_.last(state.waypoints))
+      if (endSite) {
+        endSite.properties.level = 0
+        // capacity should be the same as the start site
+        endSite.properties.capacity = startSite.properties.capacity
+        if (state.waypoints?.length >= 1) {
+          sites = [startSite, endSite]
+        }
       }
+      // level of target should be 0, always
       const config = {
         route: state.route.features,
         waypoints: state.waypoints,
