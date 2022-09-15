@@ -171,6 +171,22 @@ def trip_duration():
     return echart
 
 
+@dtv.route("/charts/duration_breakdown", methods=["POST"])
+def duration_breakdown():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.duration_breakdown(body)
+    return echart
+
+
+@dtv.route("/charts/trip_histogram", methods=["POST"])
+def trip_histogram():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.trip_histogram(body)
+    return echart
+
+
 def create_app():
     """Serve"""
     app = flask.Flask("Digital Twin Fairways")

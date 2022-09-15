@@ -87,6 +87,11 @@ def log2json(log_df):
     )
     pivot_df["Geometry"] = geometry
     pivot_df = gpd.GeoDataFrame(pivot_df[export_columns], geometry="Geometry")
+
+    # drop missings
+    # TODO: fix the cause of these missings
+    pivot_df = pivot_df[~pivot_df["Name"].isna()]
+
     json_str = pivot_df.to_json()
     return json.loads(json_str)
 

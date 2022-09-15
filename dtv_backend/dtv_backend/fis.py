@@ -71,27 +71,34 @@ def edge_length(edge):
 @functools.lru_cache(maxsize=100)
 def load_fis_network(url):
     """load the topological fairway information system network"""
+    # TODO: check for local location
+    data_dir = "~/data/river/dtv/fis/0.3/network_digital_twin_v0.3.pickle"
+    data_path = pathlib.Path(data_dir).expanduser()
+    if data_path.exists():
+        filename = str(data_path)
+        n_bytes = data_path.stat().st_size
+        G = nx.read_gpickle(filename)
+    else:
+        # get the data from the url
+        resp = requests.get(url)
+        # convert to file object
+        stream = io.StringIO(resp.text)
 
-    # get the data from the url
-    resp = requests.get(url)
-    # convert to file object
-    stream = io.StringIO(resp.text)
+        # create a temporary file
+        f = tempfile.NamedTemporaryFile()
+        f.close()
 
-    # create a temporary file
-    f = tempfile.NamedTemporaryFile()
-    f.close()
+        # retrieve the info and create the graph
+        urllib.request.urlretrieve(url, f.name)
+        # This will take a minute or two
+        # Here we convert the network to a networkx object
+        G = nx.read_gpickle(f.name)
 
-    # retrieve the info and create the graph
-    urllib.request.urlretrieve(url, f.name)
-    # This will take a minute or two
-    # Here we convert the network to a networkx object
-    G = nx.read_gpickle(f.name)
+        # the temp file can be deleted
+        del f
+        # some brief info
+        n_bytes = len(resp.content)
 
-    # the temp file can be deleted
-    del f
-
-    # some brief info
-    n_bytes = len(resp.content)
     msg = """Loaded network from {url} file size {mb:.2f}MB. Network has {n_nodes} nodes and {n_edges} edges."""
     summary = msg.format(
         url=url, mb=n_bytes / 1000**2, n_edges=len(G.edges), n_nodes=len(G.nodes)

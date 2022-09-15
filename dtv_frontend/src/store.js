@@ -52,7 +52,7 @@ export default new Vuex.Store({
     climate: {},
     chartTripDuration: {},
     chartDurationBreakdown: {},
-    chartTrips: {}
+    chartTripHistogram: {}
   },
   getters: {
     getField,
@@ -146,15 +146,15 @@ export default new Vuex.Store({
         body: JSON.stringify(results)
       }
       const apiUrl = process.env.VUE_APP_API_URI
-      const resp = await fetch(`${apiUrl}/charts/trip_duration`, request)
+      let resp = await fetch(`${apiUrl}/charts/trip_duration`, request)
       const tripDuration = await resp.json()
       commit('setChartTripDuration', tripDuration)
-      const resp = await fetch(`${apiUrl}/charts/duration_breakdown`, request)
+      resp = await fetch(`${apiUrl}/charts/duration_breakdown`, request)
       const durationBreakdown = await resp.json()
       commit('setChartDurationBreakdown', durationBreakdown)
-      const resp = await fetch(`${apiUrl}/charts/trips`, request)
-      const trips = await resp.json()
-      commit('setChartTrips', trips)
+      resp = await fetch(`${apiUrl}/charts/trip_histogram`, request)
+      const tripHistogram = await resp.json()
+      commit('setChartTripHistogram', tripHistogram)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -285,8 +285,8 @@ export default new Vuex.Store({
     setChartDurationBreakdown(state, payload) {
       state.chartDurationBreakdown = payload
     },
-    setChartTrips(state, payload) {
-      state.chartTrips = payload
+    setChartTripHistogram(state, payload) {
+      state.chartTripHistogram = payload
     },
     setSites(state, payload) {
       state.sites = payload
