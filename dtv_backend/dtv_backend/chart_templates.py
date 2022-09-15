@@ -1,5 +1,6 @@
-""""Templates for charts"""
+""""Templates for charts."""
 
+# %% Trip duration
 trip_duration_template = {
     "title": {"text": "Trip duration", "subtext": "Example data"},
     "tooltip": {"trigger": "axis", "axisPointer": {"type": "cross"}},
@@ -19,6 +20,7 @@ trip_duration_template = {
 }
 
 
+# %% Breakdown of duration into activities
 duration_breakdown_template = {
     "tooltip": {
         "trigger": "item",
@@ -42,5 +44,29 @@ duration_breakdown_template = {
                 "shadowColor": "rgba(0, 0, 0, 0.5)"
             }
         }
+    }]
+}
+
+
+# %% Trips
+trips_template = {
+    "xAxis": {
+        "name": "Duration",
+        "type": "category",
+        "boundaryGap": False,
+        "data": []
+    },
+    "yAxis": {
+        "type": "value",
+        "name": "Count"
+    },
+    "legend": {
+        "data": ["Duration [h]"]
+    },
+    "series": [{
+        "name": "Duration [h]",
+        "data": [],
+        "type": "line",
+        "areaStyle": {}
     }]
 }

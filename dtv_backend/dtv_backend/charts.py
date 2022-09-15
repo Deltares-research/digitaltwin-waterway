@@ -72,3 +72,10 @@ def duration_breakdown(results):
     echart['series'][0]['data'] = data
 
     return echart
+
+
+def trips(result):
+    """counting the duration of trips"""
+    echart = copy.deepcopy(dtv_backend.chart_templates.trips_template)
+    
+    return echart
