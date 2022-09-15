@@ -41,16 +41,16 @@ def gantt(results):
 
 def duration_breakdown(results):
     """create work breakdown plot in echarts format"""
-    # TODO: clean up a bit
     # read log features
     gdf = gpd.GeoDataFrame.from_features(results["log"]["features"])
 
-    # TODO: fix correct filter, waiting, and mixes between logging of vessel and port
-    cycle_idx = np.logical_and(
-        gdf["Actor type"] == "Ship", gdf["Name"] != "Cycle"
-    )
+    # filter on the desired activities
+    cycle_idx = (gdf["Actor type"] != "Operator") & \
+        (gdf["Name"] != "Cycle") & \
+            (~gdf["Name"].str.lower().str.contains("request"))
     selected = gdf[cycle_idx].reset_index(drop=True)
-
+    
+    # make a copy of the echart template
     echart = copy.deepcopy(
         dtv_backend.chart_templates.duration_breakdown_template)
 
@@ -64,8 +64,6 @@ def duration_breakdown(results):
     selected['Duration'] = hours
 
     df = selected.groupby('Name').sum()
-    # TODO: possibly replace line below by renaming columns of df and
-    # converting to list of dicts
     data = [{"value": v, "name": k}
             for k, v in df['Duration'].to_dict().items()]
 

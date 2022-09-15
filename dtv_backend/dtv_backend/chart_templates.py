@@ -54,7 +54,7 @@ trips_template = {
         "name": "Duration",
         "type": "category",
         "boundaryGap": False,
-        "data": []
+        "data": [0,1]
     },
     "yAxis": {
         "type": "value",
@@ -65,7 +65,7 @@ trips_template = {
     },
     "series": [{
         "name": "Duration [h]",
-        "data": [],
+        "data": [0,1],
         "type": "line",
         "areaStyle": {}
     }]
