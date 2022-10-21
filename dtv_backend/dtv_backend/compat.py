@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
+import datetime
+import numpy as np
+import logging
+
 import opentnsim.core
 import shapely.geometry
+
 from pint import UnitRegistry
 import opentnsim.core
 
@@ -8,6 +13,9 @@ import dtv_backend.berthing
 
 
 ureg = UnitRegistry()
+
+
+logger = logging.getLogger(__name__)
 
 
 class CanWork(
@@ -21,11 +29,38 @@ class CanWork(
         """Initialize"""
         # print(super().__init__)
         super().__init__(*args, **kwargs)
+        self.quantity_df = None
 
     @property
     def max_load(self):
         """return the maximum cargo to load"""
         return self.container.capacity - self.container.level
+
+    def get_waterdepth(self, e):
+        """get a waterdepth for edge e on the geodataframe with bathymetry and waterlevel information (nap_p50)"""
+
+        assert self.quantity_df is not None, "we need a quantity_df to compute depths"
+        quantity_df = self.quantity_df
+        # similar to a channel
+        default_waterdepth = 6
+
+        # are both source and target in our edge
+        idx = np.logical_and(quantity_df.source.isin(e), quantity_df.target.isin(e))
+        # lookup the edge
+        selected = quantity_df[idx]
+
+        # did we find records
+        if not selected.shape[0]:
+            # no, return default
+            return default_waterdepth
+
+        quantity_row = selected.iloc[0]
+        if np.isnan(quantity_row["waterlevel"]) or np.isnan(quantity_row["nap_p5"]):
+            return default_waterdepth
+
+        # we found waterlevel and depth, so we can compute the real waterdepth
+        waterdepth = quantity_row["waterlevel"] - quantity_row["nap_p50"]
+        return waterdepth
 
     def work_for(self, operator, with_berth=False):
         """Work for an operator by listening to tasks"""
@@ -128,6 +163,7 @@ class CanWork(
             )
         else:
             if hasattr(destination, "node"):
+                # TODO: rename to shortest_path
                 path = dtv_backend.fis.shorted_path(graph, self.node, destination.node)
             elif isinstance(destination, str):
                 path = dtv_backend.fis.shorted_path(graph, self.node, destination)
@@ -135,47 +171,129 @@ class CanWork(
                 raise ValueError(
                     f"destination has no node and is not a string: {destination}"
                 )
+        if not path:
+            raise ValueError(f"We need a path to move on {self}")
+
         total_distance = 0
-        for edge in zip(path[:-1], path[1:]):
-            distance = graph.edges[edge]["length_m"]
+        total_duration = 0
+        # TODO: move to on_pass_edge
+        energy_profile = []
+        for e in zip(path[:-1], path[1:]):
+            edge = graph.edges[e]
+            distance = edge["length_m"]
+
+            # TODO: move this part to on_pass_edge_func
+            # compute power used to pass this edge
+            # use energy module from opentnsim to compute emissions
+            emissions = {}
+            timestamp = self.env.now
+
+            depth = self.get_waterdepth(e)
+
+            # # estimate 'grounding speed' as a useful upperbound
+            try:
+                (
+                    upperbound,
+                    selected,
+                    results_df,
+                ) = opentnsim.strategy.get_upperbound_for_power2v(
+                    self, width=150, depth=depth, margin=0
+                )
+            except:
+                upperbound = None
+                logger.warn(f"Could not compute upperbound for e {e}")
+            v = self.power2v(self, edge, upperbound, h_0=depth)
+            # # use computed power
+            power_given = self.P_given
+
+            # duration in s
+            duration = distance / v
+            # keep duration if not sailing at constant speed
+            total_duration += duration
+
+            # energy used over edge W(s /  s/h -> s * h /s -> h) -> Wh
+            energy = power_given * (duration / 3600)
+
+            self.calculate_total_resistance(v, h_0=depth)
+            self.calculate_total_power_required(v=v, h_0=depth)
+
+            self.calculate_emission_factors_total(v=v, h_0=depth)
+            self.calculate_SFC_final(v=v, h_0=depth)
+
+            delta_diesel_C_year = self.final_SFC_diesel_C_year_ICE_mass * energy  # in g
+            delta_diesel_ICE_mass = self.final_SFC_diesel_ICE_mass * energy  # in g
+            # in m3
+            delta_diesel_ICE_vol = self.final_SFC_diesel_ICE_vol * energy
+
+            emission_delta_CO2 = (
+                self.total_factor_CO2 * energy
+            )  # Energy consumed per time step delta_t in the                                                                                              #stationary phase # in g
+            emission_delta_PM10 = self.total_factor_PM10 * energy  # in g
+            emission_delta_NOX = self.total_factor_NOX * energy  # in g
+            # in grams
+            emissions = {
+                "CO2": emission_delta_CO2,
+                "PM10": emission_delta_PM10,
+                "NOX": emission_delta_NOX,
+            }
+
+            edge_geom = shapely.wkt.loads(edge["Wkt"])
+            #
+
+            energy_profile.append(
+                {
+                    "e": e,
+                    "geometry": edge_geom,
+                    "t": datetime.datetime.utcfromtimestamp(timestamp),
+                    "duration": duration,
+                    "power": power_given,
+                    "energy": energy,
+                    "fuel": delta_diesel_ICE_vol,
+                    "distance": distance,
+                    "edge": edge,
+                    "upperbound": upperbound,
+                    "v": v,
+                    **emissions,
+                }
+            )
             total_distance += distance
 
-        if path:
-            # move to destination
-            end_node = graph.nodes[path[-1]]
-            # TODO: double truth where are we, on the node or on the geometry?
-            self.geometry = end_node["geometry"]
-            self.node = path[-1]
+        # finished sailing
+        # move to destination
+        end_node = graph.nodes[path[-1]]
+        # TODO: double truth where are we, on the node or on the geometry?
+        self.geometry = end_node["geometry"]
+        self.node = path[-1]
 
-            if len(path) < 2:
-                path_geometry = self.geometry
-            else:
-                # extrect the geometry
-                path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
+        # where did we sail? The total sailed path
+        if len(path) < 2:
+            path_geometry = self.geometry
+        else:
+            # extrect the geometry
+            path_df = dtv_backend.network.network_utilities.path2gdf(path, graph)
 
-                # convert to single linestring
-                path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
+            #
+            path_geometry = shapely.ops.linemerge(path_df["geometry"].values)
+            start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
+            end_point = graph.nodes[path_df.iloc[-1]["end_node"]]["geometry"]
+            first_path_point = shapely.geometry.Point(path_geometry.coords[0])
+            # reverse if needed
+            start_distance = start_point.distance(first_path_point)
+            end_distance = end_point.distance(first_path_point)
+            if start_distance > end_distance:
+                # invert geometry
+                path_geometry = shapely.geometry.LineString(path_geometry.coords[::-1])
 
-                start_point = graph.nodes[path_df.iloc[0]["start_node"]]["geometry"]
-                end_point = graph.nodes[path_df.iloc[-1]["end_node"]]["geometry"]
-                first_path_point = shapely.geometry.Point(path_geometry.coords[0])
-                start_distance = start_point.distance(first_path_point)
-                end_distance = end_point.distance(first_path_point)
-                if start_distance > end_distance:
-                    # invert geometry
-                    path_geometry = shapely.geometry.LineString(
-                        path_geometry.coords[::-1]
-                    )
-
-            with self.log_context(
-                message="Sailing",
-                description=f"Sailing ({self.name})",
-                ship=self,
-                geometry=path_geometry,
-                value=total_distance,
-                path=path,
-            ):
-                yield self.env.timeout(total_distance / self.v)
+        with self.log_context(
+            message="Sailing",
+            description=f"Sailing ({self.name})",
+            ship=self,
+            geometry=path_geometry,
+            value=total_distance,
+            path=path,
+            energy_profile=energy_profile,
+        ):
+            yield self.env.timeout(total_distance / self.v)
 
 
 class Processor(dtv_backend.logbook.HasLog):
@@ -254,6 +372,8 @@ Ship = type(
         opentnsim.core.HasContainer,
         opentnsim.core.Movable,
         opentnsim.core.Locatable,
+        opentnsim.core.VesselProperties,
+        opentnsim.energy.ConsumesEnergy,
         opentnsim.core.ExtraMetadata,
     ),
     {},
