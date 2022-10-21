@@ -99,7 +99,6 @@ class CanWork(
                 yield from self.move_to(source)
             else:
                 yield from self.move_to_with_berth(source)
-
             # determine what the cargo to take
             cargo_for_trip = self.container.capacity
             yield from self.load_at(source, cargo_for_trip)
@@ -112,6 +111,7 @@ class CanWork(
                 yield from self.move_to(destination)
             else:
                 yield from self.move_to_with_berth(destination)
+
             yield from self.unload_at(destination)
 
     def move_to(self, destination, limited=False):
@@ -143,7 +143,9 @@ class CanWork(
         if path:
             # move to destination
             end_node = graph.nodes[path[-1]]
+            # TODO: double truth where are we, on the node or on the geometry?
             self.geometry = end_node["geometry"]
+            self.node = path[-1]
 
             if len(path) < 2:
                 path_geometry = self.geometry

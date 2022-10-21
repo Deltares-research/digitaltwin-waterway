@@ -6,7 +6,7 @@
         <v-chip>Max trip duration: 35 hours</v-chip>
 
         <v-sheet color="grey darken-2 mt-3" elevation="5" class="chart">
-          <v-chart class="chart" :option="durationVariationOption" :init-options="initOptions" />
+          <v-chart class="chart" :option="chartTripDuration" :init-options="initOptions" />
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -15,7 +15,7 @@
       <v-card-text>
         <v-chip>Duration: 10 days 3 hours</v-chip>
         <v-sheet color="grey darken-2 mt-3" elevation="5" class="chart">
-          <v-chart class="chart" :option="durationOption" :init-options="initOptions" />
+          <v-chart class="chart" :option="chartDurationBreakdown" :init-options="initOptions" />
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -24,7 +24,7 @@
       <v-card-text>
         <v-chip># Trips: 30</v-chip>
         <v-sheet class="chart">
-          <v-chart class="chart" :option="tripsOption" :init-options="initOptions"></v-chart>
+          <v-chart class="chart" :option="chartTripHistogram" :init-options="initOptions"></v-chart>
         </v-sheet>
       </v-card-text>
     </v-card>
@@ -71,6 +71,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import { THEME_KEY } from 'vue-echarts'
 export default {
   data() {
@@ -96,7 +97,13 @@ export default {
     const tripsResponse = await fetch('data/results/trips.json')
     this.tripsOption = await tripsResponse.json()
   },
-  computed: {},
+  computed: {
+    ...mapState([
+      'chartTripDuration',
+      'chartDurationBreakdown',
+      'chartTripHistogram'
+    ])
+  },
 
   watch: {},
 

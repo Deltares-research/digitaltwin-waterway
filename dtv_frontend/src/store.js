@@ -49,7 +49,10 @@ export default new Vuex.Store({
     currentTime: null,
     progress: 0,
     play: false,
-    climate: {}
+    climate: {},
+    chartTripDuration: {},
+    chartDurationBreakdown: {},
+    chartTripHistogram: {}
   },
   getters: {
     getField,
@@ -89,9 +92,17 @@ export default new Vuex.Store({
     },
     config(state, getters) {
       let sites = []
-      if (state.waypoints?.length >= 1) {
-        sites = [_.first(state.waypoints), _.last(state.waypoints)]
+      const startSite = _.first(state.waypoints)
+      const endSite = _.cloneDeep(_.last(state.waypoints))
+      if (endSite) {
+        endSite.properties.level = 0
+        // capacity should be the same as the start site
+        endSite.properties.capacity = startSite.properties.capacity
+        if (state.waypoints?.length >= 1) {
+          sites = [startSite, endSite]
+        }
       }
+      // level of target should be 0, always
       const config = {
         route: state.route.features,
         waypoints: state.waypoints,
@@ -114,7 +125,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchResults({ commit }, config) {
+    async fetchResults({ commit, dispatch }, config) {
       console.log('config', config)
       const request = {
         method: 'POST',
@@ -130,6 +141,28 @@ export default new Vuex.Store({
       const resp = await fetch(`${apiUrl}/v3/simulate`, request)
       const results = await resp.json()
       commit('setResults', results)
+      dispatch('fetchKPIs', results)
+    },
+    async fetchKPIs({ commit }, results) {
+      console.log('fetching KPI for ', results)
+      const request = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(results)
+      }
+      const apiUrl = process.env.VUE_APP_API_URI
+      let resp = await fetch(`${apiUrl}/charts/trip_duration`, request)
+      const tripDuration = await resp.json()
+      commit('setChartTripDuration', tripDuration)
+      resp = await fetch(`${apiUrl}/charts/duration_breakdown`, request)
+      const durationBreakdown = await resp.json()
+      commit('setChartDurationBreakdown', durationBreakdown)
+      resp = await fetch(`${apiUrl}/charts/trip_histogram`, request)
+      const tripHistogram = await resp.json()
+      commit('setChartTripHistogram', tripHistogram)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -253,6 +286,15 @@ export default new Vuex.Store({
         feature => feature.properties.velocity
       )
       state.velocities = velocities
+    },
+    setChartTripDuration(state, payload) {
+      state.chartTripDuration = payload
+    },
+    setChartDurationBreakdown(state, payload) {
+      state.chartDurationBreakdown = payload
+    },
+    setChartTripHistogram(state, payload) {
+      state.chartTripHistogram = payload
     },
     setSites(state, payload) {
       state.sites = payload

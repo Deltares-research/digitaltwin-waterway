@@ -175,7 +175,6 @@ def create_ships(env, config):
         kwargs["route"] = route
         geometry = shapely.geometry.shape(ship["geometry"])
         node, dist = dtv_backend.fis.find_closest_node(env.FG, geometry)
-        print(node)
         kwargs["node"] = node
         # the ship needs to know about the climate
         if "climate" in config:

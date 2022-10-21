@@ -9,6 +9,7 @@ import dtv_backend.simulate
 import dtv_backend.postprocessing
 import dtv_backend.fis
 import dtv_backend.climate
+import dtv_backend.charts
 import geopandas as gpd
 
 import networkx as nx
@@ -33,6 +34,7 @@ def home():
 def simulate():
     config = flask.request.json
     result = dtv_backend.simulate.run(config)
+    # TODO: get logbook from result['env']?
     log_df = pd.DataFrame(result["operator"].logbook)
     log_json = dtv_backend.postprocessing.log2json(log_df)
     env = result["env"]
@@ -159,6 +161,30 @@ def climate():
     )
     response = result._to_geo()
     return response
+
+
+@dtv.route("/charts/trip_duration", methods=["POST"])
+def trip_duration():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.trip_duration(body)
+    return echart
+
+
+@dtv.route("/charts/duration_breakdown", methods=["POST"])
+def duration_breakdown():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.duration_breakdown(body)
+    return echart
+
+
+@dtv.route("/charts/trip_histogram", methods=["POST"])
+def trip_histogram():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.trip_histogram(body)
+    return echart
 
 
 def create_app():
