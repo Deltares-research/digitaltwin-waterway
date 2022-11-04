@@ -54,8 +54,19 @@
       </v-card-text>
     </v-card>
     <v-card>
+      <v-card-title>Energy by Distance</v-card-title>
       <v-card-text>
-        <h2>Total Energy</h2>
+        <v-sheet class="chart">
+          <v-chart class="chart" :option="chartEnergyByDistance" :init-options="initOptions"></v-chart>
+        </v-sheet>
+      </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-title>Energy by Time</v-card-title>
+      <v-card-text>
+        <v-sheet class="chart">
+          <v-chart class="chart" :option="chartEnergyByTime" :init-options="initOptions"></v-chart>
+        </v-sheet>
       </v-card-text>
     </v-card>
     <v-card>
@@ -101,7 +112,9 @@ export default {
     ...mapState([
       'chartTripDuration',
       'chartDurationBreakdown',
-      'chartTripHistogram'
+      'chartTripHistogram',
+      'chartEnergyByDistance',
+      'chartEnergyByTime'
     ])
   },
 
