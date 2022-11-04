@@ -9,6 +9,8 @@ import buffer from '@turf/buffer'
 // hardcode the prototype ships so we can build our per shipstype properties
 import prototypeShips from '../public/data/DTV_shiptypes_database.json'
 
+import m12 from '../public/data/results/m12.json'
+
 // cleanup prototype ships
 _.forEach(prototypeShips, ship => {
   ship.capacity = ship['Load Weight average [ton]']
@@ -38,6 +40,7 @@ export default new Vuex.Store({
     fleet: [],
     // prototype ships
     prototypeShips: prototypeShips,
+    m12: m12,
 
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
