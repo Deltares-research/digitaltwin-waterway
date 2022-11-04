@@ -50,16 +50,28 @@
           </tbody>
         </template>
       </v-simple-table>
+      <v-sheet
+        color="grey darken-2 mt-3"
+        elevation="5"
+        class="chart"
+        v-show="ship['RWS-class'] === 'M12'"
+      >
+        <v-chart class="chart" :option="m12" :init-options="initOptions" />
+      </v-sheet>
     </v-card-text>
   </v-card>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     ship: Object
   },
   data() {
     return {
+      initOptions: {
+        renderer: 'svg'
+      },
       editable: [
         'name',
         'Length [m]',
@@ -81,6 +93,9 @@ export default {
         'Engine power maximum [kW]'
       ]
     }
+  },
+  computed: {
+    ...mapState(['m12'])
   },
   methods: {
     updateShip(ship) {
