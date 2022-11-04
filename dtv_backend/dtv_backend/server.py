@@ -190,6 +190,22 @@ def trip_histogram():
     return echart
 
 
+@dtv.route("/charts/energy_by_distance", methods=["POST"])
+def energy_by_distance():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.energy_per_distance(body)
+    return echart
+
+
+@dtv.route("/charts/energy_by_time", methods=["POST"])
+def energy_by_time():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.energy_per_time(body)
+    return echart
+
+
 def create_app():
     """Serve"""
     app = flask.Flask("Digital Twin Fairways")
