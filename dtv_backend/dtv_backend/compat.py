@@ -239,12 +239,15 @@ class CanWork(
 
             edge_geom = shapely.wkt.loads(edge["Wkt"])
             #
+            t = datetime.datetime.utcfromtimestamp(timestamp) + datetime.timedelta(
+                seconds=total_duration
+            )
 
             energy_profile.append(
                 {
                     "e": e,
                     "geometry": edge_geom,
-                    "t": datetime.datetime.utcfromtimestamp(timestamp),
+                    "t": t,
                     "duration": duration,
                     "power": power_given,
                     "energy": energy,
@@ -293,7 +296,7 @@ class CanWork(
             path=path,
             energy_profile=energy_profile,
         ):
-            yield self.env.timeout(total_distance / self.v)
+            yield self.env.timeout(total_duration)
 
 
 class Processor(dtv_backend.logbook.HasLog):
