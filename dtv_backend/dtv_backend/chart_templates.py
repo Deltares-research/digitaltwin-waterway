@@ -61,3 +61,42 @@ trips_template = {
         }
     ],
 }
+
+
+energy_per_time_template = {
+    "toolbox": {
+        "feature": {
+            "dataZoom": {},
+            "restore": {},
+        }
+    },
+    "legend": {"data": ["Energy [kWh / km]"], "left": 10},
+    "tooltip": {
+        "trigger": "axis",
+    },
+    "dataZoom": [{"show": True, "realtime": True}],
+    "title": {"left": "center", "text": "Energy by time"},
+    "xAxis": {
+        "type": "time",
+    },
+    "yAxis": {"type": "value"},
+    "series": [{"name": "Energy [kWh / km]", "type": "line", "data": []}],
+}
+
+energy_per_distance_template = {
+    "toolbox": {
+        "feature": {
+            "dataZoom": {},
+            "restore": {},
+        }
+    },
+    "legend": {"data": ["Energy [kWh / km]"], "left": 10},
+    "tooltip": {
+        "trigger": "axis",
+    },
+    "dataZoom": [{"show": True, "realtime": True}],
+    "title": {"left": "center", "text": "Energy by distance"},
+    "xAxis": {"type": "value"},
+    "yAxis": {"type": "value"},
+    "series": [{"name": "Energy [kWh / km]", "type": "line", "data": []}],
+}

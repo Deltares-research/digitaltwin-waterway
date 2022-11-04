@@ -61,7 +61,7 @@ def duration_breakdown(results):
     hours = durations.dt.total_seconds() / 3600
     selected["Duration"] = hours
 
-    df = selected.groupby("Name").sum()
+    df = selected.groupby("Name").sum(numeric_only=True)
     data = [{"value": v, "name": k} for k, v in df["Duration"].to_dict().items()]
 
     echart["series"][0]["data"] = data
@@ -96,5 +96,41 @@ def trip_histogram(results):
     # fill in the template
     echart["xAxis"]["data"] = bins.tolist()
     echart["series"][0]["data"] = counts.tolist()
+
+    return echart
+
+
+def energy_per_time(results):
+    """energy per time"""
+
+    # get the template
+    echart = copy.deepcopy(dtv_backend.chart_templates.energy_per_time_template)
+
+    # convert log to geodataframe
+    energy_gdf = gpd.GeoDataFrame.from_features(results["energy_log"]["features"])
+
+    rows = np.c_[
+        energy_gdf["t"], energy_gdf["energy"] / energy_gdf["distance"]
+    ].tolist()
+
+    echart["series"][0]["data"] = rows
+
+    return echart
+
+
+def energy_per_distance(results):
+    """energy per distance"""
+
+    # get the template
+    echart = copy.deepcopy(dtv_backend.chart_templates.energy_per_distance_template)
+
+    # convert log to geodataframe
+    energy_gdf = gpd.GeoDataFrame.from_features(results["energy_log"]["features"])
+
+    rows = np.c_[
+        energy_gdf["distance"].cumsum(), energy_gdf["energy"] / energy_gdf["distance"]
+    ].tolist()
+
+    echart["series"][0]["data"] = rows
 
     return echart
