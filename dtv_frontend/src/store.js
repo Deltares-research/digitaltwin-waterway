@@ -55,7 +55,9 @@ export default new Vuex.Store({
     climate: {},
     chartTripDuration: {},
     chartDurationBreakdown: {},
-    chartTripHistogram: {}
+    chartTripHistogram: {},
+    chartEnergyByDistance: {},
+    chartEnergyByTime: {}
   },
   getters: {
     getField,
@@ -166,6 +168,12 @@ export default new Vuex.Store({
       resp = await fetch(`${apiUrl}/charts/trip_histogram`, request)
       const tripHistogram = await resp.json()
       commit('setChartTripHistogram', tripHistogram)
+      resp = await fetch(`${apiUrl}/charts/energy_by_distance`, request)
+      const energyByDistance = await resp.json()
+      commit('setChartEnergyByDistance', energyByDistance)
+      resp = await fetch(`${apiUrl}/charts/energy_by_time`, request)
+      const energyByTime = await resp.json()
+      commit('setChartEnergyByTime', energyByTime)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -298,6 +306,12 @@ export default new Vuex.Store({
     },
     setChartTripHistogram(state, payload) {
       state.chartTripHistogram = payload
+    },
+    setChartEnergyByDistance(state, payload) {
+      state.chartEnergyByDistance = payload
+    },
+    setChartEnergyByTime(state, payload) {
+      state.chartEnergyByTime = payload
     },
     setSites(state, payload) {
       state.sites = payload
