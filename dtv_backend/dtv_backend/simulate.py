@@ -207,10 +207,12 @@ def create_ships(env, config):
         kwargs = {}
         kwargs.update(ship)
         kwargs.update(ship["properties"])
-        kwargs["v"] = float(ship["properties"]["Velocity [m/s]"])
+        kwargs["v"] = float(ship["properties"].get("Velocity [m/s]", 3))
         kwargs["L"] = float(ship["properties"]["Length [m]"])
         kwargs["B"] = float(ship["properties"]["Beam [m]"])
-        kwargs["P_installed"] = float(ship["properties"]["Engine power maximum [kW]"])
+        kwargs["P_installed"] = float(
+            ship["properties"].get("Engine power maximum [kW]", 1100)
+        )
         # TODO: add enegine order in interface
         kwargs["P_tot_given"] = kwargs["P_installed"] * 0.8
         kwargs["T_e"] = ship["properties"]["Draught empty [m]"]
