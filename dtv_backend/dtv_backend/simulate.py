@@ -156,7 +156,6 @@ def v3_run(config):
         "config": config,
         "ports": ports,
     }
-
     return result
 
 

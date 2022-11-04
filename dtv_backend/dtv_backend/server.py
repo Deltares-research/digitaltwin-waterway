@@ -81,9 +81,12 @@ def v3_simulate():
     env = result["env"]
     log_df = pd.DataFrame(result["operator"].logbook)
     log_json = dtv_backend.postprocessing.log2json(log_df)
+    energy_gdf = dtv_backend.postprocessing.energy_gdf_from_log_df(log_df)
+    energy_json = dtv_backend.postprocessing.energy_gdf_to_json(energy_gdf)
 
     response = {
         "log": log_json,
+        "energy_log": energy_json,
         "config": config,
         "env": {
             "epoch": env.epoch.timestamp(),
