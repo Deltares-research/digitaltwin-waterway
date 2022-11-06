@@ -57,6 +57,7 @@ export default new Vuex.Store({
     chartTripDuration: {},
     chartDurationBreakdown: {},
     chartTripHistogram: {},
+    chartGantt: {},
     chartEnergyByDistance: {},
     chartEnergyByTime: {}
   },
@@ -183,6 +184,9 @@ export default new Vuex.Store({
       resp = await fetch(`${apiUrl}/charts/trip_histogram`, request)
       const tripHistogram = await resp.json()
       commit('setChartTripHistogram', tripHistogram)
+      resp = await fetch(`${apiUrl}/charts/gantt`, request)
+      const gantt = await resp.json()
+      commit('setChartGantt', gantt)
       resp = await fetch(`${apiUrl}/charts/energy_by_distance`, request)
       const energyByDistance = await resp.json()
       commit('setChartEnergyByDistance', energyByDistance)
@@ -321,6 +325,9 @@ export default new Vuex.Store({
     },
     setChartTripHistogram(state, payload) {
       state.chartTripHistogram = payload
+    },
+    setChartGantt(state, payload) {
+      state.chartGantt = payload
     },
     setChartEnergyByDistance(state, payload) {
       state.chartEnergyByDistance = payload
