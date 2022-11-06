@@ -1,3 +1,4 @@
+import io
 import pathlib
 import logging
 
@@ -204,6 +205,17 @@ def energy_by_time():
     body = flask.request.json
     echart = dtv_backend.charts.energy_per_time(body)
     return echart
+
+
+@dtv.route("/charts/route_profile", methods=["POST"])
+def route_profile():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    fig, axes = dtv_backend.charts.route_profile(body)
+    stream = io.BytesIO()
+    fig.savefig(stream, format="png")
+    stream.seek(0)
+    return flask.send_file(stream, mimetype="image/png")
 
 
 def create_app():
