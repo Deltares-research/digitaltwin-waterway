@@ -256,3 +256,20 @@ def route_profile(config):
     fig.tight_layout()
 
     return fig, axes
+
+
+def gantt(results):
+    """create gantt chart"""
+    log_gdf = gpd.GeoDataFrame.from_features(results["log"])
+    fig = px.timeline(
+        log_gdf,
+        x_start="Start",
+        x_end="Stop",
+        y="Name",
+        color="Actor",
+        opacity=0.3,
+        template="plotly_dark",
+    )
+
+    fig.update_yaxes(autorange="reversed")
+    return fig

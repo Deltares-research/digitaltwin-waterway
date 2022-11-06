@@ -245,6 +245,16 @@ class CanWork(
                 logger.warn(f"Could not compute upperbound for e {e}")
             v = self.power2v(self, edge, upperbound, h_0=depth)
 
+            # true ship velocity - water velocity
+            v = v - velocity
+
+            # sail at least 0.1 m/s
+            v = max(v, 0.1)
+
+            # TODO: add some warning if we get below 0.1m/s
+            # sail at least 0.1 m / s
+            # v = min(v, 0.1)
+
             # # use computed power
             power_given = self.P_given
 

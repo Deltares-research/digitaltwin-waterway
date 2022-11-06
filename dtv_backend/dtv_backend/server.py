@@ -1,6 +1,7 @@
 import io
 import pathlib
 import logging
+import json
 
 import flask
 import pandas as pd
@@ -14,6 +15,7 @@ import dtv_backend.charts
 import geopandas as gpd
 
 import networkx as nx
+import plotly.utils
 
 from flask_cors import CORS
 
@@ -216,6 +218,18 @@ def route_profile():
     fig.savefig(stream, format="png")
     stream.seek(0)
     return flask.send_file(stream, mimetype="image/png")
+
+
+@dtv.route("/charts/gantt", methods=["POST"])
+def gantt():
+    """create configuration for plotly gantt chart"""
+    body = flask.request.json
+    fig = dtv_backend.charts.gantt(body)
+    resp = fig.to_plotly_json()
+    # serialize using plotly encoder
+    resp_str = json.dumps(resp, cls=plotly.utils.PlotlyJSONEncoder)
+    resp = json.loads(resp_str)
+    return resp
 
 
 def create_app():
