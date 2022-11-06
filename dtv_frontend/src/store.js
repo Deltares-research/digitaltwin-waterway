@@ -53,6 +53,7 @@ export default new Vuex.Store({
     progress: 0,
     play: false,
     climate: {},
+    routeProfile: null,
     chartTripDuration: {},
     chartDurationBreakdown: {},
     chartTripHistogram: {},
@@ -147,6 +148,20 @@ export default new Vuex.Store({
       const results = await resp.json()
       commit('setResults', results)
       dispatch('fetchKPIs', results)
+    },
+    async fetchRouteProfile({ commit }, config) {
+      const request = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config) // body data type must match "Content-Type" header
+      }
+      const apiUrl = process.env.VUE_APP_API_URI
+      const resp = await fetch(`${apiUrl}/charts/route_profile`, request)
+      const fig = await resp.blob()
+      commit('setRouteProfile', fig)
     },
     async fetchKPIs({ commit }, results) {
       console.log('fetching KPI for ', results)
@@ -322,6 +337,9 @@ export default new Vuex.Store({
     },
     setResults(state, payload) {
       state.results = payload
+    },
+    setRouteProfile(state, payload) {
+      state.routeProfile = payload
     },
     addWaypoint(state, payload) {
       const feature = payload

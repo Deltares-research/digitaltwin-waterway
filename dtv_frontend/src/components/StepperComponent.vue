@@ -124,13 +124,16 @@ export default {
   },
   watch: {
     stepper(value) {
+      if (value === 4) {
+        this.startLoading()
+      }
       if (value === 5) {
         this.startSailing()
       }
     }
   },
   methods: {
-    ...mapActions(['fetchResults']),
+    ...mapActions(['fetchResults', 'fetchRouteProfile']),
     stepOk(step) {
       if (step === 1) {
         // make sure we have sites selected before we procede
@@ -143,6 +146,9 @@ export default {
         }
       }
       return true
+    },
+    startLoading() {
+      this.fetchRouteProfile(this.config)
     },
     startSailing() {
       this.fetchResults(this.config)
