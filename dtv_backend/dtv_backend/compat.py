@@ -41,6 +41,10 @@ class CanWork(
 
         assert self.quantity_df is not None, "we need a quantity_df to compute depths"
         quantity_df = self.quantity_df
+
+        # TODO: add sealevel
+        #
+        #
         # similar to a channel
         default_waterdepth = 6
 
@@ -61,6 +65,42 @@ class CanWork(
         # we found waterlevel and depth, so we can compute the real waterdepth
         waterdepth = quantity_row["waterlevel"] - quantity_row["nap_p50"]
         return waterdepth
+
+    def get_velocity(self, e):
+        """get a waterdepth for edge e on the geodataframe with bathymetry and waterlevel information (nap_p50)"""
+
+        assert self.quantity_df is not None, "we need a quantity_df to compute depths"
+        quantity_df = self.quantity_df
+        # similar to a channel
+        default_velocity = 0
+
+        # are both source and target in our edge
+        idx = np.logical_and(quantity_df.source.isin(e), quantity_df.target.isin(e))
+        # lookup the edge
+        selected = quantity_df[idx]
+
+        # did we find records
+        if not selected.shape[0]:
+            # no, return default
+            return default_velocity
+
+        quantity_row = selected.iloc[0]
+        if np.isnan(quantity_row["velocity"]):
+            return default_velocity
+
+        # we found a velocity
+        velocity = quantity_row.velocity
+
+        # Which way is it going?
+        # From source to target
+        if e[0] == quantity_row.source:
+            velocity = velocity
+        else:
+            # We're going against the flow
+            # we're going backward through this edge, velocity should be negative of given velocity
+            velocity = -velocity
+
+        return velocity
 
     def work_for(self, operator, with_berth=False):
         """Work for an operator by listening to tasks"""
@@ -189,6 +229,7 @@ class CanWork(
             timestamp = self.env.now
 
             depth = self.get_waterdepth(e)
+            velocity = self.get_velocity(e)
 
             # # estimate 'grounding speed' as a useful upperbound
             try:
@@ -203,6 +244,7 @@ class CanWork(
                 upperbound = None
                 logger.warn(f"Could not compute upperbound for e {e}")
             v = self.power2v(self, edge, upperbound, h_0=depth)
+
             # # use computed power
             power_given = self.P_given
 
