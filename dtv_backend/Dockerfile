@@ -29,13 +29,18 @@ RUN conda install mamba -c conda-forge
 RUN mamba install -y -c conda-forge git  pip diskcache click geojson geopandas networkx numpy pandas pyproj requests scipy setuptools shapely geos matplotlib pygeos tqdm jupyter notebook jupyterlab ipython flask flask-cors requests-cache
 RUN mamba install -y -c conda-forge pint plotly gunicorn pyyaml
 
+# Download opentnsim
+# Install in editable mode because we need the csv files
+RUN git clone https://github.com/TUDelft-CITG/OpenTNSim.git
+WORKDIR /root/OpenTNSim
+RUN pip install -e .
+
 # # The rest with pip
 COPY . $HOME/app
-
 WORKDIR $HOME/app
 # this is faster
 RUN pip install simpy timeboard
-RUN pip install 'git+https://github.com/TUDelft-CITG/OpenTNSim.git@feature/dtv-energy-emission#egg=opentnsim'
+WORKDIR $HOME/app
 ENV PATH /opt/conda/bin:$PATH
 RUN pip install -e .
 
