@@ -19,7 +19,7 @@
             :items="prototypeShips"
             :items-per-page="10"
             class="elevation-1"
-            item-key="name"
+            item-key="RWS-class"
             :search="search"
             v-model="selectedShips"
             show-select
