@@ -32,7 +32,7 @@ RUN mamba install -y -c conda-forge pint plotly gunicorn pyyaml
 # Download opentnsim
 # Install in editable mode because we need the csv files
 RUN git clone https://github.com/TUDelft-CITG/OpenTNSim.git
-WORKDIR /OpenTNSim
+WORKDIR /root/OpenTNSim
 RUN git checkout feature/dtv-energy-emission
 RUN pip install -e .
 
