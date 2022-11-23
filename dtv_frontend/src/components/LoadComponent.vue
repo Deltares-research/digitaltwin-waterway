@@ -136,9 +136,9 @@
     </v-card>
 
   </div>
-  <v-card class="mt-2 bridges-card">
-    <v-card-title>Route profile</v-card-title>
-    <v-img alt src="graphics/profile-emo-bctn.png" />
+  <v-card class="mt-2 bridges-card" v-if="routeProfile">
+    <v-card-title>Route Profile</v-card-title>
+    <v-img alt="route profile" :src="routeProfileSrc"  />
   </v-card>
 </div>
 </template>
@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     ...mapGetters(['unit']),
-    ...mapFields(['cargoType', 'fleet', 'prototypeShips']),
+    ...mapFields(['cargoType', 'fleet', 'prototypeShips', 'routeProfile']),
     shipTypes() {
       const types = _.uniq(_.map(this.fleet, 'properties.RWS-class'))
       types.sort()
@@ -193,7 +193,11 @@ export default {
     },
     minDepthOnRoute() {
       return 3
+    },
+    routeProfileSrc() {
+      return URL.createObjectURL(this.routeProfile)
     }
+
   },
   methods: {
     shipY(ship) {

@@ -1,5 +1,7 @@
+import io
 import pathlib
 import logging
+import json
 
 import flask
 import pandas as pd
@@ -13,6 +15,7 @@ import dtv_backend.charts
 import geopandas as gpd
 
 import networkx as nx
+import plotly.utils
 
 from flask_cors import CORS
 
@@ -81,9 +84,12 @@ def v3_simulate():
     env = result["env"]
     log_df = pd.DataFrame(result["operator"].logbook)
     log_json = dtv_backend.postprocessing.log2json(log_df)
+    energy_gdf = dtv_backend.postprocessing.energy_gdf_from_log_df(log_df)
+    energy_json = dtv_backend.postprocessing.energy_gdf_to_json(energy_gdf)
 
     response = {
         "log": log_json,
+        "energy_log": energy_json,
         "config": config,
         "env": {
             "epoch": env.epoch.timestamp(),
@@ -185,6 +191,45 @@ def trip_histogram():
     body = flask.request.json
     echart = dtv_backend.charts.trip_histogram(body)
     return echart
+
+
+@dtv.route("/charts/energy_by_distance", methods=["POST"])
+def energy_by_distance():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.energy_per_distance(body)
+    return echart
+
+
+@dtv.route("/charts/energy_by_time", methods=["POST"])
+def energy_by_time():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    echart = dtv_backend.charts.energy_per_time(body)
+    return echart
+
+
+@dtv.route("/charts/route_profile", methods=["POST"])
+def route_profile():
+    """create configuration for trip_duration echart"""
+    body = flask.request.json
+    fig, axes = dtv_backend.charts.route_profile(body)
+    stream = io.BytesIO()
+    fig.savefig(stream, format="png")
+    stream.seek(0)
+    return flask.send_file(stream, mimetype="image/png")
+
+
+@dtv.route("/charts/gantt", methods=["POST"])
+def gantt():
+    """create configuration for plotly gantt chart"""
+    body = flask.request.json
+    fig = dtv_backend.charts.gantt(body)
+    resp = fig.to_plotly_json()
+    # serialize using plotly encoder
+    resp_str = json.dumps(resp, cls=plotly.utils.PlotlyJSONEncoder)
+    resp = json.loads(resp_str)
+    return resp
 
 
 def create_app():

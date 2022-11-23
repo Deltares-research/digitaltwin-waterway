@@ -211,3 +211,39 @@ def vessel_planning(
         return iplot(fig, filename="news-source")
     else:
         return {"data": traces, "layout": layout}
+
+
+def energy_gdf_from_log_df(log_df):
+    """extract the energy log in geodataframe format from the log dataframe"""
+    # append all energy logs together
+
+    def row2energy_df(row):
+        """create an energy dataframe for a sailing message"""
+        energy_df_i = pd.DataFrame(row["Meta"]["energy_profile"])
+        return energy_df_i
+
+    # lookup all stop messages
+    sailing_stop_idx = np.logical_and(
+        log_df["Message"] == "Sailing",
+        log_df["Meta"].apply(lambda x: x["state"]) == "STOP",
+    )
+
+    stop_messages = log_df[sailing_stop_idx]
+    # from each stop message get the energy_profile
+    energy_df = pd.concat(
+        stop_messages.apply(row2energy_df, axis=1).values
+    ).reset_index(drop=True)
+    energy_gdf = gpd.GeoDataFrame(energy_df)
+
+    return energy_gdf
+
+
+def energy_gdf_to_json(energy_gdf):
+    """convert the energy log to json"""
+    # drop this column. Too big and unserializable due to extra geometry
+    energy_gdf = energy_gdf.drop(columns=["edge"])
+    # Time as string in json
+    energy_gdf["t"] = energy_gdf["t"].dt.strftime("%Y-%m-%d %H:%M:%S")
+    energy_json_str = energy_gdf.to_json()
+    energy_json = json.loads(energy_json_str)
+    return energy_json

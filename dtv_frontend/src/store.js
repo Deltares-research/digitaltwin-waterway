@@ -9,6 +9,8 @@ import buffer from '@turf/buffer'
 // hardcode the prototype ships so we can build our per shipstype properties
 import prototypeShips from '../public/data/DTV_shiptypes_database.json'
 
+import m12 from '../public/data/results/m12.json'
+
 // cleanup prototype ships
 _.forEach(prototypeShips, ship => {
   ship.capacity = ship['Load Weight average [ton]']
@@ -38,6 +40,7 @@ export default new Vuex.Store({
     fleet: [],
     // prototype ships
     prototypeShips: prototypeShips,
+    m12: m12,
 
     // feature collection with water levels
     waterlevels: { type: 'FeatureCollection', features: [] },
@@ -50,9 +53,13 @@ export default new Vuex.Store({
     progress: 0,
     play: false,
     climate: {},
+    routeProfile: null,
     chartTripDuration: {},
     chartDurationBreakdown: {},
-    chartTripHistogram: {}
+    chartTripHistogram: {},
+    chartGantt: {},
+    chartEnergyByDistance: {},
+    chartEnergyByTime: {}
   },
   getters: {
     getField,
@@ -143,6 +150,20 @@ export default new Vuex.Store({
       commit('setResults', results)
       dispatch('fetchKPIs', results)
     },
+    async fetchRouteProfile({ commit }, config) {
+      const request = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config) // body data type must match "Content-Type" header
+      }
+      const apiUrl = process.env.VUE_APP_API_URI
+      const resp = await fetch(`${apiUrl}/charts/route_profile`, request)
+      const fig = await resp.blob()
+      commit('setRouteProfile', fig)
+    },
     async fetchKPIs({ commit }, results) {
       console.log('fetching KPI for ', results)
       const request = {
@@ -163,6 +184,15 @@ export default new Vuex.Store({
       resp = await fetch(`${apiUrl}/charts/trip_histogram`, request)
       const tripHistogram = await resp.json()
       commit('setChartTripHistogram', tripHistogram)
+      resp = await fetch(`${apiUrl}/charts/gantt`, request)
+      const gantt = await resp.json()
+      commit('setChartGantt', gantt)
+      resp = await fetch(`${apiUrl}/charts/energy_by_distance`, request)
+      const energyByDistance = await resp.json()
+      commit('setChartEnergyByDistance', energyByDistance)
+      resp = await fetch(`${apiUrl}/charts/energy_by_time`, request)
+      const energyByTime = await resp.json()
+      commit('setChartEnergyByTime', energyByTime)
     },
     async fetchSites({ commit }) {
       const resp = await fetch('data/sites.json')
@@ -296,6 +326,15 @@ export default new Vuex.Store({
     setChartTripHistogram(state, payload) {
       state.chartTripHistogram = payload
     },
+    setChartGantt(state, payload) {
+      state.chartGantt = payload
+    },
+    setChartEnergyByDistance(state, payload) {
+      state.chartEnergyByDistance = payload
+    },
+    setChartEnergyByTime(state, payload) {
+      state.chartEnergyByTime = payload
+    },
     setSites(state, payload) {
       state.sites = payload
     },
@@ -305,6 +344,9 @@ export default new Vuex.Store({
     },
     setResults(state, payload) {
       state.results = payload
+    },
+    setRouteProfile(state, payload) {
+      state.routeProfile = payload
     },
     addWaypoint(state, payload) {
       const feature = payload

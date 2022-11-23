@@ -8,6 +8,7 @@ import logging
 
 import simpy
 import shapely.geometry
+import geopandas as gpd
 
 # library to load the fairway information network
 import dtv_backend.fis
@@ -135,6 +136,29 @@ def v2_run(config):
     }
 
 
+def v3_run(config):
+    """run a simulation using the opentnsim compatibility kernel"""
+    logger.info("Running simulation 👩‍💻")
+    # Run for n days
+
+    env = create_env(config)
+    ports = create_ports(env, config)
+    ships = create_ships(env, config)
+    operator = create_operator(env, ships, ports, config)
+
+    n_days = 60
+    n_days_in_future = env.epoch + datetime.timedelta(days=n_days)
+    env.run(until=n_days_in_future.timestamp())
+    result = {
+        "env": env,
+        "operator": operator,
+        "ships": ships,
+        "config": config,
+        "ports": ports,
+    }
+    return result
+
+
 def create_env(config):
 
     # always start at now
@@ -162,15 +186,40 @@ def create_ports(env, config):
     return ports
 
 
+def create_quantity_df(config):
+    """create a geopandas dataframe with all the quantities per edge (source, target)"""
+    logger.info("Creating quantities ➡️")
+    quantity_df = gpd.GeoDataFrame.from_features(
+        config["quantities"]["bathymetry"]["features"]
+    )
+    return quantity_df
+
+
 def create_ships(env, config):
     """create ships"""
     logger.info("Loading ships 🚢")
+
+    quantity_df = create_quantity_df(config)
     ships = []
     for ship in config["fleet"]:
+        print(ship)
         kwargs = {}
         kwargs.update(ship)
         kwargs.update(ship["properties"])
-        kwargs["v"] = 3
+        kwargs["v"] = float(ship["properties"].get("Velocity [m/s]", 3))
+        kwargs["L"] = float(ship["properties"]["Length [m]"])
+        kwargs["B"] = float(ship["properties"]["Beam [m]"])
+        kwargs["P_installed"] = float(
+            ship["properties"].get("Engine power maximum [kW]", 1100)
+        )
+        # TODO: add enegine order in interface
+        kwargs["P_tot_given"] = kwargs["P_installed"] * 0.8
+        kwargs["T_e"] = ship["properties"]["Draught empty [m]"]
+        kwargs["T_f"] = ship["properties"]["Draught loaded [m]"]
+        kwargs["T"] = ship["properties"]["Draught average [m]"]
+        # for large rhine vessels
+        kwargs["L_w"] = 3
+        kwargs["C_year"] = 2000
         route = [feature["properties"]["n"] for feature in config["route"]]
         kwargs["route"] = route
         geometry = shapely.geometry.shape(ship["geometry"])
@@ -181,6 +230,8 @@ def create_ships(env, config):
             kwargs["climate"] = config["climate"]
         # ship = dtv_backend.simple.Ship(env, **kwargs)
         ship = dtv_backend.compat.Ship(env=env, **kwargs)
+        ship.quantity_df = quantity_df
+
         print(ship.node)
         ships.append(ship)
     return ships
@@ -201,27 +252,3 @@ def create_operator(env, ships, ports, config):
     # The opertor plans the work move everything from A to B
     env.process(operator.plan(ports[0], ports[1]))
     return operator
-
-
-def v3_run(config):
-    """run a simulation using the opentnsim compatibility kernel"""
-    logger.info("Running simulation 👩‍💻")
-    # Run for n days
-
-    env = create_env(config)
-    ports = create_ports(env, config)
-    ships = create_ships(env, config)
-    operator = create_operator(env, ships, ports, config)
-
-    n_days = 60
-    n_days_in_future = env.epoch + datetime.timedelta(days=n_days)
-    env.run(until=n_days_in_future.timestamp())
-    result = {
-        "env": env,
-        "operator": operator,
-        "ships": ships,
-        "config": config,
-        "ports": ports,
-    }
-
-    return result

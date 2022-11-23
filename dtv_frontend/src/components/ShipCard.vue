@@ -50,16 +50,33 @@
           </tbody>
         </template>
       </v-simple-table>
+      <v-sheet
+        color="grey darken-2 mt-3"
+        elevation="5"
+        v-show="ship['RWS-class'] === 'M12'"
+        class="small-chart"
+      >
+        <v-chart :option="m12" :init-options="initOptions" />
+      </v-sheet>
     </v-card-text>
   </v-card>
 </template>
 <script>
+import { mapState } from 'vuex'
+import { THEME_KEY } from 'vue-echarts'
 export default {
   props: {
     ship: Object
   },
+  provide: {
+    [THEME_KEY]: 'dark'
+  },
   data() {
     return {
+      initOptions: {
+        renderer: 'svg',
+        width: 340
+      },
       editable: [
         'name',
         'Length [m]',
@@ -82,6 +99,9 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState(['m12'])
+  },
   methods: {
     updateShip(ship) {
       this.$emit('change', ship)
@@ -89,3 +109,9 @@ export default {
   }
 }
 </script>
+<style>
+.small-chart {
+  height: 400px;
+  width: 100%;
+}
+</style>

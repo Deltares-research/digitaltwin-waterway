@@ -10,6 +10,7 @@
     @mb-load="publishMap"
     :logoPosition="'bottom-right'"
     :trackResize="'false'"
+    v-show="interactive"
   >
     <v-mapbox-ships-layer
       v-if="features.length > 0"
@@ -44,9 +45,12 @@ export default {
     VMapboxClimateLayer
   },
   computed: {
-    ...mapState(['results', 'sites', 'play', 'progress']),
+    ...mapState(['results', 'sites', 'play', 'progress', 'cargoType']),
     features() {
       return _.get(this.results, 'log.features', [])
+    },
+    interactive() {
+      return this.cargoType !== ''
     }
   },
   data() {

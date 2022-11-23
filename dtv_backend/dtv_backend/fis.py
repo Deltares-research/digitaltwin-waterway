@@ -474,3 +474,36 @@ def get_edges_gdf(graph):
     # add bathymetry columns
     edges_gdf = pd.merge(edges_gdf, bathy_columns, left_index=True, right_index=True)
     return edges_gdf
+
+def has_structures(route, graph):
+    """are there any structures on this route"""
+    has_structures = False
+    for e in pairwise(route):
+        edge = graph.edges[e]
+        structure = extract_structure(e)
+        if structure is not None:
+            has_structures = True
+            break
+    return has_structures
+
+def route_to_sea(source, graph):
+    """determine if source node has a route to seaa on the graph"""
+    sea_nodes = [
+        # rotterdam
+        "8866305",
+        # roompot
+        "8864380",
+        # IJmuiden
+        "8864991",
+        # Den Helder
+        "8867031",
+        # Eemshaven
+        "8863991"
+    ]
+    route_to_sea = False
+    for target in sea_nodes:
+        route = nx.shortest_paths.shortest_path(graph, source=source, target=target)
+        if not has_structures(route, graph):
+            route_to_sea = True
+            break
+    return route_to_sea
