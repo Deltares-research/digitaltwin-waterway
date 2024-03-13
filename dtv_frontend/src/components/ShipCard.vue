@@ -94,6 +94,7 @@ export default {
         'RWS-class',
         'Length [m]',
         'Beam [m]',
+        'Load weight maximum [ton]',
         'Velocity [m/s]',
         'Engine power maximum [kW]'
       ]
