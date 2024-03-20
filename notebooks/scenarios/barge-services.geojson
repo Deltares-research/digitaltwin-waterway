@@ -3,19 +3,18 @@
 "name": "barge-services",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 4.03967999329435, 51.945349270399497 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 4.62488792413659, 51.8746225923678 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 5.8340360338013, 51.861915534830608 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 6.722285089503654, 51.452696938941116 ] } },
-{ "type": "Feature", "properties": { "n": "D123", "name": null }, "geometry": { "type": "Point", "coordinates": [ 0.0, 0.0 ] } },
+{ "type": "Feature", "properties": { "n": "8865973", "name": "Rotterdam" }, "geometry": { "type": "Point", "coordinates": [ 4.03967999329435, 51.945349270399497 ] } },
+{ "type": "Feature", "properties": { "n": "8860687", "name": "Ridderkerk" }, "geometry": { "type": "Point", "coordinates": [ 4.62488792413659, 51.8746225923678 ] } },
+{ "type": "Feature", "properties": { "n": "22638188", "name": "Nijmegen" }, "geometry": { "type": "Point", "coordinates": [ 5.8340360338013, 51.861915534830608 ] } },
+{ "type": "Feature", "properties": { "n": "FN96", "name": "Duisburg" }, "geometry": { "type": "Point", "coordinates": [ 6.722285089503654, 51.452696938941116 ] } },
 { "type": "Feature", "properties": { "n": "d123", "name": "Bonn" }, "geometry": { "type": "Point", "coordinates": [ 7.088412031304457, 50.760864988736401 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 8.436256729660702, 49.512528533118278 ] } },
+{ "type": "Feature", "properties": { "n": "FN208", "name": "Mannheim" }, "geometry": { "type": "Point", "coordinates": [ 8.436256729660702, 49.512528533118278 ] } },
 { "type": "Feature", "properties": { "n": "d124", "name": "Stuttgart" }, "geometry": { "type": "Point", "coordinates": [ 9.245949818041227, 48.776680989469462 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 6.07579575694405, 51.543884928630597 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 6.15399081919364, 51.393199315148998 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 5.541151134625, 51.781211719379598 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 4.5959831688951, 51.679400818670601 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 4.27194888350402, 51.498413628970098 ] } },
-{ "type": "Feature", "properties": { "n": null, "name": null }, "geometry": { "type": "Point", "coordinates": [ 4.34252, 51.3274 ] } }
+{ "type": "Feature", "properties": { "n": "8861500", "name": "Wanssum" }, "geometry": { "type": "Point", "coordinates": [ 6.07579575694405, 51.543884928630597 ] } },
+{ "type": "Feature", "properties": { "n": "22637863", "name": "Venlo" }, "geometry": { "type": "Point", "coordinates": [ 6.15399081919364, 51.393199315148998 ] } },
+{ "type": "Feature", "properties": { "n": "8864561", "name": "Oss" }, "geometry": { "type": "Point", "coordinates": [ 5.541151134625, 51.781211719379598 ] } },
+{ "type": "Feature", "properties": { "n": "8864978", "name": "Moerdijk" }, "geometry": { "type": "Point", "coordinates": [ 4.5959831688951, 51.679400818670601 ] } },
+{ "type": "Feature", "properties": { "n": "8863970", "name": "Bergen op Zoom" }, "geometry": { "type": "Point", "coordinates": [ 4.27194888350402, 51.498413628970098 ] } },
+{ "type": "Feature", "properties": { "n": "FN118", "name": "Antwerpen" }, "geometry": { "type": "Point", "coordinates": [ 4.34252, 51.3274 ] } }
 ]
 }
