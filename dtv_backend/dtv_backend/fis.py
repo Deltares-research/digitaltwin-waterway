@@ -13,6 +13,7 @@ import re
 import tempfile
 import urllib
 import json
+import pickle
 
 import geopandas as gpd
 import networkx as nx
@@ -60,12 +61,13 @@ def edge_length(edge):
     # get the geometry
     geom = edge["geometry"]
     # get lon, lat
-    lats, lons = np.array(geom).T
+    lats, lons = geom.xy
     distance = geod.line_length(lons, lats)
     return distance
 
 
 # now create the function can load the network
+
 
 # store the result so it will immediately give a result
 @functools.lru_cache(maxsize=100)
@@ -77,7 +79,8 @@ def load_fis_network(url):
     if data_path.exists():
         filename = str(data_path)
         n_bytes = data_path.stat().st_size
-        G = nx.read_gpickle(filename)
+        with open(filename, "rb") as file:
+            G = pickle.load(file)
     else:
         # get the data from the url
         resp = requests.get(url)
@@ -92,7 +95,8 @@ def load_fis_network(url):
         urllib.request.urlretrieve(url, f.name)
         # This will take a minute or two
         # Here we convert the network to a networkx object
-        G = nx.read_gpickle(f.name)
+        with open(f.name, "rb") as file:
+            G = pickle.load(file)
 
         # the temp file can be deleted
         del f
@@ -475,6 +479,7 @@ def get_edges_gdf(graph):
     edges_gdf = pd.merge(edges_gdf, bathy_columns, left_index=True, right_index=True)
     return edges_gdf
 
+
 def has_structures(route, graph):
     """are there any structures on this route"""
     has_structures = False
@@ -485,6 +490,7 @@ def has_structures(route, graph):
             has_structures = True
             break
     return has_structures
+
 
 def route_to_sea(source, graph):
     """determine if source node has a route to seaa on the graph"""
@@ -498,7 +504,7 @@ def route_to_sea(source, graph):
         # Den Helder
         "8867031",
         # Eemshaven
-        "8863991"
+        "8863991",
     ]
     route_to_sea = False
     for target in sea_nodes:
