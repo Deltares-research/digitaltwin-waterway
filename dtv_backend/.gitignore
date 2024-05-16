@@ -104,3 +104,6 @@ ENV/
 
 # IDE settings
 .vscode/
+
+# ivs data
+data/ivs/*
