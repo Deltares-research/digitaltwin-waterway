@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "dtv-backend"
+version = "0.1.0"
+description = "Digital Twin for Waterways backend server. Connected to OpenCLSim/OpenTNSim networks."
+authors = ["Fedor Baart <fedor.baart@deltares.nl"]
+readme = "README.rst"
+history = "HISTORY.rst"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+geopandas = "^0.14.4"
+diskcache = "^5.6.3"
+click = "^8.1.7"
+geojson = "^3.1.0"
+networkx = ">=2.4"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+pyproj = "^3.6.1"
+requests = "^2.31.0"
+scipy = "^1.13.0"
+setuptools = "^69.5.1"
+shapely = "^2.0.4"
+tqdm = "^4.66.4"
+timeboard = "^0.2.4"
+
+
+[[tool.poetry.source]]
+name = "wb_pypi"
+url = "https://pypi.wbad.witteveenbos.com/simple/"
+default = false
+secondary = true
+
+[tool.poetry.group.dev.dependencies]
+pip = "21.1"
+bump2version = "0.5.11"
+wheel = "0.33.6"
+watchdog = "0.9.0"
+flake8 = "3.7.8"
+coverage = "4.5.4"
+sphinx = "1.8.5"
+twine = "1.14.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
