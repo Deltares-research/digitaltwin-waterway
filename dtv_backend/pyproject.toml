@@ -2,9 +2,8 @@
 name = "dtv-backend"
 version = "0.1.0"
 description = "Digital Twin for Waterways backend server. Connected to OpenCLSim/OpenTNSim networks."
-authors = ["Fedor Baart <fedor.baart@deltares.nl"]
+authors = ["Fedor Baart <fedor.baart@deltares.nl>"]
 readme = "README.rst"
-history = "HISTORY.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
