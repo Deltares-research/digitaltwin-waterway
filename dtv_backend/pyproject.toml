@@ -24,6 +24,7 @@ timeboard = "^0.2.4"
 opentnsim = "^1.3.6"
 plotly = "^5.22.0"
 matplotlib = "^3.9.0"
+movingpandas = "^0.18.1"
 
 
 [[tool.poetry.source]]

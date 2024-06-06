@@ -107,3 +107,6 @@ ENV/
 
 # ivs data
 data/ivs/*
+
+#plots of the routes
+plots_routes
