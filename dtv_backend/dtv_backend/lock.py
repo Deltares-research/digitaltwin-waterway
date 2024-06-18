@@ -49,17 +49,15 @@ class Lock:
         self.env.process(self.lock_control())
 
     def lock_control(self):
-        """Check if lock is open and at right side
+        """ Moves the lock up and down. 
 
-        Parameters
-        ----------
-        lock : _type_
-            _description_
         """
         while True:
-            # if entry one of lock is open:
+            # entry a is triggered if entry a is open
             if self.entry_a.triggered:
-                # move lock when queue_a is empty and queue_b not, or when lock is full
+                # move lock when queue_a is empty and queue_b not, 
+                # or when queue a  is empty and someone is in the lock
+                # or when lock is full
                 if (
                     (self.queue_a.count == 0 and self.queue_b.count > 0)
                     or (self.lock_resource.count == self.lock_resource.capacity)
@@ -73,11 +71,13 @@ class Lock:
                     # open entry B
                     self.entry_b.succeed("Open")
                     print(f"{self.env.now:6.1f} s: lock {self.name} opens entry B")
-                    # blijf 5 minuten open
+                    # blijf 1 minuut open
                     yield self.env.timeout(60)
-            # if entry two of lock is open:
+            # entry b is triggered if entry b is open
             elif self.entry_b.triggered:
-                # move lock when queue_b is empty and queue_a not, or when lock is full
+                # move lock when queue_b is empty and queue_a not, 
+                # or when queue b is empty and someone is in the lock
+                # or when lock is full
                 if (
                     (self.queue_b.count == 0 and self.queue_a.count > 0)
                     or (self.lock_resource.count == self.lock_resource.capacity)
@@ -89,11 +89,11 @@ class Lock:
                     yield self.env.timeout(self.time_to_switch)
                     self.entry_a.succeed("Open")
                     print(f"{self.env.now:6.1f} s: {self.name} opens entry A")
-                    # blijf 5 minuten open
+                    # blijf 1 minuut open
                     yield self.env.timeout(60)
 
             # check every minute
-            yield self.env.timeout(10)
+            yield self.env.timeout(60)
 
 
 class Locks:
@@ -121,7 +121,7 @@ class Locks:
         # create lock resources
         self.locks_resources = {}
 
-        # Get lock gdf
+        # Get lock gdf, with info on chambers of each lock
         resp = requests.get(url_lock_info)
         stream = io.BytesIO(resp.content)
         self.locks_gdf = gpd.read_file(stream)
@@ -136,14 +136,23 @@ class Locks:
             The origin of the edge.
         destination : str
             The destination of the edge.
-        env : simpy.Environment
-            The simpy environment.
+        vessel : 
+            The vessel that passes the lock.
+        pat : re.Pattern
+            The regular expression pattern to match the lock edges.
+            Needs to contain the groups 'id' and 'side'. default: PAT
 
         Yields
         ---------
         env.timeout
             The time it takes to pass the lock.
         """
+        # if origin and destination are tuples, transform to not-tuple
+        if isinstance(origin, tuple):
+            origin = origin[1]
+            destination = destination[1]
+            print(origin, destination)
+
         # Check if the origin and destination are lock edges
         match_origin = re.match(pat, origin)
         match_destination = re.match(pat, destination)
@@ -160,7 +169,7 @@ class Locks:
             yield self.env.timeout(
                 30 * 60
             )  # TODO De normale timeout wordt hier ook bij opgeteld. Dat willen we niet.
-            yield self.env.process(self.pass_lock_1_2_simple())
+            yield self.env.process(self._pass_lock_1_2_simple())
 
     def pass_lock_v2(self, origin, destination, vessel, pat=PAT):
         """simple function which mimics the passing of a lock.
@@ -171,14 +180,22 @@ class Locks:
             The origin of the edge.
         destination : str
             The destination of the edge.
-        env : simpy.Environment
-            The simpy environment.
+        vessel : 
+            The vessel that passes the lock.
+        pat : re.Pattern
+            The regular expression pattern to match the lock edges.
+            Needs to contain the groups 'id' and 'side'. default: PAT
 
         Yields
         ---------
         env.timeout
             The time it takes to pass the lock.
         """
+        # if origin and destination are tuples, transform to not-tuple
+        if isinstance(origin, tuple):
+            origin = origin[1]
+            destination = destination[1]
+
         # Check if the origin and destination are lock edges
         match_origin = re.match(pat, origin)
         match_destination = re.match(pat, destination)
@@ -189,14 +206,14 @@ class Locks:
 
         else:
             # TODO in het logboek toevoegen dat de boot een sluis passeert
-            lock = self.get_lock_resource(name=match_origin.group("id"))
+            lock = self._get_lock_resource(name=match_origin.group("id"))
 
             # Pass the lock from one side to the other side
             if (
                 match_origin.group("side") == "A"
             ):  # TODO kanten koppelen aan queues in dict
                 yield self.env.process(
-                    self.pass_lock_A_B(
+                    self._pass_lock_A_B(
                         lock,
                         vessel,
                         entry_side="A",
@@ -206,7 +223,7 @@ class Locks:
                 )
             elif match_origin.group("side") == "B":
                 yield self.env.process(
-                    self.pass_lock_A_B(
+                    self._pass_lock_A_B(
                         lock,
                         vessel,
                         entry_side="B",
@@ -217,10 +234,10 @@ class Locks:
             else:
                 print("ERROR: side of lock not found")
 
-    def pass_lock_1_2_simple(self):
+    def _pass_lock_1_2_simple(self):
         yield self.env.timeout(np.random.rand() * 30 * 60)
 
-    def pass_lock_A_B(self, lock: Lock, vessel, entry_side, origin, entry_queue):
+    def _pass_lock_A_B(self, lock: Lock, vessel, entry_side, origin, entry_queue):
         # access que to lock
         if entry_side == "A":
             exit_side = "B"
@@ -268,7 +285,7 @@ class Locks:
                 f"{self.env.now:6.1f} s: {vessel.name} leaves lock on side {exit_side}"
             )
 
-    def get_lock_resource(self, name):
+    def _get_lock_resource(self, name):
         """get or create a lock resource.
 
         Parameters
@@ -281,13 +298,13 @@ class Locks:
             Lock: The lock resource.
         """
         if name not in self.locks_resources:
-            lock = self.make_lock_resource(name)
+            lock = self._make_lock_resource(name)
             self.locks_resources[name] = lock
         else:
             lock = self.locks_resources[name]
         return lock
 
-    def make_lock_resource(self, name):
+    def _make_lock_resource(self, name):
         """Make a lock resource.
 
         Parameters
@@ -328,7 +345,6 @@ class Locks:
 
 if __name__ == "__main__":
     import datetime
-    import time
     import opentnsim.core as core
     import networkx as nx
     from dtv_backend.fis import load_fis_network
