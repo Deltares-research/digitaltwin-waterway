@@ -26,6 +26,8 @@ import scipy.interpolate
 import shapely
 import shapely.geometry
 import shapely.wkt
+from pandas.api.types import CategoricalDtype
+
 
 import dtv_backend
 
@@ -513,3 +515,83 @@ def route_to_sea(source, graph):
             route_to_sea = True
             break
     return route_to_sea
+
+
+def path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe):
+    """find a path restricted to allowed cemt classes
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        graph in which to find a path. graph edges should have information 'cemt'.
+    origin : str
+        origin node id
+    destination : str
+        destination node id
+    ship_cemt_classe : str
+        cemt class of the ship.
+    """
+    # create function to compute weights for this ship
+    compute_weight = functools.partial(
+        __compute_weight, ship_cemt_classe=ship_cemt_classe
+    )
+
+    # find the path
+    path = nx.dijkstra_path(graph, origin, destination, weight=compute_weight)
+    return path
+
+
+def path_restricted_to_rws_class(graph, origin, destination, ship_rws_classe):
+    """find a path restricted to allowed cemt classes
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        graph in which to find a path. graph edges should have information 'cemt'.
+    origin : str
+        origin node id
+    destination : str
+        destination node id
+    ship_cemt_classe : str
+        cemt class of the ship.
+    """
+    ship_cemt_classe = __scheepstype_rws_to_cemt(ship_rws_classe)
+    return path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe)
+
+
+def __compute_weight(origin, target, dictionary_edge, ship_cemt_classe):
+    # order classes from smallest to largest
+    cemt_classes = CategoricalDtype(
+        categories=["I", "II", "III", "IVa", "Va", "Vb", "VIa", "VIb", "VIc", "VIIa"],
+        ordered=True,
+    )
+    # create codes
+    codes = pd.Series(
+        data=[dictionary_edge["Code"], ship_cemt_classe],
+        index=["edge", "ship"],
+        dtype=cemt_classes,
+    )
+
+    if codes["edge"] < codes["ship"]:
+        return np.nan
+    else:
+        return dictionary_edge["length_m"]
+
+
+def __scheepstype_rws_to_cemt(rws_classe):
+    rws_to_cemt = {
+        "M0": "0",
+        "M1": "I",
+        "M2": "II",
+        "M3": "III",
+        "M4": "III",
+        "M5": "III",
+        "M6": "IVa",
+        "M7": "IVa",
+        "M8": "Va",
+        "M9": "Va",
+        "M10": "VIa",
+        "M11": "VIa",
+        "M12": "VIa",
+    }
+    return rws_to_cemt[rws_classe]

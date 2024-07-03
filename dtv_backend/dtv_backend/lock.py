@@ -8,6 +8,7 @@ import requests
 import io
 import geopandas as gpd
 import numpy as np
+import opentnsim.core as core
 
 # Define a regular expression to match the lock edges
 PAT = re.compile(r"L(?P<id>.+)_(?P<side>.+)")
@@ -18,7 +19,7 @@ URL_LOCK_INFO = (
 )
 
 
-class Lock:
+class Lock(core.Log):
     """Class to save lock info."""
 
     def __init__(
@@ -30,8 +31,13 @@ class Lock:
         queue_a,
         queue_b,
         time_to_switch=30 * 60,
+        *args,
+        **kwargs,
     ):
         """Initialize the Lock class."""
+        # Initialize the Log class
+        super().__init__(env=env, *args, **kwargs)
+
         # Store the lock info
         self.env = env
         self.name = name
@@ -48,14 +54,25 @@ class Lock:
 
         self.env.process(self.lock_control())
 
-    def lock_control(self):
-        """ Moves the lock up and down. 
+    @property
+    def state(self):
+        """Get the state of the lock."""
+        return {
+            "name": self.name,
+            "lock_resource": self.lock_resource.count,
+            "lock_container": self.lock_container.level,
+            "queue_a": self.queue_a.count,
+            "queue_b": self.queue_b.count,
+            "entry_a": self.entry_a.triggered,
+            "entry_b": self.entry_b.triggered,
+        }
 
-        """
+    def lock_control(self):
+        """Moves the lock up and down."""
         while True:
             # entry a is triggered if entry a is open
             if self.entry_a.triggered:
-                # move lock when queue_a is empty and queue_b not, 
+                # move lock when queue_a is empty and queue_b not,
                 # or when queue a  is empty and someone is in the lock
                 # or when lock is full
                 if (
@@ -65,17 +82,29 @@ class Lock:
                 ):
                     # close entry A
                     print(f"{self.env.now:6.1f} s: lock {self.name} closes entry A")
+                    self.log_entry_v0(
+                        f"Closes entry A",
+                        self.env.now,
+                        self.state,
+                        None,
+                    )
                     self.entry_a = self.env.event()
                     # move lock
                     yield self.env.timeout(self.time_to_switch)
                     # open entry B
                     self.entry_b.succeed("Open")
+                    self.log_entry_v0(
+                        f"Opens entry B",
+                        self.env.now,
+                        self.state,
+                        None,
+                    )
                     print(f"{self.env.now:6.1f} s: lock {self.name} opens entry B")
                     # blijf 1 minuut open
                     yield self.env.timeout(60)
             # entry b is triggered if entry b is open
             elif self.entry_b.triggered:
-                # move lock when queue_b is empty and queue_a not, 
+                # move lock when queue_b is empty and queue_a not,
                 # or when queue b is empty and someone is in the lock
                 # or when lock is full
                 if (
@@ -136,7 +165,7 @@ class Locks:
             The origin of the edge.
         destination : str
             The destination of the edge.
-        vessel : 
+        vessel :
             The vessel that passes the lock.
         pat : re.Pattern
             The regular expression pattern to match the lock edges.
@@ -180,7 +209,7 @@ class Locks:
             The origin of the edge.
         destination : str
             The destination of the edge.
-        vessel : 
+        vessel :
             The vessel that passes the lock.
         pat : re.Pattern
             The regular expression pattern to match the lock edges.
@@ -203,11 +232,13 @@ class Locks:
         # If the origin and destination are not lock edges, no timeout is needed.
         if match_origin is None or match_destination is None:
             yield self.env.timeout(0)
+            # TODO misschien kan hier een return. Dan kan else weg.
 
         else:
             # TODO in het logboek toevoegen dat de boot een sluis passeert
             lock = self._get_lock_resource(name=match_origin.group("id"))
 
+            # TODO evt op branch van Floor kijken hoe je de afstand*snelheid niet meeneemt.
             # Pass the lock from one side to the other side
             if (
                 match_origin.group("side") == "A"
@@ -250,6 +281,7 @@ class Locks:
             yield req  # TODO request length of vessel
             print(f"{self.env.now:6.1f} s: {vessel.name} is waiting for lock {origin}")
             # wait untill the lock has space, and entry is open.
+
             if entry_side == "A":
                 while (lock.lock_resource.capacity == lock.lock_resource.count) or not (
                     lock.entry_a.triggered
@@ -271,6 +303,12 @@ class Locks:
 
             # request lock
             yield req
+            vessel.log_entry_v0(
+                f"Passing lock {entry_side} start", self.env.now, "", vessel.geometry
+            )
+            lock.log_entry_v0(
+                f"{vessel.name} enters lock", self.env.now, lock.state, vessel.geometry
+            )
             print(
                 f"{self.env.now:6.1f} s: {vessel.name} enters lock on side {entry_side}"
             )
@@ -281,8 +319,11 @@ class Locks:
             elif entry_side == "B":
                 yield lock.entry_a
 
-            print(
-                f"{self.env.now:6.1f} s: {vessel.name} leaves lock on side {exit_side}"
+            vessel.log_entry_v0(
+                f"Passing lock {entry_side} stop", self.env.now, "", vessel.geometry
+            )
+            lock.log_entry_v0(
+                f"{vessel.name} leaves lock", self.env.now, lock.state, vessel.geometry
             )
 
     def _get_lock_resource(self, name):
@@ -405,21 +446,21 @@ if __name__ == "__main__":
         )
         vessels.append(vessel)
 
-    for i in [3, 4, 5, 6, 7]:
-        vessel = TransportResource(
-            **{
-                "env": env,
-                "name": f"vessel_test{i}",
-                "type": "M6",
-                "B": 1,
-                "L": 10,
-                "route": route_langs_twee_locks[-1:0:-1],
-                "geometry": env.FG.nodes["8860920"]["geometry"],  # lon, lat
-                "capacity": 10,
-                "v": 1,
-            }
-        )
-        vessels.append(vessel)
+    # for i in [3, 4, 5, 6, 7]:
+    #     vessel = TransportResource(
+    #         **{
+    #             "env": env,
+    #             "name": f"vessel_test{i}",
+    #             "type": "M6",
+    #             "B": 1,
+    #             "L": 10,
+    #             "route": route_langs_twee_locks[-1:0:-1],
+    #             "geometry": env.FG.nodes["8860920"]["geometry"],  # lon, lat
+    #             "capacity": 10,
+    #             "v": 1,
+    #         }
+    #     )
+    #     vessels.append(vessel)
 
     for vessel in vessels:
         filled_pass_lock = functools.partial(locks.pass_lock_v2, vessel=vessel)
@@ -433,3 +474,7 @@ if __name__ == "__main__":
     env.run(until=500 * 60 * 24)
     pd.DataFrame(vessel.logbook)
     lock = locks.locks_resources["24504"]
+    import pickle
+
+    pickle.dump(lock.logbook, open("locks.pickle", "wb"))
+    pickle.load(open("locks.pickle", "rb"))
