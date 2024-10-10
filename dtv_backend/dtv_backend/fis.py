@@ -517,7 +517,9 @@ def route_to_sea(source, graph):
     return route_to_sea
 
 
-def path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe):
+def path_restricted_to_cemt_class(
+    graph, origin, destination, ship_cemt_classe, ordered_cemt_classes
+):
     """find a path restricted to allowed cemt classes
 
     Parameters
@@ -531,9 +533,13 @@ def path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe):
     ship_cemt_classe : str
         cemt class of the ship.
     """
+    # define order of cemt classes
+
     # create function to compute weights for this ship
     compute_weight = functools.partial(
-        __compute_weight, ship_cemt_classe=ship_cemt_classe
+        __compute_weight,
+        ship_cemt_classe=ship_cemt_classe,
+        ordered_cemt_classes=ordered_cemt_classes,
     )
 
     # find the path
@@ -541,7 +547,9 @@ def path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe):
     return path
 
 
-def path_restricted_to_rws_class(graph, origin, destination, ship_rws_classe):
+def path_restricted_to_rws_class(
+    graph, origin, destination, ship_rws_classe, ordered_cemt_classes
+):
     """find a path restricted to allowed cemt classes
 
     Parameters
@@ -556,23 +564,29 @@ def path_restricted_to_rws_class(graph, origin, destination, ship_rws_classe):
         cemt class of the ship.
     """
     ship_cemt_classe = __scheepstype_rws_to_cemt(ship_rws_classe)
-    return path_restricted_to_cemt_class(graph, origin, destination, ship_cemt_classe)
+    return path_restricted_to_cemt_class(
+        graph,
+        origin,
+        destination,
+        ship_cemt_classe=ship_cemt_classe,
+        ordered_cemt_classes=ordered_cemt_classes,
+    )
 
 
-def __compute_weight(origin, target, dictionary_edge, ship_cemt_classe):
+def __compute_weight(
+    origin, target, dictionary_edge, ship_cemt_classe, ordered_cemt_classes
+):
     # order classes from smallest to largest
-    cemt_classes = CategoricalDtype(
-        categories=["I", "II", "III", "IVa", "Va", "Vb", "VIa", "VIb", "VIc", "VIIa"],
-        ordered=True,
-    )
-    # create codes
-    codes = pd.Series(
-        data=[dictionary_edge["Code"], ship_cemt_classe],
-        index=["edge", "ship"],
-        dtype=cemt_classes,
-    )
 
-    if codes["edge"] < codes["ship"]:
+    if (
+        not dictionary_edge["Code"] in ordered_cemt_classes
+        or not ship_cemt_classe in ordered_cemt_classes
+    ):
+        return dictionary_edge["length_m"]
+    elif (
+        ordered_cemt_classes[dictionary_edge["Code"]]
+        < ordered_cemt_classes[ship_cemt_classe]
+    ):
         return np.nan
     else:
         return dictionary_edge["length_m"]

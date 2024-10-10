@@ -18,12 +18,15 @@ URL_LOCK_INFO = (
     "https://zenodo.org/records/6673604/files/FIS_locks_grouped.geojson?download=1"
 )
 
+AVERAGE_SHIP_LENGTH = 50  # m
+
 
 class Lock(core.Log):
     """Class to save lock info."""
 
     def __init__(
         self,
+        geometry,
         env,
         name,
         lock_resource,
@@ -39,6 +42,7 @@ class Lock(core.Log):
         super().__init__(env=env, *args, **kwargs)
 
         # Store the lock info
+        self.geometry = geometry
         self.env = env
         self.name = name
         self.time_to_switch = time_to_switch
@@ -81,12 +85,11 @@ class Lock(core.Log):
                     or (self.lock_resource.count > 0 and self.queue_a.count == 0)
                 ):
                     # close entry A
-                    print(f"{self.env.now:6.1f} s: lock {self.name} closes entry A")
                     self.log_entry_v0(
                         f"Closes entry A",
                         self.env.now,
                         self.state,
-                        None,
+                        self.geometry,
                     )
                     self.entry_a = self.env.event()
                     # move lock
@@ -97,9 +100,8 @@ class Lock(core.Log):
                         f"Opens entry B",
                         self.env.now,
                         self.state,
-                        None,
+                        self.geometry,
                     )
-                    print(f"{self.env.now:6.1f} s: lock {self.name} opens entry B")
                     # blijf 1 minuut open
                     yield self.env.timeout(60)
             # entry b is triggered if entry b is open
@@ -112,13 +114,22 @@ class Lock(core.Log):
                     or (self.lock_resource.count == self.lock_resource.capacity)
                     or (self.lock_resource.count > 0 and self.queue_b.count == 0)
                 ):
-                    print(f"{self.env.now:6.1f} s: {self.name} closes entry B")
+                    self.log_entry_v0(
+                        f"Closes entry B",
+                        self.env.now,
+                        self.state,
+                        self.geometry,
+                    )
                     self.entry_b = self.env.event()
                     # wisselen van positie kost 30 minuten.
                     yield self.env.timeout(self.time_to_switch)
                     self.entry_a.succeed("Open")
-                    print(f"{self.env.now:6.1f} s: {self.name} opens entry A")
-                    # blijf 1 minuut open
+                    self.log_entry_v0(
+                        f"Opens entry A",
+                        self.env.now,
+                        self.state,
+                        self.geometry,
+                    )  # blijf 1 minuut open
                     yield self.env.timeout(60)
 
             # check every minute
@@ -180,7 +191,6 @@ class Locks:
         if isinstance(origin, tuple):
             origin = origin[1]
             destination = destination[1]
-            print(origin, destination)
 
         # Check if the origin and destination are lock edges
         match_origin = re.match(pat, origin)
@@ -279,8 +289,10 @@ class Locks:
 
         with entry_queue.request() as req:
             yield req  # TODO request length of vessel
-            print(f"{self.env.now:6.1f} s: {vessel.name} is waiting for lock {origin}")
-            # wait untill the lock has space, and entry is open.
+
+            vessel.log_entry_v0(
+                f"Start waiting for lock {origin}", self.env.now, f"", vessel.geometry
+            )  # wait untill the lock has space, and entry is open.
 
             if entry_side == "A":
                 while (lock.lock_resource.capacity == lock.lock_resource.count) or not (
@@ -292,6 +304,10 @@ class Locks:
                     lock.entry_b.triggered
                 ):
                     yield self.env.timeout(10)
+
+            vessel.log_entry_v0(
+                f"Stop waiting for lock {origin}", self.env.now, f"", vessel.geometry
+            )
 
         # access lock
         with lock.lock_resource.request() as req:
@@ -307,10 +323,7 @@ class Locks:
                 f"Passing lock {entry_side} start", self.env.now, "", vessel.geometry
             )
             lock.log_entry_v0(
-                f"{vessel.name} enters lock", self.env.now, lock.state, vessel.geometry
-            )
-            print(
-                f"{self.env.now:6.1f} s: {vessel.name} enters lock on side {entry_side}"
+                f"{vessel.name} enters lock", self.env.now, lock.state, lock.geometry
             )
 
             # wait untill entry 2 is open
@@ -323,7 +336,7 @@ class Locks:
                 f"Passing lock {entry_side} stop", self.env.now, "", vessel.geometry
             )
             lock.log_entry_v0(
-                f"{vessel.name} leaves lock", self.env.now, lock.state, vessel.geometry
+                f"{vessel.name} leaves lock", self.env.now, lock.state, lock.geometry
             )
 
     def _get_lock_resource(self, name):
@@ -366,14 +379,20 @@ class Locks:
         name = int(name)
         length = self.locks_gdf[self.locks_gdf["Id"] == name].Length_chamber.values[0]
         # TODO get other info on lock. For now only length is used
+        capacity = (
+            np.floor(length / AVERAGE_SHIP_LENGTH)
+            if length > AVERAGE_SHIP_LENGTH
+            else 3
+        )
         lock_resource = simpy.Resource(
-            env=self.env, capacity=2
+            env=self.env, capacity=capacity
         )  # TODO capacity = length
         lock_container = simpy.Container(env=self.env, init=0, capacity=length)
 
         queue_a = simpy.Resource(env=self.env, capacity=999)
         queue_b = simpy.Resource(env=self.env, capacity=999)
         lock = Lock(
+            geometry=self.locks_gdf[self.locks_gdf["Id"] == name].geometry.values[0],
             env=self.env,
             name=name,
             lock_resource=lock_resource,
