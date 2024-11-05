@@ -1307,6 +1307,17 @@ files = [
 ]
 
 [[package]]
+name = "packer2d"
+version = "1.0.0b2"
+description = "2D bin packer"
+optional = false
+python-versions = "*"
+files = [
+    {file = "packer2d-1.0.0b2-py3-none-any.whl", hash = "sha256:6539921ca5e6a09cf9512572aa49da272537f2ac09544e51470275aa085c39ff"},
+    {file = "packer2d-1.0.0b2.tar.gz", hash = "sha256:1bc4dffadb71e79f9d980c220f178e685eb2b8f64fe4c11cbb131e60f317f14a"},
+]
+
+[[package]]
 name = "pandas"
 version = "2.2.2"
 description = "Powerful data structures for data analysis, time series, and statistics"
@@ -2466,4 +2477,4 @@ viz = ["matplotlib", "nc-time-axis", "seaborn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3ec122e3b3318afdc95624eb311c919b36f49965f6c5839604fa2fbc146fb367"
+content-hash = "4101b73925adc978b82897564b15306a7c65e0ec14a92e37b246d4e171ba07de"

@@ -28,6 +28,7 @@ movingpandas = "^0.18.1"
 ffmpeg = "^1.4"
 python-ffmpeg = "^2.0.12"
 moviepy = "^1.0.3"
+packer2d = "^1.0.0b2"
 
 
 [[tool.poetry.source]]

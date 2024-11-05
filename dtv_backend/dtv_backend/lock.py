@@ -9,6 +9,18 @@ import io
 import geopandas as gpd
 import numpy as np
 import opentnsim.core as core
+from dtv_backend.lock_packing import fill_lock
+
+
+# Different type of class needed. Else Filterstore.Get(vessel) does not work
+class VesselInLock:
+    def __init__(self, vessel, entrytime):
+        self.vessel = vessel
+        self.name = vessel.name
+        self.L = vessel.L
+        self.B = vessel.B
+        self.entrytime = entrytime
+
 
 # Define a regular expression to match the lock edges
 PAT = re.compile(r"L(?P<id>.+)_(?P<side>.+)")
@@ -27,13 +39,14 @@ class Lock(core.Log):
     def __init__(
         self,
         geometry,
-        env,
-        name,
-        lock_resource,
-        lock_container,
-        queue_a,
-        queue_b,
-        time_to_switch=30 * 60,
+        env: simpy.Environment,
+        name: str,
+        lock_resource: simpy.Resource,
+        queue_a: simpy.FilterStore,
+        queue_b: simpy.FilterStore,
+        length_chamber: float,
+        width_chamber: float,
+        time_to_switch: float = 30 * 60,
         *args,
         **kwargs,
     ):
@@ -46,8 +59,9 @@ class Lock(core.Log):
         self.env = env
         self.name = name
         self.time_to_switch = time_to_switch
+        self.length_chamber = length_chamber
+        self.width_chamber = width_chamber
         self.lock_resource = lock_resource
-        self.lock_container = lock_container
         self.queue_a = queue_a
         self.queue_b = queue_b
 
@@ -56,7 +70,19 @@ class Lock(core.Log):
         self.entry_a.succeed("Open")
         self.entry_b = self.env.event()
 
-        self.env.process(self.lock_control())
+        # vessels that can enter lock
+        self.vessels_in_lock = {}
+
+        # define if queues are nonempty
+        self.queue_a_nonempty = self.env.event()
+        self.queue_b_nonempty = self.env.event()
+        self.lock_nonempty = self.env.event()
+
+        # start lock controlls
+        self.env.process(self.lock_control_a_b())
+        self.env.process(self.lock_control_b_a())
+        self.env.process(self.transport_vessels_queue_a_into_lock())
+        self.env.process(self.transport_vessels_queue_b_into_lock())
 
     @property
     def state(self):
@@ -64,76 +90,143 @@ class Lock(core.Log):
         return {
             "name": self.name,
             "lock_resource": self.lock_resource.count,
-            "lock_container": self.lock_container.level,
-            "queue_a": self.queue_a.count,
-            "queue_b": self.queue_b.count,
+            "queue_a": len(self.queue_a.items),
+            "queue_b": len(self.queue_b.items),
             "entry_a": self.entry_a.triggered,
             "entry_b": self.entry_b.triggered,
         }
 
-    def lock_control(self):
+    def lock_control_a_b(self):
         """Moves the lock up and down."""
         while True:
-            # entry a is triggered if entry a is open
-            if self.entry_a.triggered:
-                # move lock when queue_a is empty and queue_b not,
-                # or when queue a  is empty and someone is in the lock
-                # or when lock is full
-                if (
-                    (self.queue_a.count == 0 and self.queue_b.count > 0)
-                    or (self.lock_resource.count == self.lock_resource.capacity)
-                    or (self.lock_resource.count > 0 and self.queue_a.count == 0)
-                ):
-                    # close entry A
-                    self.log_entry_v0(
-                        f"Closes entry A",
-                        self.env.now,
-                        self.state,
-                        self.geometry,
-                    )
-                    self.entry_a = self.env.event()
-                    # move lock
-                    yield self.env.timeout(self.time_to_switch)
-                    # open entry B
-                    self.entry_b.succeed("Open")
-                    self.log_entry_v0(
-                        f"Opens entry B",
-                        self.env.now,
-                        self.state,
-                        self.geometry,
-                    )
-                    # blijf 1 minuut open
-                    yield self.env.timeout(60)
-            # entry b is triggered if entry b is open
-            elif self.entry_b.triggered:
-                # move lock when queue_b is empty and queue_a not,
-                # or when queue b is empty and someone is in the lock
-                # or when lock is full
-                if (
-                    (self.queue_b.count == 0 and self.queue_a.count > 0)
-                    or (self.lock_resource.count == self.lock_resource.capacity)
-                    or (self.lock_resource.count > 0 and self.queue_b.count == 0)
-                ):
-                    self.log_entry_v0(
-                        f"Closes entry B",
-                        self.env.now,
-                        self.state,
-                        self.geometry,
-                    )
-                    self.entry_b = self.env.event()
-                    # wisselen van positie kost 30 minuten.
-                    yield self.env.timeout(self.time_to_switch)
-                    self.entry_a.succeed("Open")
-                    self.log_entry_v0(
-                        f"Opens entry A",
-                        self.env.now,
-                        self.state,
-                        self.geometry,
-                    )  # blijf 1 minuut open
-                    yield self.env.timeout(60)
+            # wait until entry a is open
+            yield self.entry_a
 
-            # check every minute
-            yield self.env.timeout(60)
+            # give vessels a second to leave lock
+            yield self.env.timeout(1)
+            self._evaluate_queues()
+            # wait untill vessels in lock resource, or in queue b
+            yield simpy.AnyOf(
+                env=env, events=[self.lock_nonempty, self.queue_b_nonempty]
+            )  # TODO and queue_a is empty
+            # close entry A
+            self.log_entry_v0(
+                f"Closes entry A",
+                self.env.now,
+                self.state,
+                self.geometry,
+            )
+            self.entry_a = self.env.event()
+            # move lock
+            yield self.env.timeout(self.time_to_switch)
+            # open entry B
+            self.entry_b.succeed("Open")
+            self.log_entry_v0(
+                f"Opens entry B",
+                self.env.now,
+                self.state,
+                self.geometry,
+            )
+
+    def lock_control_b_a(self):
+        while True:
+            # wait until entry a is open
+            yield self.entry_b
+
+            # give vessels a second to leave lock
+            yield self.env.timeout(1)
+            self._evaluate_queues()
+
+            # wait untill vessels in lock resource, or in queue a
+            yield simpy.AnyOf(
+                env=env, events=[self.lock_nonempty, self.queue_a_nonempty]
+            )  # TODO and queue_b is empty
+            # close entry B
+            self.log_entry_v0(
+                f"Closes entry B",
+                self.env.now,
+                self.state,
+                self.geometry,
+            )
+            self.entry_b = self.env.event()
+
+            # move lock
+            yield self.env.timeout(self.time_to_switch)
+
+            # open entry A
+            self.entry_a.succeed("Open")
+            self.log_entry_v0(
+                f"Opens entry A",
+                self.env.now,
+                self.state,
+                self.geometry,
+            )
+
+    def _evaluate_queues(self):
+        """Checks and updates the status of events for the queues and lock_resource."""
+        # check and update status queue a
+        if len(self.queue_a.items) == 0 and self.queue_a_nonempty.triggered:
+            self.queue_a_nonempty = self.env.event()
+        elif len(self.queue_a.items) > 0 and not self.queue_a_nonempty.triggered:
+            self.queue_a_nonempty.succeed("queue a not empty")
+
+        # check and update status queue b
+        if len(self.queue_b.items) == 0 and self.queue_b_nonempty.triggered:
+            self.queue_b_nonempty = self.env.event()
+        elif len(self.queue_b.items) > 0 and not self.queue_b_nonempty.triggered:
+            self.queue_b_nonempty.succeed("queue b not empty")
+
+        # check and update status lock resource
+        if self.lock_resource.count == 0 and self.lock_nonempty.triggered:
+            self.lock_nonempty = self.env.event()
+        elif self.lock_resource.count > 0 and not self.lock_nonempty.triggered:
+            self.lock_nonempty.succeed("lock not empty")
+
+    def transport_vessels_queue_a_into_lock(self):
+        while True:
+            # wait until vessels in queue a
+            yield self.queue_a_nonempty
+
+            # wait until entry a is open
+            yield self.entry_a
+
+            # determine which ships can pass
+            vessels_entering_lock = fill_lock(
+                queue=self.queue_a,
+                lock_length=self.length_chamber,
+                lock_width=self.width_chamber,
+            )
+
+            # let ships enter lock. The event triggers lock.lock_resource.request() as req in locks.pass_lock
+            for vessel in vessels_entering_lock:
+                self.vessels_in_lock[vessel.name].succeed("enters lock")
+            self._evaluate_queues()
+
+            # wait a sec for entry a to close
+            yield self.env.timeout(2)
+
+    def transport_vessels_queue_b_into_lock(self):
+        while True:
+            # wait untill vessels in queue b
+            yield self.queue_b_nonempty
+
+            # wait untill entry b is open
+            yield self.entry_b
+
+            # determine which ships can pass
+            vessels_entering_lock = fill_lock(
+                queue=self.queue_b,
+                lock_length=self.length_chamber,
+                lock_width=self.width_chamber,
+            )
+
+            # let ships enter lock. The event triggers lock.lock_resource.request() as req in locks.pass_lock
+            for vessel in vessels_entering_lock:
+                self.vessels_in_lock[vessel.name].succeed("enters lock")
+            self._evaluate_queues()
+
+            # wait a sec for entry a to close
+            yield self.env.timeout(2)
 
 
 class Locks:
@@ -254,7 +347,7 @@ class Locks:
                 match_origin.group("side") == "A"
             ):  # TODO kanten koppelen aan queues in dict
                 yield self.env.process(
-                    self._pass_lock_A_B(
+                    self._pass_lock_A_B2(
                         lock,
                         vessel,
                         entry_side="A",
@@ -264,7 +357,7 @@ class Locks:
                 )
             elif match_origin.group("side") == "B":
                 yield self.env.process(
-                    self._pass_lock_A_B(
+                    self._pass_lock_A_B2(
                         lock,
                         vessel,
                         entry_side="B",
@@ -278,8 +371,70 @@ class Locks:
     def _pass_lock_1_2_simple(self):
         yield self.env.timeout(np.random.rand() * 30 * 60)
 
+    def _pass_lock_A_B2(
+        self, lock: Lock, vessel, entry_side, origin, entry_queue: simpy.FilterStore
+    ):
+        # define exit side
+        if entry_side == "A":
+            exit_side = "B"
+        elif entry_side == "B":
+            exit_side = "A"
+        else:
+            print("ERROR: side of lock not found")
+
+        # access queue to lock
+        yield entry_queue.put(VesselInLock(vessel, self.env.now))
+
+        # create event for vessel to enter lock
+        lock._evaluate_queues()
+        lock.vessels_in_lock[vessel.name] = self.env.event()
+
+        # logbook
+        vessel.log_entry_v0(
+            f"Start waiting for lock {origin}", self.env.now, f"", vessel.geometry
+        )  # wait untill the lock has space, and entry is open.
+        lock.log_entry_v0(
+            f"{vessel.name} enters queue for lock",
+            self.env.now,
+            lock.state,
+            lock.geometry,
+        )
+        # wait untill the ship can enter the lock
+        yield lock.vessels_in_lock[vessel.name]
+
+        # remove vessel from queue
+        yield entry_queue.get(lambda x: x.vessel == vessel)
+
+        # access lock
+        with lock.lock_resource.request() as req:
+            yield req
+            lock._evaluate_queues()
+            # logbook
+            vessel.log_entry_v0(
+                f"Passing lock {entry_side} start", self.env.now, "", vessel.geometry
+            )
+            lock.log_entry_v0(
+                f"{vessel.name} enters lock", self.env.now, lock.state, lock.geometry
+            )
+
+            # wait untill entry 2 is open
+            if entry_side == "A":
+                yield lock.entry_b
+            elif entry_side == "B":
+                yield lock.entry_a
+
+            vessel.log_entry_v0(
+                f"Passing lock {entry_side} stop", self.env.now, "", vessel.geometry
+            )
+            lock.log_entry_v0(
+                f"{vessel.name} leaves lock", self.env.now, lock.state, lock.geometry
+            )
+
+            lock.vessels_in_lock.pop(vessel.name)
+            lock._evaluate_queues()
+
     def _pass_lock_A_B(self, lock: Lock, vessel, entry_side, origin, entry_queue):
-        # access que to lock
+        # access queue to lock
         if entry_side == "A":
             exit_side = "B"
         elif entry_side == "B":
@@ -378,25 +533,20 @@ class Locks:
         # get length of lock
         name = int(name)
         length = self.locks_gdf[self.locks_gdf["Id"] == name].Length_chamber.values[0]
-        # TODO get other info on lock. For now only length is used
-        capacity = (
-            np.floor(length / AVERAGE_SHIP_LENGTH)
-            if length > AVERAGE_SHIP_LENGTH
-            else 3
-        )
-        lock_resource = simpy.Resource(
-            env=self.env, capacity=capacity
-        )  # TODO capacity = length
-        lock_container = simpy.Container(env=self.env, init=0, capacity=length)
+        width = self.locks_gdf[self.locks_gdf["Id"] == name].Width_chamber.values[0]
 
-        queue_a = simpy.Resource(env=self.env, capacity=999)
-        queue_b = simpy.Resource(env=self.env, capacity=999)
+        lock_resource = simpy.Resource(
+            env=self.env, capacity=np.inf
+        )  # capacity is later defined by fill_lock
+        queue_a = simpy.FilterStore(env=self.env)
+        queue_b = simpy.FilterStore(env=self.env)
         lock = Lock(
             geometry=self.locks_gdf[self.locks_gdf["Id"] == name].geometry.values[0],
             env=self.env,
             name=name,
             lock_resource=lock_resource,
-            lock_container=lock_container,
+            length_chamber=length,
+            width_chamber=width,
             queue_a=queue_a,
             queue_b=queue_b,
         )
@@ -449,14 +599,16 @@ if __name__ == "__main__":
         {},
     )
     vessels = []
-    for i in [0, 1, 2]:
+    widths = [6, 7, 5, 3]  # lock width is 14
+    lengths = [80, 50, 50, 70]  # lock length is 110
+    for i in [0, 1, 2, 3]:
         vessel = TransportResource(
             **{
                 "env": env,
                 "name": f"vessel_test{i}",
                 "type": "M6",
-                "B": 1,
-                "L": 10,
+                "B": widths[i],
+                "L": lengths[i],
                 "route": route_langs_twee_locks,
                 "geometry": env.FG.nodes["B7937_B"]["geometry"],  # lon, lat
                 "capacity": 10,
@@ -465,21 +617,21 @@ if __name__ == "__main__":
         )
         vessels.append(vessel)
 
-    # for i in [3, 4, 5, 6, 7]:
-    #     vessel = TransportResource(
-    #         **{
-    #             "env": env,
-    #             "name": f"vessel_test{i}",
-    #             "type": "M6",
-    #             "B": 1,
-    #             "L": 10,
-    #             "route": route_langs_twee_locks[-1:0:-1],
-    #             "geometry": env.FG.nodes["8860920"]["geometry"],  # lon, lat
-    #             "capacity": 10,
-    #             "v": 1,
-    #         }
-    #     )
-    #     vessels.append(vessel)
+    for i in [4, 5, 6, 7]:
+        vessel = TransportResource(
+            **{
+                "env": env,
+                "name": f"vessel_test{i}",
+                "type": "M6",
+                "B": 10,
+                "L": 150,
+                "route": route_langs_twee_locks[-1:0:-1],
+                "geometry": env.FG.nodes["8860920"]["geometry"],  # lon, lat
+                "capacity": 10,
+                "v": 1,
+            }
+        )
+        vessels.append(vessel)
 
     for vessel in vessels:
         filled_pass_lock = functools.partial(locks.pass_lock_v2, vessel=vessel)
@@ -492,8 +644,8 @@ if __name__ == "__main__":
     # run simulation
     env.run(until=500 * 60 * 24)
     pd.DataFrame(vessel.logbook)
-    lock = locks.locks_resources["24504"]
-    import pickle
+    lock = locks.locks_resources["12784"]
+    # import pickle
 
-    pickle.dump(lock.logbook, open("locks.pickle", "wb"))
-    pickle.load(open("locks.pickle", "rb"))
+    # pickle.dump(lock.logbook, open("locks.pickle", "wb"))
+    # pickle.load(open("locks.pickle", "rb"))
