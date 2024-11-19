@@ -29,6 +29,10 @@ def fill_lock(queue: simpy.FilterStore, lock_length: float, lock_width: float):
             if (item.rect.x1 == 0 and item.rect.y1 == 0 and item.data != 0)
         ]
         items_in_lock = [item for item in items if item not in leftover_items]
-
+    except:
+        raise ValueError(
+            f"Error in packing the lock for vessels {[vessel.name for vessel in vessels]}"
+        )
     vessels_entering_lock = [vessels[item.data] for item in items_in_lock]
+
     return vessels_entering_lock

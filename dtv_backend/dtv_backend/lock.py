@@ -11,17 +11,6 @@ import numpy as np
 import opentnsim.core as core
 from dtv_backend.lock_packing import fill_lock
 
-
-# Different type of class needed. Else Filterstore.Get(vessel) does not work
-class VesselInLock:
-    def __init__(self, vessel, entrytime):
-        self.vessel = vessel
-        self.name = vessel.name
-        self.L = vessel.L
-        self.B = vessel.B
-        self.entrytime = entrytime
-
-
 # Define a regular expression to match the lock edges
 PAT = re.compile(r"L(?P<id>.+)_(?P<side>.+)")
 
@@ -30,11 +19,23 @@ URL_LOCK_INFO = (
     "https://zenodo.org/records/6673604/files/FIS_locks_grouped.geojson?download=1"
 )
 
-AVERAGE_SHIP_LENGTH = 50  # m
+
+class VesselInLock:
+    """different type of vessel-class needed. Else Filterstore.get(vessel) does not work"""
+
+    def __init__(self, vessel, entrytime):
+        self.vessel = vessel
+        self.name = vessel.name
+        self.L = vessel.L
+        self.B = vessel.B
+        self.entrytime = entrytime
 
 
 class Lock(core.Log):
-    """Class to save lock info."""
+    """Class to save lock info.
+    The lock has two sides, A and B. The lock can be entered from both sides. Both sides have a queue.
+    The lock module checks if the lock has to switch, and the lock module will place vessels in the lock when possible.
+    """
 
     def __init__(
         self,
@@ -65,7 +66,7 @@ class Lock(core.Log):
         self.queue_a = queue_a
         self.queue_b = queue_b
 
-        # define entry A or entry B open
+        # define events for entry A or entry B open
         self.entry_a = self.env.event()
         self.entry_a.succeed("Open")
         self.entry_b = self.env.event()
@@ -97,7 +98,7 @@ class Lock(core.Log):
         }
 
     def lock_control_a_b(self):
-        """Moves the lock up and down."""
+        """Moves the lock up."""
         while True:
             # wait until entry a is open
             yield self.entry_a
@@ -129,6 +130,7 @@ class Lock(core.Log):
             )
 
     def lock_control_b_a(self):
+        """moves the lock down."""
         while True:
             # wait until entry a is open
             yield self.entry_b
@@ -183,6 +185,7 @@ class Lock(core.Log):
             self.lock_nonempty.succeed("lock not empty")
 
     def transport_vessels_queue_a_into_lock(self):
+        """Wait untill vessels can enter the lock from queue a, and calculate which vessels can enter the lock."""
         while True:
             # wait until vessels in queue a
             yield self.queue_a_nonempty
@@ -206,6 +209,7 @@ class Lock(core.Log):
             yield self.env.timeout(2)
 
     def transport_vessels_queue_b_into_lock(self):
+        """Wait untill vessels can enter the lock from queue b, and calculate which vessels can enter the lock."""
         while True:
             # wait untill vessels in queue b
             yield self.queue_b_nonempty
@@ -259,52 +263,8 @@ class Locks:
         stream = io.BytesIO(resp.content)
         self.locks_gdf = gpd.read_file(stream)
 
-    def pass_lock_simple(self, origin, destination, vessel, pat=PAT):
-        """simple function which mimics the passing of a lock.
-        The passing of a lock simply takes 30 minutes.
-
-        Parameters
-        ----------
-        origin : str
-            The origin of the edge.
-        destination : str
-            The destination of the edge.
-        vessel :
-            The vessel that passes the lock.
-        pat : re.Pattern
-            The regular expression pattern to match the lock edges.
-            Needs to contain the groups 'id' and 'side'. default: PAT
-
-        Yields
-        ---------
-        env.timeout
-            The time it takes to pass the lock.
-        """
-        # if origin and destination are tuples, transform to not-tuple
-        if isinstance(origin, tuple):
-            origin = origin[1]
-            destination = destination[1]
-
-        # Check if the origin and destination are lock edges
-        match_origin = re.match(pat, origin)
-        match_destination = re.match(pat, destination)
-
-        # If the origin and destination are not lock edges, no timeout is needed.
-        if match_origin is None or match_destination is None:
-            yield self.env.timeout(0)
-            # print('pass edge', origin, destination)
-        else:
-            # TODO in het logboek toevoegen dat de boot een sluis passeert
-            print(
-                f"{self.env.now:6.1f} s: {vessel.name} passes lock", origin, destination
-            )
-            yield self.env.timeout(
-                30 * 60
-            )  # TODO De normale timeout wordt hier ook bij opgeteld. Dat willen we niet.
-            yield self.env.process(self._pass_lock_1_2_simple())
-
-    def pass_lock_v2(self, origin, destination, vessel, pat=PAT):
-        """simple function which mimics the passing of a lock.
+    def pass_lock(self, origin, destination, vessel, pat=PAT):
+        """function which mimics the passing of a lock.
 
         Parameters
         ----------
@@ -347,7 +307,7 @@ class Locks:
                 match_origin.group("side") == "A"
             ):  # TODO kanten koppelen aan queues in dict
                 yield self.env.process(
-                    self._pass_lock_A_B2(
+                    self._pass_lock_A_B_v2(
                         lock,
                         vessel,
                         entry_side="A",
@@ -357,7 +317,7 @@ class Locks:
                 )
             elif match_origin.group("side") == "B":
                 yield self.env.process(
-                    self._pass_lock_A_B2(
+                    self._pass_lock_A_B_v2(
                         lock,
                         vessel,
                         entry_side="B",
@@ -368,12 +328,15 @@ class Locks:
             else:
                 print("ERROR: side of lock not found")
 
-    def _pass_lock_1_2_simple(self):
-        yield self.env.timeout(np.random.rand() * 30 * 60)
-
-    def _pass_lock_A_B2(
+    def _pass_lock_A_B_v2(
         self, lock: Lock, vessel, entry_side, origin, entry_queue: simpy.FilterStore
     ):
+        """Put vessel in queue, wait until vessel can enter lock, and let vessel pass lock.
+
+        Yields:
+        -------
+        The time it takes for the vessel to pass the lock.
+        """
         # define exit side
         if entry_side == "A":
             exit_side = "B"
@@ -434,6 +397,12 @@ class Locks:
             lock._evaluate_queues()
 
     def _pass_lock_A_B(self, lock: Lock, vessel, entry_side, origin, entry_queue):
+        """Put vessel in queue, wait until vessel can enter lock, and let vessel pass lock.
+
+        Yields:
+        -------
+        The time it takes for the vessel to pass the lock.
+        """
         # access queue to lock
         if entry_side == "A":
             exit_side = "B"
@@ -634,7 +603,7 @@ if __name__ == "__main__":
         vessels.append(vessel)
 
     for vessel in vessels:
-        filled_pass_lock = functools.partial(locks.pass_lock_v2, vessel=vessel)
+        filled_pass_lock = functools.partial(locks.pass_lock, vessel=vessel)
         vessel.on_pass_edge_functions = [filled_pass_lock]
 
     # process vessels
