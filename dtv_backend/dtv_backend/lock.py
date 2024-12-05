@@ -1,4 +1,14 @@
-"""This file contains several functions that are used to mimic lock behaviour in the graph"""
+"""This file contains several functions that are used to mimic lock behaviour in the graph
+
+The lock module can be used to include a simple imitation of locks in the simulation. 
+
+Example of usage: 
+#    create locks module with the right environment.
+locks = Locks(env)
+#   add the pass_lock function to the on_pass_edge_functions of the vessel(s)
+filled_pass_lock = functools.partial(locks.pass_lock, vessel=vessel)
+vessel.on_pass_edge_functions = [filled_pass_lock]
+"""
 
 import re
 import simpy
@@ -250,7 +260,7 @@ class Locks:
         A dictionary containing the lock resources. Maps from lock name to lock resource.
     """
 
-    def __init__(self, env, url_lock_info=URL_LOCK_INFO):
+    def __init__(self, env, url_lock_info=URL_LOCK_INFO, schuttijden: dict = None):
         """Initialize the Locks class."""
         # Store the environment
         self.env = env
@@ -262,6 +272,7 @@ class Locks:
         resp = requests.get(url_lock_info)
         stream = io.BytesIO(resp.content)
         self.locks_gdf = gpd.read_file(stream)
+        self.schuttijden = schuttijden
 
     def pass_lock(self, origin, destination, vessel, pat=PAT):
         """function which mimics the passing of a lock.
@@ -503,6 +514,10 @@ class Locks:
         name = int(name)
         length = self.locks_gdf[self.locks_gdf["Id"] == name].Length_chamber.values[0]
         width = self.locks_gdf[self.locks_gdf["Id"] == name].Width_chamber.values[0]
+        if name in self.schuttijden.keys():
+            schuttijd = self.schuttijden[name]
+        else:
+            schuttijd = 30 * 60
 
         lock_resource = simpy.Resource(
             env=self.env, capacity=np.inf
@@ -518,6 +533,7 @@ class Locks:
             width_chamber=width,
             queue_a=queue_a,
             queue_b=queue_b,
+            time_to_switch=schuttijd,
         )
         return lock
 
