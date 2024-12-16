@@ -18,6 +18,7 @@ import requests
 import io
 import geopandas as gpd
 import numpy as np
+import pandas as pd
 import opentnsim.core as core
 from dtv_backend.lock_packing import fill_lock
 from typing import Tuple
@@ -112,7 +113,7 @@ class Chamber(core.Log):
 
             # wait until vessels are in chamber or in queue b
             yield simpy.AnyOf(
-                env=env, events=[self.chamber_nonempty, self.queue_b_nonempty]
+                env=self.env, events=[self.chamber_nonempty, self.queue_b_nonempty]
             )  # TODO and queue_a is empty
 
             # close entry A
@@ -148,7 +149,7 @@ class Chamber(core.Log):
 
             # wait untill vessels in chamber or in queue a
             yield simpy.AnyOf(
-                env=env, events=[self.chamber_nonempty, self.queue_a_nonempty]
+                env=self.env, events=[self.chamber_nonempty, self.queue_a_nonempty]
             )  # TODO and queue_b is empty
 
             # close entry B
@@ -313,6 +314,14 @@ class Locks:
         stream = io.BytesIO(resp.content)
         self.locks_gdf = gpd.read_file(stream)
         self.schuttijden = schuttijden
+        self.check_input()
+
+    def check_input(self):
+        """Checks if the input for schuttijden is correct."""
+        # check if all locks in self.schuttijden are in self.locks_gdf.
+        for lock_name in self.schuttijden.keys():
+            if lock_name not in self.locks_gdf.Name.unique():
+                print(f"Lock {lock_name} not found in locks, but schuttijden are given")
 
     def pass_lock(self, origin, destination, vessel, pat=PAT):
         """function which mimics the passing of a lock.
@@ -351,7 +360,6 @@ class Locks:
         else:
             # TODO in het logboek toevoegen dat de boot een sluis passeert
             lock = self._get_lock_resource(name=match_origin.group("id"))
-
             # TODO evt op branch van Floor kijken hoe je de afstand*snelheid niet meeneemt.
             # Pass the lock from one side to the other side
             if (
@@ -496,38 +504,59 @@ class Locks:
 
         """
         # get length of lock #TODO lengte en schuttijd mee kunnen geven per kolk
-        name = int(name)
-        length = self.locks_gdf[self.locks_gdf["Id"] == name].Length_chamber.values[0]
-        width = self.locks_gdf[self.locks_gdf["Id"] == name].Width_chamber.values[0]
-        if name in self.schuttijden.keys():
-            schuttijd = self.schuttijden[name]
-        else:
-            schuttijd = 30 * 60
+        id = int(name)
+        name = self.locks_gdf[self.locks_gdf["Id"] == id].Name.values[0]
 
-        n_chambers = int(
-            self.locks_gdf[self.locks_gdf["Id"] == name].NumberOfChambers.values[0]
-        )
+        # get length
+        length = self.locks_gdf[self.locks_gdf["Id"] == id].Length_chamber.values[0]
+        length = 100 if pd.isna(length) else length
+
+        # get width
+        width = self.locks_gdf[self.locks_gdf["Id"] == id].Width_chamber.values[0]
+        width = 100 if pd.isna(width) else width
+
+        # determine chambers
+        try:
+            n_chambers = int(
+                self.locks_gdf[self.locks_gdf["Id"] == id].NumberOfChambers.values[0]
+            )
+        except ValueError:
+            n_chambers = 1
+
+        if name in self.schuttijden.keys():
+            print(f"schuttijden found for lock {name}")
+            chamber_names = self.schuttijden[name].keys()
+            # append numbers untill length n_chambers
+            if len(chamber_names) < n_chambers:
+                chamber_names = chamber_names + list(
+                    range(len(chamber_names), n_chambers)
+                )
+        else:
+            chamber_names = list(range(n_chambers))
+
         chambers = []
-        for i in range(n_chambers):
+        for chamber_name in chamber_names:
+            try:
+                schuttijd = self.schuttijden[name][chamber_name] * 60
+            except KeyError:
+                schuttijd = 30 * 60
             chamber = Chamber(
                 env=self.env,
-                name=f"{name}_{i}",
+                name=f"{name}_{chamber_name}",
                 chamber_resource=simpy.Resource(env=self.env, capacity=np.inf),
                 queue_a=simpy.FilterStore(env=self.env),
                 queue_b=simpy.FilterStore(env=self.env),
                 length_chamber=length,
                 width_chamber=width,
                 time_to_switch=schuttijd,
-                geometry=self.locks_gdf[self.locks_gdf["Id"] == name].geometry.values[
-                    0
-                ],
+                geometry=self.locks_gdf[self.locks_gdf["Id"] == id].geometry.values[0],
             )
             chambers.append(chamber)
 
         lock = Lock(
             env=self.env,
             name=name,
-            geometry=self.locks_gdf[self.locks_gdf["Id"] == name].geometry.values[0],
+            geometry=self.locks_gdf[self.locks_gdf["Id"] == id].geometry.values[0],
             chambers=chambers,
         )
 
