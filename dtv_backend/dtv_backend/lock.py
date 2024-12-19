@@ -301,7 +301,7 @@ class Locks:
         A dictionary containing the lock resources. Maps from lock name to lock resource.
     schuttijden : dict
         A dictionary containing the schuttijden for the locks. Maps from lock name to chamber number to schuttijd. If a lock is not in the dictionary, the default schuttijd is 30 minutes.
-
+        This dictionary has the form: {lock_name: {chamber_number: schuttijd, ...}, ...}
     """
 
     def __init__(self, env, url_lock_info=URL_LOCK_INFO, schuttijden: dict = {}):
