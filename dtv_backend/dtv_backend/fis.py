@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Nov 23 17:10:36 2020
-
-@author: KLEF
+Utilities to work with the Fairway Information System (FIS) network.
 """
 import functools
 import io
@@ -56,7 +53,20 @@ geod = pyproj.Geod(ellps="WGS84")
 # But we need the "great circle" or projected distance.
 # Let's define a function to recompute it.
 def edge_length(edge):
-    """compute the great circle length of an edge"""
+    """
+    Compute the great circle length of an edge.
+    
+    Parameters
+    ----------
+    edge : dict
+        An edge from the networkx graph.
+    
+    Returns
+    -------
+    distance : float
+        The length of the edge in meters.
+
+    """
     # get the geometry
     geom = edge["geometry"]
     # get lon, lat
@@ -70,7 +80,14 @@ def edge_length(edge):
 # store the result so it will immediately give a result
 @functools.lru_cache(maxsize=100)
 def load_fis_network(url):
-    """load the topological fairway information system network"""
+    """
+    Load the topological fairway information system network.
+    
+    Parameters
+    ----------
+    maxsize : int
+        The maximum size of the cache.
+    """
     # TODO: check for local location
     data_dir = "~/data/river/dtv/fis/0.3/network_digital_twin_v0.3.pickle"
     data_path = pathlib.Path(data_dir).expanduser()
@@ -134,10 +151,10 @@ def find_closest_node(G, point):
 
     Returns
     -------
-    name_node : TYPE
-        DESCRIPTION.
-    distance_node : TYPE
-        DESCRIPTION.
+    name_node : str
+        The name of the closest node.
+    distance_node : float
+        The distance to the closest node.
 
     """
     distance = np.full((len(G.nodes)), fill_value=np.nan)
@@ -149,6 +166,25 @@ def find_closest_node(G, point):
 
 
 def find_closest_edge(G, point):
+    """
+    Find the edge on graph G that is closest to the given.
+
+    Parameters
+    ----------
+    G : networkx.Graph
+        The graph in which the closest edge is to be found.
+    point : shapely.geometry.Point
+        The point for which the closest edge is to be found.
+
+    Returns
+    -------
+    name_edge : str
+        The name of the closest edge.
+    distance_edge : float
+        The distance to the closest edge.
+
+    """
+
     distance = np.full((len(G.edges)), fill_value=np.nan)
     for ii, e in enumerate(G.edges):
         # start_node = G.nodes[G.edges[e]['StartJunctionId']]
@@ -164,7 +200,29 @@ def determine_max_draught_on_path(
     graph, origin, destination, lobith_discharge, underkeel_clearance=0.30, default=100
 ):
     """
-    compute the max draught on the route. If none of the locations where we know the discharge depth relation is on the route, return the default max_draught.
+    Compute the max draught on the route. If none of the locations where we know the
+    discharge depth relation is on the route, return the default max_draught.
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The FIS network graph.
+    origin : shapely.geometry.Point
+        The origin point.
+    destination : shapely.geometry.Point
+        The destination point.
+    lobith_discharge : float
+        The discharge at Lobith in m3/s.
+    underkeel_clearance : float, optional
+        The underkeel clearance in meters. The default is 0.30.
+    default : float, optional
+        The default max draught in meters. The default is 100.
+
+    Returns
+    -------
+    max_draught : float
+        The maximum draught on the route in meters.
+
     """
     # TODO: the file "depth.csv" is missing... this should be loaded as discharge_df
 
@@ -240,12 +298,33 @@ def determine_max_draught_on_path(
 
 
 def determine_max_height_on_path(graph, origin, destination, lobith_discharge):
+    """
+    Dummy function to determine max height on the path.
 
+    Returns
+    -------
+    6 : int
+        Dummy value for max height.
+    """
     return 6
 
 
 def determine_max_layers(height):
-    """determine max number of container layers as a function of available height on the route"""
+    """
+    Determine max number of container layers as a function of available height 
+    on the route.
+    
+    Parameters
+    ----------
+    height : float
+        The available height in meters.
+
+    Returns
+    -------
+    max_layers : int
+        The maximum number of container layers.
+        
+    """
 
     container_height = 2.591
 
@@ -265,7 +344,33 @@ def determine_max_layers(height):
 def shorted_path_by_dimensions(
     graph, source, destination, width, height, depth, length
 ):
-    """create a new constrained graph, based on dimensions, of the same type as graph and find the shortest path"""
+    """
+    Create a new constrained graph, based on dimensions, of the same type as 
+    graph and find the shortest path.
+    
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The original graph.
+    source : str
+        The source node.
+    destination : str
+        The destination node.
+    width : float
+        The minimum width in meters.
+    height : float
+        The minimum height in meters.
+    depth : float
+        The minimum depth in meters.
+    length : float
+        The minimum length in meters.
+
+    Returns
+    -------
+    path : list
+        The shortest path as a list of nodes.
+
+    """
     nodes = []
     edges = []
     for start_node, end_node, edge in graph.edges(data=True):
@@ -312,13 +417,48 @@ def shorted_path_by_dimensions(
 
 
 def shorted_path(graph, source, destination, weight="length_m"):
-    """compute shortest path on a graph"""
+    """
+    Compute shortest path on a graph.
+    
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The graph on which to compute the shortest path.
+    source : str
+        The source node.
+    destination : str
+        The destination node.
+    weight : str, optional
+        The edge attribute to use as weight. The default is "length_m".
+        
+    Returns
+    -------
+    path : list
+        The shortest path as a list of nodes.
+    """
     path = nx.dijkstra_path(graph, source, destination, weight=weight)
     return path
 
 
 def compute_path_length(graph, path, key="length_m"):
-    """aux fcn to compute distance of a path"""
+    """
+    Auxiliary function to compute distance of a path.
+    
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The graph on which to compute the path length.
+    path : list
+        The path as a list of nodes.
+    key : str, optional
+        The edge attribute to use as length. The default is "length_m".
+
+    Returns
+    -------
+    total_distance : float
+        The total distance of the path.
+    
+    """
     total_distance = 0
     for e in zip(path[:-1], path[1:]):
         edge_distance = graph.edges[e][key]
@@ -327,6 +467,20 @@ def compute_path_length(graph, path, key="length_m"):
 
 
 def extract_structure(e):
+    """
+    Extract structure information from edge tuple.
+    
+    Parameters
+    ----------
+    e : tuple
+        The edge as a tuple of (source, target).
+
+    Returns
+    -------
+    match : dict or None
+        The structure information as a dictionary or None if no structure is found.
+
+    """
     structure_re = re.compile("^(?P<structure_code>[SLB])(?P<structure_id>\d+)_[AB]$")
 
     structure_types = {"S": "Structure", "L": "Lock", "B": "Bridge"}
@@ -350,7 +504,22 @@ def extract_structure(e):
 
 
 def make_route_gdf(waypoints, network):
-    """compute a route and return a geopandas dataframe with the route"""
+    """
+    Compute a route and return a geopandas dataframe with the route.
+    
+    Parameters
+    ----------
+    waypoints : list
+        A list of waypoints as node ids.
+    network : networkx.Graph
+        The network on which to compute the route.
+
+    Returns
+    -------
+    route_gdf : geopandas.GeoDataFrame
+        A geopandas dataframe with the route.
+
+    """
     assert len(waypoints) > 0, "there should be at least 1 waypoint"
     route = []
     for segment_i, (source, target) in enumerate(itertools.pairwise(waypoints)):
@@ -403,7 +572,21 @@ def make_route_gdf(waypoints, network):
 
 
 def route_metadata(route_gdf, network):
-    """compute metadata for the route"""
+    """
+    Compute metadata for the route
+    
+    Parameters
+    ----------
+    route_gdf : geopandas.GeoDataFrame
+        The route as a geopandas dataframe.
+    network : networkx.Graph
+        The network on which to compute the route.
+
+    Returns
+    -------
+    dict
+        Metadata about the route.
+    """
     total_length_m = route_gdf["length_m"].sum()
     n_edges = route_gdf[~route_gdf.is_stop].shape[0]
     n_nodes = n_edges + 1
@@ -430,7 +613,21 @@ def route_metadata(route_gdf, network):
 
 
 def get_route(waypoints, network):
-    """compute route response based on a list of waypoints"""
+    """
+    Compute route response based on a list of waypoints.
+
+    Parameters
+    ----------
+    waypoints : list
+        A list of waypoints as node ids.
+    network : networkx.Graph
+        The network on which to compute the route.
+
+    Returns
+    -------
+    route : dict
+        The route as a dictionary.
+    """
     route_gdf = make_route_gdf(waypoints, network)
     metadata = route_metadata(route_gdf, network)
     route = json.loads(route_gdf.to_json())
@@ -442,7 +639,21 @@ def get_route(waypoints, network):
 
 @functools.lru_cache(maxsize=100)
 def get_edges_gdf(graph):
-    """convert graph to edge list of geodataframes, also add bathymetry info. Transform to utm for spatial matching purposes"""
+    """
+    Convert graph to edge list of geodataframes, also add bathymetry info. Transform 
+    to utm for spatial matching purposes.
+    
+    Parameters
+    ----------
+    graph : networkx.Graph
+        The graph to convert.
+    
+    Returns
+    -------
+    edges_gdf : geopandas.GeoDataFrame
+        The edges as a geopandas dataframe with bathymetry info.
+
+    """
     edges_df = nx.to_pandas_edgelist(graph)
     edges_gdf = gpd.GeoDataFrame(edges_df, geometry="geometry", crs=4326)
 
@@ -476,7 +687,21 @@ def get_edges_gdf(graph):
     return edges_gdf
 
 def has_structures(route, graph):
-    """are there any structures on this route"""
+    """
+    Are there any structures on this route?
+    
+    Parameters
+    ----------
+    route : list
+        A list of nodes representing the route.
+    graph : networkx.Graph
+        The graph on which to check for structures.
+
+    Returns
+    -------
+    has_structures : bool
+        True if there are structures on the route, False otherwise.
+    """
     has_structures = False
     for e in pairwise(route):
         edge = graph.edges[e]
@@ -487,7 +712,21 @@ def has_structures(route, graph):
     return has_structures
 
 def route_to_sea(source, graph):
-    """determine if source node has a route to seaa on the graph"""
+    """
+    Determine if source node has a route to sea on the graph.
+
+    Parameters
+    ----------
+    source : str
+        The source node id.
+    graph : networkx.Graph
+        The graph on which to check for a route to sea.
+
+    Returns
+    -------
+    route_to_sea : bool
+        True if there is a route to sea, False otherwise.
+    """
     sea_nodes = [
         # rotterdam
         "8866305",
