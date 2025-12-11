@@ -1,9 +1,9 @@
+
 """This module contains simple components for the Digital Twin Fairways backend."""
 import uuid
 import datetime
 import itertools
 import logging
-
 import numpy as np
 import simpy
 import shapely.geometry

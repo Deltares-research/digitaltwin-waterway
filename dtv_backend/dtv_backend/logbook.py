@@ -5,7 +5,6 @@ Logging functionality for DTV backend.
 from contextlib import ContextDecorator
 import datetime
 import itertools
-import uuid
 
 import simpy
 

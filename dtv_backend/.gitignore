@@ -104,3 +104,13 @@ ENV/
 
 # IDE settings
 .vscode/
+
+# ivs data
+data/ivs/*
+
+# euris graph
+data/euris/*
+
+#plots of the routes
+plots_routes
+output

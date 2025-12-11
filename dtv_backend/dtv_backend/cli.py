@@ -2,10 +2,7 @@
 Console script for dtv_backend.
 """
 import sys
-import json
 import logging
-import copy
-import datetime
 
 import click
 import geojson

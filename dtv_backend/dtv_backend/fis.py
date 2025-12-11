@@ -10,6 +10,7 @@ import re
 import tempfile
 import urllib
 import json
+import pickle
 
 import geopandas as gpd
 import networkx as nx
@@ -22,6 +23,8 @@ import scipy.interpolate
 import shapely
 import shapely.geometry
 import shapely.wkt
+from pandas.api.types import CategoricalDtype
+
 
 import dtv_backend
 
@@ -70,12 +73,13 @@ def edge_length(edge):
     # get the geometry
     geom = edge["geometry"]
     # get lon, lat
-    lats, lons = np.array(geom).T
+    lats, lons = geom.xy
     distance = geod.line_length(lons, lats)
     return distance
 
 
 # now create the function can load the network
+
 
 # store the result so it will immediately give a result
 @functools.lru_cache(maxsize=100)
@@ -94,7 +98,8 @@ def load_fis_network(url):
     if data_path.exists():
         filename = str(data_path)
         n_bytes = data_path.stat().st_size
-        G = nx.read_gpickle(filename)
+        with open(filename, "rb") as file:
+            G = pickle.load(file)
     else:
         # get the data from the url
         resp = requests.get(url)
@@ -109,7 +114,8 @@ def load_fis_network(url):
         urllib.request.urlretrieve(url, f.name)
         # This will take a minute or two
         # Here we convert the network to a networkx object
-        G = nx.read_gpickle(f.name)
+        with open(f.name, "rb") as file:
+            G = pickle.load(file)
 
         # the temp file can be deleted
         del f
@@ -686,6 +692,7 @@ def get_edges_gdf(graph):
     edges_gdf = pd.merge(edges_gdf, bathy_columns, left_index=True, right_index=True)
     return edges_gdf
 
+
 def has_structures(route, graph):
     """
     Are there any structures on this route?
@@ -710,6 +717,7 @@ def has_structures(route, graph):
             has_structures = True
             break
     return has_structures
+
 
 def route_to_sea(source, graph):
     """
@@ -737,7 +745,7 @@ def route_to_sea(source, graph):
         # Den Helder
         "8867031",
         # Eemshaven
-        "8863991"
+        "8863991",
     ]
     route_to_sea = False
     for target in sea_nodes:
@@ -746,3 +754,171 @@ def route_to_sea(source, graph):
             route_to_sea = True
             break
     return route_to_sea
+
+
+def path_restricted_to_cemt_class(
+    graph, origin, destination, ship_cemt_classe, ordered_cemt_classes
+):
+    """find a path restricted to allowed cemt classes
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        graph in which to find a path. graph edges should have information 'cemt'.
+    origin : str
+        origin node id
+    destination : str
+        destination node id
+    ship_cemt_classe : str
+        cemt class of the ship.
+    """
+    # define order of cemt classes
+
+    # create function to compute weights for this ship
+    compute_weight = functools.partial(
+        __compute_weight,
+        ship_cemt_classe=ship_cemt_classe,
+        ordered_cemt_classes=ordered_cemt_classes,
+    )
+
+    # find the path
+    path = nx.dijkstra_path(graph, origin, destination, weight=compute_weight)
+    return path
+
+
+def path_restricted_to_rws_class(
+    graph, origin, destination, ship_rws_classe, ordered_cemt_classes
+):
+    """find a path restricted to allowed cemt classes
+
+    Parameters
+    ----------
+    graph : networkx.Graph
+        graph in which to find a path. graph edges should have information 'cemt'.
+    origin : str
+        origin node id
+    destination : str
+        destination node id
+    ship_cemt_classe : str
+        cemt class of the ship.
+    """
+    ship_cemt_classe = __scheepstype_rws_to_cemt(ship_rws_classe)
+    return path_restricted_to_cemt_class(
+        graph,
+        origin,
+        destination,
+        ship_cemt_classe=ship_cemt_classe,
+        ordered_cemt_classes=ordered_cemt_classes,
+    )
+
+
+def __compute_weight(
+    origin, target, dictionary_edge, ship_cemt_classe, ordered_cemt_classes
+):
+    # order classes from smallest to largest
+
+    if (
+        not dictionary_edge["Code"] in ordered_cemt_classes
+        or not ship_cemt_classe in ordered_cemt_classes
+    ):
+        return dictionary_edge["length_m"]
+    elif (
+        ordered_cemt_classes[dictionary_edge["Code"]]
+        < ordered_cemt_classes[ship_cemt_classe]
+    ):
+        return np.nan
+    else:
+        return dictionary_edge["length_m"]
+
+
+def __scheepstype_rws_to_cemt(rws_classe):
+    rws_to_cemt = {
+        "M0": "0",
+        "M1": "I",
+        "M2": "II",
+        "M3": "III",
+        "M4": "III",
+        "M5": "III",
+        "M6": "IVa",
+        "M7": "IVa",
+        "M8": "Va",
+        "M9": "Va",
+        "M10": "VIa",
+        "M11": "VIa",
+        "M12": "VIa",
+    }
+    return rws_to_cemt[rws_classe]
+
+
+# klasse to shiplength. Gebruikt ondergrenzen uit richtlijn vaarwegen 2020, tabel 8.
+rws_klasse_to_shiplength = {
+    "M0": 20,
+    "M1": 38.5,
+    "M2": 50,
+    "M3": 55,
+    "M4": 67,
+    "M5": 80,
+    "M6": 80,
+    "M7": 105,
+    "M8": 110,
+    "M9": 135,
+    "M10": 110,
+    "M11": 135,
+    "M12": 135,
+    "C1b": 38.5,
+    "C1L": 77,
+    "C2L": 170,
+    "C3L": 170,
+    "C2b": 85,
+    "C3b": 95,
+    "C4": 185,
+    "BO1": 55,
+    "BO2": 60,
+    "BO3": 80,
+    "BO4": 85,
+    "BI": 85,
+    "BII-1": 95,
+    "BIIa-1": 92,
+    "BIIL-1": 125,
+    "BII-2L": 170,
+    "BII-2b": 95,
+    "BII-4": 185,
+    "BII-6b": 270,
+    "BII-6L": 195,
+}
+
+rws_klasse_to_shipwidth = {
+    "M0": 5,
+    "M1": 5.05,
+    "M2": 6.6,
+    "M3": 7.2,
+    "M4": 8.2,
+    "M5": 8.2,
+    "M6": 9.5,
+    "M7": 9.5,
+    "M8": 11.4,
+    "M9": 11.4,
+    "M10": 13.5,
+    "M11": 14.2,
+    "M12": 17.0,
+    "C1b": 10.1,
+    "C1L": 5.05,
+    "C2L": 9.5,
+    "C3L": 11.4,
+    "C2b": 19,
+    "C3b": 22.8,
+    "C4": 22.8,
+    "BO1": 5.2,
+    "BO2": 6.6,
+    "BO3": 7.5,
+    "BO4": 8.2,
+    "BI": 9.5,
+    "BII-1": 11.4,
+    "BIIa-1": 11.4,
+    "BIIL-1": 11.4,
+    "BII-2L": 11.4,
+    "BII-2b": 22.8,
+    "BII-4": 22.8,
+    "BII-6b": 22.8,
+    "BII-6L": 34.2,
+}
