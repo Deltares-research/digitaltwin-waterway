@@ -1,4 +1,6 @@
-"""Generate charts"""
+"""
+Functionalities for generating charts.
+"""
 
 import copy
 
@@ -19,7 +21,19 @@ plt.style.use("dark_background")
 
 
 def trip_duration(results):
-    """generate trip duration plot in echarts format"""
+    """
+    Generate trip duration plot in echarts format.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    echart : dict
+        Echarts JSON-like dictionary for trip duration plot.
+    """
     # read log features
     gdf = gpd.GeoDataFrame.from_features(results["log"]["features"])
 
@@ -34,7 +48,19 @@ def trip_duration(results):
 
 
 def gantt(results):
-    """create a gantt chart"""
+    """
+    Create a gantt chart.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    fig : plotly.graph_objs._figure.Figure
+        Gantt chart figure.
+    """
     gdf = gpd.GeoDataFrame.from_features(results["log"]["features"])
     fig = px.timeline(
         gdf, x_start="Start", x_end="Stop", y="Name", color="Actor", opacity=0.3
@@ -45,7 +71,19 @@ def gantt(results):
 
 
 def duration_breakdown(results):
-    """create work breakdown plot in echarts format"""
+    """
+    Create work breakdown plot in echarts format.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+    
+    Returns
+    -------
+    echart : dict
+        Echarts JSON-like dictionary for duration breakdown plot.
+    """
     # read log features
     gdf = gpd.GeoDataFrame.from_features(results["log"]["features"])
 
@@ -77,7 +115,20 @@ def duration_breakdown(results):
 
 
 def trip_histogram(results):
-    """histogram of the duration of trips"""
+    """
+    Histogram of the duration of trips.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    echart : dict
+        Echarts JSON-like dictionary for trip histogram plot.
+    """
+
 
     # get the template
     echart = copy.deepcopy(dtv_backend.chart_templates.trips_template)
@@ -108,7 +159,19 @@ def trip_histogram(results):
 
 
 def energy_per_time(results):
-    """energy per time"""
+    """
+    Energy per time.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    echart : dict
+        Echarts JSON-like dictionary for energy per time plot.
+    """
 
     # get the template
     echart = copy.deepcopy(dtv_backend.chart_templates.energy_per_time_template)
@@ -126,7 +189,19 @@ def energy_per_time(results):
 
 
 def energy_per_distance(results):
-    """energy per distance"""
+    """
+    Energy per distance.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    echart : dict
+        Echarts JSON-like dictionary for energy per distance plot.
+    """
 
     # get the template
     echart = copy.deepcopy(dtv_backend.chart_templates.energy_per_distance_template)
@@ -144,7 +219,19 @@ def energy_per_distance(results):
 
 
 def route_gdf_from_config(config):
-    """create route geodataframe with quantities from config"""
+    """
+    Create route geodataframe with quantities from config.
+
+    Parameters
+    ----------
+    config : dict
+        Configuration dictionary.
+
+    Returns
+    -------
+    route_gdf : gpd.GeoDataFrame
+        Route geodataframe with quantities.
+    """
     route_gdf = gpd.GeoDataFrame.from_features(config["route"])
 
     waterlevel_gdf = gpd.GeoDataFrame.from_features(
@@ -200,6 +287,22 @@ def route_gdf_from_config(config):
 
 
 def route_profile(config):
+    """
+    Create route profile plot.
+
+    Parameters
+    ----------
+    config : dict
+        Configuration dictionary.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        Route profile figure.
+    axes : np.ndarray
+        Axes of the route profile figure.
+    """
+    
     route_gdf = route_gdf_from_config(config)
     structures_gdf = route_gdf[~route_gdf["structure"].isna()]
     structures_gdf = structures_gdf.merge(
@@ -259,7 +362,19 @@ def route_profile(config):
 
 
 def gantt(results):
-    """create gantt chart"""
+    """
+    Create gantt chart.
+
+    Parameters
+    ----------
+    results : dict
+        Results dictionary from simulation.
+
+    Returns
+    -------
+    fig : plotly.graph_objs._figure.Figure
+        Gantt chart figure.
+    """
     log_gdf = gpd.GeoDataFrame.from_features(results["log"])
     fig = px.timeline(
         log_gdf,

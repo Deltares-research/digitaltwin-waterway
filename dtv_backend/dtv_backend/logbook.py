@@ -1,3 +1,7 @@
+"""
+Logging functionality for DTV backend.
+"""
+
 from contextlib import ContextDecorator
 import datetime
 import itertools
@@ -11,6 +15,19 @@ COUNT = itertools.count()
 
 
 class LogDecorator(ContextDecorator):
+    """
+    Context manager for logging activities to a logbook.
+
+    Parameters
+    ----------
+    env : simpy.Environment
+        The simulation environment.
+    logbook : list
+        The logbook to which entries will be appended.
+    message : str
+        The message to log.
+    
+    """
     def __init__(self, env, logbook, message, **kwargs):
         """initialize the logbook"""
         super().__init__()
@@ -31,6 +48,27 @@ class LogDecorator(ContextDecorator):
         activity_state=None,
         **kwargs
     ):
+        """
+        Log an entry to the logbook.
+        
+        Parameters
+        ----------
+        message : str
+            The log message.
+        timestamp : float
+            The timestamp of the log entry.
+        value : any
+            The value associated with the log entry.
+        geometry : any
+            The geometry associated with the log entry.
+        activity_id : int
+            The activity ID.
+        activity_state : str
+            The state of the activity.
+        **kwargs : dict
+            Additional metadata to include in the log entry.
+
+        """
         entry = {
             "Message": message,
             "Timestamp": datetime.datetime.utcfromtimestamp(timestamp),
@@ -89,10 +127,14 @@ class LogDecorator(ContextDecorator):
 
 
 class HasLog(core.Identifiable, core.SimpyObject):
-    """class that provides a log function for building a logbook"""
+    """
+    Class that provides a log function for building a logbook. Extends OpenTNSim's
+    Identifiable and SimpyObject classes.
+    """
 
     # global logbook
     def __init__(self, *args, **kwargs):
+        """Initialization."""
         super().__init__(*args, **kwargs)
         if hasattr(self.env, "logbook"):
             # get logbook from environment
@@ -104,6 +146,19 @@ class HasLog(core.Identifiable, core.SimpyObject):
 
 
     def log_context(self, **kwargs):
+        """
+        Create a LogDecorator context manager for logging.
+
+        Parameters
+        ----------
+        **kwargs : dict
+            Additional parameters to pass to the LogDecorator.
+            
+        Returns
+        -------
+        LogDecorator
+            A LogDecorator instance with the logbook and environment filled in.
+        """
         # already fill in the logbook  and environment
         return LogDecorator(
             logbook=self.logbook, env=self.env, actor=self, actor_id=self.id, **kwargs

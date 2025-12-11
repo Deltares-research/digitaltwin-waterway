@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+"""
+Climate related functions for DTV backend.
+"""
+
+
 import functools
 import pathlib
 
@@ -34,7 +38,25 @@ columns = location_columns + value_columns
 
 
 def value_for_climate(river_interpolator_gdf, climate, value_column="waterlevel"):
-    """use the grouped interpolation dataframe and the climate parameters to generate a waterlevel for the points"""
+    """
+    Use the grouped interpolation dataframe and the climate parameters to generate a
+    waterlevel for the points.
+
+    Parameters
+    ----------
+    river_interpolator_gdf : gpd.GeoDataFrame
+        A geodataframe with interpolation functions per location. Created with
+        `create_river_interpolator_gdf`.
+    climate : dict
+        A climate dictionary with discharge values at Lobith and St Pieter.
+    value_column : str, optional
+        The value column to compute, by default "waterlevel"
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with computed values for the given climate.
+    """
 
     lobith_gdf = river_interpolator_gdf.query('discharge_location == "Lobith"')
     lobith_values = (
@@ -62,9 +84,24 @@ def value_for_climate(river_interpolator_gdf, climate, value_column="waterlevel"
 
 
 def create_river_interpolator_gdf(river_with_discharges_gdf, value_column="waterlevel"):
-    """create interpolation functions per point in the river"""
+    """
+    Create interpolation functions per point in the river.
+    
+    Parameters
+    ----------
+    river_with_discharges_gdf : gpd.GeoDataFrame
+        A geodataframe with river points and discharge / waterlevel data.
+    value_column : str, optional
+        The value column to compute, by default "waterlevel"
+   
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with interpolation functions per location.
+    """
 
-    # define interpolation function that interpolates between discharge and waterlevel, extrpolate if needed
+    # define interpolation function that interpolates between discharge and waterlevel, 
+    # extrpolate if needed
     def interpolate(df_i):
         interpolator = scipy.interpolate.interp1d(
             df_i["discharge"], df_i[value_column], fill_value="extrapolate"
@@ -108,10 +145,33 @@ def interpolated_values_for_climate(
     max_distance=1500,
     value_column="waterlevel",
 ):
-    """compute waterlevels and interpolate onto graph"""
+    """
+    Compute waterlevels and interpolate onto graph.
+    
+    Parameters
+    ----------
+    climate : dict
+        A climate dictionary with discharge values at Lobith and St Pieter.
+    graph : networkx.MultiDiGraph
+        A FIS graph.
+    river_interpolator_gdf : gpd.GeoDataFrame
+        A geodataframe with interpolation functions per location. Created with
+        `create_river_interpolator_gdf`.
+    epsg : int, optional
+        The epsg code to use for distance calculations, by default epsg_utm31n
+    max_distance : int, optional
+        The maximum distance to search for a waterlevel point, by default 1500
+    value_column : str, optional
+        The value column to compute, by default "waterlevel"
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with graph edges and interpolated waterlevels.
+
+    """
 
     # use 1500 as max distance because we have a 1km input
-
     value_gdf = value_for_climate(
         river_interpolator_gdf, climate, value_column=value_column
     )
@@ -143,6 +203,19 @@ def interpolated_values_for_climate(
 
 @functools.lru_cache(maxsize=128)
 def get_river_with_discharges_gdf(value_column="waterlevel"):
+    """
+    Get a geodataframe with river discharges.
+
+    Parameters
+    ----------
+    value_column : str, optional
+        The value column to load, by default "waterlevel"
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with river discharges.
+    """
     river_with_discharges_gdf = gpd.read_file(
         src_dir / "data" / f"river_{value_column}.geojson"
     )
@@ -151,6 +224,20 @@ def get_river_with_discharges_gdf(value_column="waterlevel"):
 
 @functools.lru_cache(maxsize=128)
 def get_river_interpolator_gdf(value_column="waterlevel"):
+    """
+    Get a geodataframe with river interpolators.
+
+    Parameters
+    ----------
+    value_column : str, optional
+        The value column to load, by default "waterlevel"
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with river interpolators.
+
+    """
     river_with_discharges_gdf = pd.read_pickle(
         src_dir / "data" / f"river_{value_column}_interpolator_gdf.pickle"
     )
@@ -163,7 +250,14 @@ def get_river_interpolator_gdf(value_column="waterlevel"):
 
 @functools.lru_cache(maxsize=128)
 def get_interpolators():
-    """return a dictionary of quantity: interpolator"""
+    """
+    Return a dictionary of quantity: interpolator.
+    
+    Returns
+    -------
+    dict
+        A dictionary of quantity: interpolator geodataframe.
+    """
     value_columns = ["velocity", "waterlevel"]
     interpolators = {}
 
@@ -179,7 +273,26 @@ def get_interpolators():
 
 
 def get_variables_for_climate(climate, interpolators, edges_gdf, max_distance=1500):
-    """use the climate interpolators to get waterlevels, velocities and bathymetry for the network"""
+    """
+    Use the climate interpolators to get waterlevels, velocities and bathymetry for 
+    the network.
+
+    Parameters
+    ----------
+    climate : dict
+        A climate dictionary with discharge values at Lobith and St Pieter.
+    interpolators : dict
+        A dictionary of quantity: interpolator geodataframe.
+    edges_gdf : gpd.GeoDataFrame
+        A geodataframe with the network edges.
+    max_distance : int, optional
+        The maximum distance to search for a waterlevel point, by default 1500.
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        A geodataframe with network edges and interpolated variables.
+    """
     # TODO: filter by route first
 
     # Interpolate values for the current variable (for example for discharge 1000 @ Lobith)

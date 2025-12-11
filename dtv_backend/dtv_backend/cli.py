@@ -1,6 +1,6 @@
-# coding: utf-8
-
-"""Console script for dtv_backend."""
+"""
+Console script for dtv_backend.
+"""
 import sys
 import logging
 

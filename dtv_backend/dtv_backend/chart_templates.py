@@ -1,4 +1,6 @@
-""""Templates for charts."""
+"""
+JSON-like templates for charts.
+"""
 
 # %% Trip duration
 trip_duration_template = {

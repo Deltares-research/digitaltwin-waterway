@@ -13,7 +13,19 @@ import plotly.express as px
 
 
 def log2gantt(log_df):
-    """convert log data frame to a gantt chart"""
+    """
+    Convert log data frame to a gantt chart.
+    
+    Parameters
+    ----------
+    log_df : pd.DataFrame
+        Log data frame as produced by logbook to dataframe conversion.
+
+    Returns
+    -------
+    fig : plotly.graph_objs._figure.Figure
+        Gantt chart figure.
+    """
     log_df["actor_name"] = log_df["Meta"].apply(lambda x: x["actor"].name)
     log_df["state"] = log_df["Meta"].apply(lambda x: x["state"])
     gantt_df = pd.DataFrame(
@@ -40,7 +52,19 @@ def log2gantt(log_df):
 
 
 def log2json(log_df):
-    """convert a log dataframe to a pivoted geojson"""
+    """
+    Convert a log dataframe to a pivoted geojson.
+
+    Parameters
+    ----------
+    log_df : pd.DataFrame
+        Log data frame as produced by logbook to dataframe conversion.
+
+    Returns
+    -------
+    json_obj : dict
+        GeoJSON representation of the log data.
+    """
     log_df["actor_name"] = log_df["Meta"].apply(lambda x: x["actor"].name)
     log_df["actor_type"] = log_df["Meta"].apply(lambda x: type(x["actor"]).__name__)
     log_df["state"] = log_df["Meta"].apply(lambda x: x["state"])
@@ -98,7 +122,20 @@ def log2json(log_df):
 
 #%% Visualization of vessel planning
 def get_colors(n):
-    """Get random colors for the activities."""
+    """
+    Get random colors for the activities.
+
+    Parameters
+    ----------
+    n : int
+        Number of colors to generate.
+
+    Returns
+    -------
+    ret : list
+        List of RGB color tuples.
+    
+    """
     ret = []
     r = int(random.random() * 256)
     g = int(random.random() * 256)
@@ -116,7 +153,24 @@ def get_colors(n):
 
 
 def get_segments(df, activity, y_val):
-    """Extract 'start' and 'stop' of activities from log."""
+    """
+    Extract 'start' and 'stop' of activities from log.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Log data frame.
+    activity : str
+        Activity name to extract.
+    y_val : int or str
+        Y value for plotting.
+
+    Returns
+    -------
+    x : list
+        X coordinates for plotting.
+    
+    """
     x = []
     y = []
     for i in range(len(df)):
@@ -131,7 +185,30 @@ def get_segments(df, activity, y_val):
 def vessel_planning(
     vessels, activities=None, colors=None, web=False, static=False, y_scale="text"
 ):
-    """Create a plot of the planning of vessels."""
+    """
+    Create a plot of the planning of vessels.
+    
+    Parameters
+    ----------
+    vessels : list
+        List of vessel objects with log data.
+    activities : list, optional
+        List of activities to plot. If None, all activities found in the logs are used.
+    colors : dict, optional
+        Dictionary mapping activity indices to RGB color strings. If None, random
+        colors are generated.
+    web : bool, optional
+        Whether to create a web-compatible plot. Default is False.
+    static : bool, optional
+        Whether to create a static plot. Default is False.
+    y_scale : str, optional
+        Y-axis scale type, either 'text' or 'numbers'. Default is 'text'.
+
+    Returns
+    -------
+    fig : plotly.graph_objs._figure.Figure or dict
+        Plotly figure object or dictionary for static plots.
+    """
 
     if activities is None:
         activities = []
@@ -214,7 +291,19 @@ def vessel_planning(
 
 
 def energy_gdf_from_log_df(log_df):
-    """extract the energy log in geodataframe format from the log dataframe"""
+    """
+    Extract the energy log in geodataframe format from the log dataframe.
+    
+    Parameters
+    ----------
+    log_df : pd.DataFrame
+        Log data frame as produced by logbook to dataframe conversion.
+        
+    Returns
+    -------
+    energy_gdf : gpd.GeoDataFrame
+        Energy log as a GeoDataFrame.
+    """
     # append all energy logs together
 
     def row2energy_df(row):
@@ -239,7 +328,20 @@ def energy_gdf_from_log_df(log_df):
 
 
 def energy_gdf_to_json(energy_gdf):
-    """convert the energy log to json"""
+    """
+    Convert the energy log to json.
+    
+    Parameters
+    ----------
+    energy_gdf : gpd.GeoDataFrame
+        Energy log as a GeoDataFrame.
+        
+    Returns
+    -------
+    energy_json : dict
+        Energy log as a JSON object.
+    
+    """
     # drop this column. Too big and unserializable due to extra geometry
     energy_gdf = energy_gdf.drop(columns=["edge"])
     # Time as string in json
