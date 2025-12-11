@@ -1,4 +1,4 @@
-"""This module implements scheduling functionality using the python timeboard module"""
+"""This module implements scheduling functionality using the python timeboard module."""
 
 import datetime
 import timeboard as tb
@@ -10,7 +10,17 @@ from typing import Optional
 
 
 class HasTimeboard(dtv_backend.logbook.HasLog, core.SimpyObject):
-    """Add timeboard information (work schedule)"""
+    """
+    Add timeboard information (work schedule).
+    
+    Parameters
+    ----------
+    shift_start_time : datetime.time, optional
+        Time of day when shift starts, by default 06:00
+    shift_end_time : datetime.time, optional
+        Time of day when shift ends, by default 22:00
+
+    """
 
     def __init__(
         self,
