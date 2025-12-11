@@ -1,3 +1,4 @@
+"""This module contains simple components for the Digital Twin Fairways backend."""
 import uuid
 import datetime
 import itertools
@@ -84,8 +85,8 @@ class Operator(dtv_backend.logbook.HasLog):
 
 class Port(dtv_backend.logbook.HasLog):
     """
-    A port has a limited number of cranes (num_cranes) and a cargo storage with a capacity (capacity) and a initial level (level) to
-    load or unload ships in parallel.
+    A port has a limited number of cranes (num_cranes) and a cargo storage with a
+    capacity (capacity) and a initial level (level) to load or unload ships in parallel.
 
     Ships have to request one of the cranes. When they got one, they
     can load or unload an amount of cargo and wait for it to moved (which
@@ -115,6 +116,7 @@ class Port(dtv_backend.logbook.HasLog):
 
     @property
     def node(self):
+        """return the closest FIS node to the port geometry"""
         node, dist = dtv_backend.fis.find_closest_node(self.env.FG, self.geometry)
         return node
 
@@ -124,9 +126,13 @@ class Port(dtv_backend.logbook.HasLog):
         return self.container.capacity - self.container.level
 
     def load(self, source, destination, max_load=None):
-        """The loading processes. It takes a ``ship`` and loads it with maximal (max_load)."""
+        """
+        The loading processes. It takes a ``ship`` and loads it with maximal
+        (max_load).
+        """
         available = source.container.level
-        # check how much load we can maximally transfer based on the  we are requested to load max_load, but
+        # check how much load we can maximally transfer based on the  we are 
+        # requested to load max_load, but
         if max_load is not None:
             max_load = min(max_load, destination.max_load)
         else:
