@@ -1,3 +1,5 @@
+"""Server for the Digital Twin Fairways backend."""
+
 import io
 import pathlib
 import logging
@@ -30,11 +32,13 @@ url = "https://zenodo.org/record/6673604/files/network_digital_twin_v0.3.pickle?
 
 @dtv.route("/")
 def home():
+    """Home route."""
     return {"message": "Welcome to the Digital Twin Fairways"}
 
 
 @dtv.route("/simulate", methods=["POST"])
 def simulate():
+    """Simulate command."""
     config = flask.request.json
     result = dtv_backend.simulate.run(config)
     # TODO: get logbook from result['env']?
@@ -56,6 +60,7 @@ def simulate():
 
 @dtv.route("/v2/simulate", methods=["POST"])
 def v2_simulate():
+    """Use the v2 simulation kernel."""
     config = flask.request.json
     # update to new run method
     result = dtv_backend.simulate.v2_run(config)
@@ -125,6 +130,7 @@ def ships():
 
 @dtv.route("/waterlevels", methods=["POST"])
 def waterlevels():
+    """compute waterlevels for a given climate"""
     body = flask.request.json
     climate = body["climate"]
     network = dtv_backend.fis.load_fis_network(url)

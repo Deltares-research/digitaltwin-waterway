@@ -8,6 +8,7 @@ excluded, or their ETA's should be made more realistic;
 - Berth place availability and dimensions should be added and should comply
 with the ship's dimensions;
 - ETA's are now solely distance and speed based. This could be more realistic.
+
 """
 import datetime
 import pandas as pd

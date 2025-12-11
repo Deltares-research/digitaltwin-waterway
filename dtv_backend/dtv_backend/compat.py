@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+"""
+Compatibility classes for OpenTNSim.
+"""
+
 import datetime
 import numpy as np
 import logging
@@ -67,7 +70,20 @@ class CanWork(
         return waterdepth
 
     def get_velocity(self, e):
-        """get a waterdepth for edge e on the geodataframe with bathymetry and waterlevel information (nap_p50)"""
+        """
+        Get a velocity for edge e on the geodataframe with bathymetry and waterlevel
+        information (nap_p50)
+        
+        Parameters
+        ----------
+        e : tuple
+            edge as (source, target)
+        
+        Returns
+        -------
+        velocity : float
+            velocity in m/s
+        """
 
         assert self.quantity_df is not None, "we need a quantity_df to compute depths"
         quantity_df = self.quantity_df
@@ -125,8 +141,20 @@ class CanWork(
         """
         The load_at process can occur after a ship arrives at a port (port).
 
-        It requests a a crane (resource) and when available, it moves an amount of cargo to the ship.
-        It waits for this to finish and then releases the crane.
+        It requests a a crane (resource) and when available, it moves an amount of
+        cargo to the ship. It waits for this to finish and then releases the crane.
+
+        Parameters
+        ----------
+        port : Port
+            The port where to load at.
+        max_load : float, optional
+            The maximum cargo to load.
+
+        Yields
+        ------
+        simpy.events.Event
+            The loading process.
 
         """
         with self.log_context(
@@ -146,8 +174,18 @@ class CanWork(
         """
         The load_at process can occur after a ship arrives at a port (port).
 
-        It requests a a crane and when available, it moves an amount of cargo to the ship.
-        It waits for this to finish and then releases the crane.
+        It requests a a crane and when available, it moves an amount of cargo to the
+        ship. It waits for this to finish and then releases the crane.
+
+        Parameters
+        ----------
+        port : Port
+            The port where to unload at.
+
+        Yields
+        ------
+        simpy.events.Event
+            The unloading process.
 
         """
         with self.log_context(
@@ -164,7 +202,26 @@ class CanWork(
                 yield self.env.process(port.load(self, port))
 
     def load_move_unload(self, source, destination, max_load=None, with_berth=False):
-        """do a full A to B cycle"""
+        """
+        Do a full A to B cycle.
+        
+        Parameters
+        ----------
+        source : Port
+            The port to load at.
+        destination : Port
+            The port to unload at.
+        max_load : float, optional
+            The maximum cargo to load.
+        with_berth : bool, optional
+            Whether to use berthing when moving to ports.
+
+        Yields
+        ------
+        simpy.events.Event
+            The full load-move-unload process.
+
+        """
         with self.log_context(message="Cycle", description="Load move unload cycle"):
             # Don't sail to empty source
             if source.container.level <= 0:
@@ -190,7 +247,22 @@ class CanWork(
             yield from self.unload_at(destination)
 
     def move_to(self, destination, limited=False):
-        """Move ship to location"""
+        """
+        Move ship to location.
+        
+        Parameters
+        ----------
+        destination : Locatable or str
+            The destination to move to.
+        limited : bool, optional
+            Whether to consider the ship's dimensions when finding a path.
+
+        Yields
+        ------
+        simpy.events.Event
+            The moving process.
+
+        """
         graph = self.env.FG
         if limited:
             width = self.metadata["Beam [m]"]
@@ -352,14 +424,24 @@ class CanWork(
 
 
 class Processor(dtv_backend.logbook.HasLog):
+    """A processing unit that can load and unload cargo."""
     def __init__(self, loading_rate, loading_rate_variation=0, *args, **kwargs):
+        """Initialize"""
         super().__init__(*args, **kwargs)
         self.loading_rate = loading_rate
         self.loading_rate_variation = loading_rate_variation
 
     @property
     def max_load(self):
-        """return the maximum cargo to load"""
+        """
+        The maximum cargo to load computed from the container capacity and current
+        container level.
+
+        Returns
+        -------
+        float
+            The maximum cargo to load.
+        """
         return self.container.capacity - self.container.level
 
     def load(
@@ -368,7 +450,23 @@ class Processor(dtv_backend.logbook.HasLog):
         destination: opentnsim.core.HasContainer,
         max_load=None,
     ):
-        """The loading processes. It takes a ``ship`` and loads it with maximal (max_load)."""
+        """
+        The loading processes. It takes a `ship` and loads it with maximal (max_load).
+        
+        Parameters
+        ----------
+        source : HasContainer
+            The source to load from.
+        destination : HasContainer
+            The destination to load to.
+        max_load : float, optional
+            The maximum cargo to load.
+
+        Yields
+        ------
+        simpy.events.Event
+            The loading process.
+        """
         available = source.container.level
         # check how much load we can maximally transfer based on the  we are requested to load max_load, but
         if max_load is not None:
@@ -404,6 +502,7 @@ class Processor(dtv_backend.logbook.HasLog):
             yield self.env.timeout(load_time)
 
 
+# %% DEFAULT OBJECT INSTANCES
 Port = type(
     "Port",
     (
