@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 def run(config):
+    """Run a simulation using the simple kernel."""
     # always start at now
     now = datetime.datetime.now()
     initial_time = now.timestamp()
@@ -81,6 +82,7 @@ def run(config):
 
 
 def v2_run(config):
+    """Run a simulation using the v2 kernel."""
     # always start at now
     now = datetime.datetime.now()
     initial_time = now.timestamp()
@@ -160,7 +162,7 @@ def v3_run(config):
 
 
 def create_env(config):
-
+    """Create an environment for the simulation based on the config."""
     # always start at now
     now = datetime.datetime.now()
     initial_time = now.timestamp()
@@ -175,6 +177,7 @@ def create_env(config):
 
 
 def create_ports(env, config):
+    """Create ports for the simulation based on the config."""
     # ports
     logger.info("Loading ports ⚓")
     ports = []
